@@ -7,6 +7,7 @@
 #include "taobaoexportorderdetaillist.h"
 #include "taobaoexportorderlist.h"
 #include "orderdetaillist.h"
+#include "store.h"
 
 #ifdef WINDOWS
     #define PATHSEP '\\'
@@ -48,12 +49,14 @@ void OrderImportDialog::on_createOrderButton_clicked()
     QString orderDetailFile = ui->orderDetailFileEdit->text();
 
     // Verify file name
-    if (false == verifyOrderFile(orderFile, orderDetailFile))
+    QString date;
+    if (false == verifyOrderFile(orderFile, orderDetailFile, date))
     {
         // TODO: Message box
         qDebug() << "Error1";
         return;
     }
+    m_orderList.setDate(date);
 
     TaobaoExportOrderList tbOrderList;
     TaobaoExportOrderDetailList tbOrderDetailList;
@@ -72,8 +75,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
         return;
     }
 
-    OrderDetailList orderList;
-    if (false == orderList.merge(&tbOrderList, &tbOrderDetailList))
+    if (false == m_orderList.merge(&tbOrderList, &tbOrderDetailList))
     {
         // TODO: Message box
         qDebug() << "Error4";
@@ -81,7 +83,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     }
 
     QVector<QString> ids;
-    orderList.getIds(ids);
+    m_orderList.getIds(ids);
     if (ids.empty())
     {
         // TODO:
@@ -93,7 +95,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     int size = ids.size();
     for (int i = 0; i < size; ++i)
     {
-        QVector<OrderDetail*>* details = orderList.get(ids[i]);
+        Order* details = m_orderList.get(ids[i]);
         if (NULL == details)
         {
             // TODO:
@@ -108,49 +110,70 @@ void OrderImportDialog::on_createOrderButton_clicked()
             return;
         }
 
-        for (int n = 0; n < details->size(); ++n)
-        {
-            int col = 0;
-            model->setItem(row, col++, new QStandardItem(details->at(n)->id));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->title));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->price));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->postage));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->count));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->user_remark));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->sell_remark));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->user_name));
-            model->setItem(row, col++, new QStandardItem(details->at(n)->user_alipay_id));
-            row++;
-        }
+
+        int col = 0;
+        model->setItem(row, col++, new QStandardItem(details->id));
+        model->setItem(row, col++, new QStandardItem(details->title));
+        model->setItem(row, col++, new QStandardItem(details->price));
+        model->setItem(row, col++, new QStandardItem(details->count));
+        model->setItem(row, col++, new QStandardItem(details->user_remark));
+        model->setItem(row, col++, new QStandardItem(details->sell_remark));
+        model->setItem(row, col++, new QStandardItem(details->user_name));
+        row++;
+
     }
 }
 
 void OrderImportDialog::on_saveButton_clicked()
 {
+    QString date = m_orderList.date();
 
+    QVector<QString> ids;
+    m_orderList.getIds(ids);
+    if (ids.empty())
+    {
+        // TODO:
+        qDebug() << "Error5";
+        return;
+    }
+
+    int size = ids.size();
+    for (int i = 0; i < size; ++i)
+    {
+        Order* order = m_orderList.get(ids[i]);
+        if (NULL == order)
+        {
+            // TODO:
+            qDebug() << "Error6";
+            return;
+        }
+
+        if (false == Store::instance()->insertOrder(date, order))
+        {
+            return;
+        }
+    }
 }
 
 void OrderImportDialog::init()
 {
-    QStandardItemModel* model = new QStandardItemModel(0,9);
+    QStandardItemModel* model = new QStandardItemModel(0,7);
     ui->orderView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));
     model->setHeaderData(col++, Qt::Horizontal, tr("标题"));
     model->setHeaderData(col++, Qt::Horizontal, tr("价格"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("运费"));
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
     model->setHeaderData(col++, Qt::Horizontal, tr("买家备注"));
     model->setHeaderData(col++, Qt::Horizontal, tr("卖家备注"));
     model->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("支付宝ID"));
 
     // for test
     ui->orderFileEdit->setText("/Users/siwen/Downloads/ExportOrderList201706012311.csv");
     ui->orderDetailFileEdit->setText("/Users/siwen/Downloads/ExportOrderDetailList201706012311.csv");
 }
 
-bool OrderImportDialog::verifyOrderFile(QString orderFile, QString orderDetailFile)
+bool OrderImportDialog::verifyOrderFile(QString orderFile, QString orderDetailFile, QString& date)
 {
     int pos = orderFile.lastIndexOf(PATHSEP);
     if (-1 == pos)
@@ -174,6 +197,14 @@ bool OrderImportDialog::verifyOrderFile(QString orderFile, QString orderDetailFi
         return false;
     }
 
+    orderDetailFile.replace("/ExportOrderList", "");
+    orderDetailFile.replace(".csv", "");
+    qDebug() << "order date: " << orderDetailFile;
+    if (12 != orderDetailFile.length())
+    {
+        return false;
+    }
+    date = orderDetailFile;
     return true;
 }
 

@@ -39,6 +39,19 @@
     <string>订单管理</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="settleButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>140</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>结算</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -26,3 +26,8 @@ void Dialog::on_orderManageButton_clicked()
     OrderManageDialog dlg;
     dlg.exec();
 }
+
+void Dialog::on_settleButton_clicked()
+{
+
+}

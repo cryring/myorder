@@ -4,6 +4,8 @@
 #include <QSqlDatabase>
 #include "orderdefine.h"
 
+class QSqlDatabase;
+
 class OrderStore
 {
 public:
@@ -12,14 +14,17 @@ public:
     ~OrderStore();
 
 public:
-    bool init();
+    bool init(QSqlDatabase* db);
 
-    bool insert(OrderDetail* order);
+    bool insert(const QString& date, Order* order);
 
     bool update();
 
 private:
     bool createTable();
+
+private:
+    QSqlDatabase* m_db;
 };
 
 #endif // ORDERSTORE_H

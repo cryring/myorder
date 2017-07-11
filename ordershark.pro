@@ -34,13 +34,14 @@ SOURCES += \
     taobaoexportorderlist.cpp \
     taobaoexportorderdetaillist.cpp \
     orderstore.cpp \
-    invoicestore.cpp \
     ordermanagedialog.cpp \
     orderimportdialog.cpp \
     utils.cpp \
     invoice.cpp \
     orders.cpp \
-    invoices.cpp
+    invoices.cpp \
+    store.cpp \
+    goodsstore.cpp
 
 HEADERS += \
         dialog.h \
@@ -54,7 +55,6 @@ HEADERS += \
     taobaoexportorderdetaillist.h \
     csvprocessor.h \
     orderstore.h \
-    invoicestore.h \
     ordermanagedialog.h \
     orderimportdialog.h \
     singleton.h \
@@ -64,7 +64,9 @@ HEADERS += \
     commondefine.h \
     initdb.h \
     orders.h \
-    invoices.h
+    invoices.h \
+    store.h \
+    goodsstore.h
 
 FORMS += \
         dialog.ui \

@@ -19,10 +19,16 @@ public:
 
     void getIds(QVector<QString>& ids);
 
-    QVector<OrderDetail*>* get(const QString& id);
+    Order* get(const QString& id);
+
+    void setDate(const QString& date);
+
+    QString date(void) const;
 
 private:
-    QMap<QString, QVector<OrderDetail*> > m_orders;
+    QMap<QString, Order*> m_orders;
+
+    QString m_date;
 };
 
 #endif // ORDERDETAILLIST_H

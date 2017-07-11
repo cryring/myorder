@@ -2,6 +2,8 @@
 #define ORDERIMPORTDIALOG_H
 
 #include <QDialog>
+#include <QVector>
+#include "orderdetaillist.h"
 
 namespace Ui {
 class OrderImportDialog;
@@ -27,10 +29,12 @@ private slots:
 private:
     void init();
 
-    bool verifyOrderFile(QString orderFile, QString orderDetailFile);
+    bool verifyOrderFile(QString orderFile, QString orderDetailFile, QString& date);
 
 private:
     Ui::OrderImportDialog *ui;
+
+    OrderDetailList m_orderList;
 };
 
 #endif // ORDERIMPORTDIALOG_H

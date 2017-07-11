@@ -20,6 +20,8 @@ private slots:
 
     void on_orderManageButton_clicked();
 
+    void on_settleButton_clicked();
+
 private:
     Ui::Dialog *ui;
 };

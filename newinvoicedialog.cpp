@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "newinvoicedialog.h"
 #include "ui_newinvoicedialog.h"
+#include "store.h"
 
 NewInvoiceDialog::NewInvoiceDialog(QWidget *parent) :
     QDialog(parent),
