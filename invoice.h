@@ -3,7 +3,7 @@
 
 #include <QVector>
 #include "commondefine.h"
-#include "invoicedefine.h"
+#include "goodsdefine.h"
 
 class Invoice
 {

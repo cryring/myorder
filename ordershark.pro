@@ -41,7 +41,14 @@ SOURCES += \
     orders.cpp \
     invoices.cpp \
     store.cpp \
-    goodsstore.cpp
+    goodsstore.cpp \
+    commonstore.cpp \
+    goodsnamestore.cpp \
+    vieworderdialog.cpp \
+    shopnamestore.cpp \
+    shopmanagedialog.cpp \
+    goodsnamemanagedialog.cpp \
+    settledialog.cpp
 
 HEADERS += \
         dialog.h \
@@ -60,13 +67,20 @@ HEADERS += \
     singleton.h \
     utils.h \
     invoice.h \
-    invoicedefine.h \
     commondefine.h \
     initdb.h \
     orders.h \
     invoices.h \
     store.h \
-    goodsstore.h
+    goodsstore.h \
+    goodsdefine.h \
+    commonstore.h \
+    goodsnamestore.h \
+    vieworderdialog.h \
+    shopnamestore.h \
+    shopmanagedialog.h \
+    goodsnamemanagedialog.h \
+    settledialog.h
 
 FORMS += \
         dialog.ui \
@@ -74,4 +88,8 @@ FORMS += \
     newinvoicedialog.ui \
     viewinvoicedialog.ui \
     ordermanagedialog.ui \
-    orderimportdialog.ui
+    orderimportdialog.ui \
+    vieworderdialog.ui \
+    shopmanagedialog.ui \
+    goodsnamemanagedialog.ui \
+    settledialog.ui

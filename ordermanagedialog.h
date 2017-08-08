@@ -18,6 +18,8 @@ public:
 private slots:
     void on_importTBorderButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::OrderManageDialog *ui;
 };

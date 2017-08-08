@@ -1,5 +1,6 @@
 #include <QtSql>
 #include <QtDebug>
+#include <QUuid>
 #include "goodsstore.h"
 
 static const char* kTestSQL = "CREATE TABLE IF NOT EXISTS TEST(" \
@@ -8,19 +9,16 @@ static const char* kTestSQL = "CREATE TABLE IF NOT EXISTS TEST(" \
                               "DATE VARCHAR NOT NULL)";
 
 static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
-                                  "INVOICEID VARCHAR NOT NULL," \
-                                  "SHOPNAME VARCHAR NOT NULL," \
-                                  "NAME VARCHAR NOT NULL," \
-                                  "PRICE VARCHAR NOT NULL," \
-                                  "ATTRIBUTE VARCHAR NOT NULL," \
-                                  "COUNT VARCHAR NOT NULL," \
-                                  "CURRENCY VARCHAR NOT NULL," \
-                                  "PAYMENTMETHOD VARCHAR NOT NULL," \
-                                  "EXCHANGERATE VARCHAR NOT NULL," \
-                                  "DISCOUNT VARCHAR NOT NULL," \
-                                  "REBATE VARCHAR NOT NULL)";
+                                "ID VARCHAR PRIMARY KEY NOT NULL," \
+                                "INVOICEID VARCHAR NOT NULL," \
+                                "SHOPNAME VARCHAR NOT NULL," \
+                                "NAME VARCHAR NOT NULL," \
+                                "PRICE VARCHAR NOT NULL," \
+                                "ATTRIBUTE VARCHAR NOT NULL," \
+                                "COUNT VARCHAR NOT NULL," \
+                                "SETTLED INT NOT NULL)";
 
-static const char* kInsertSQL = "INSERT INTO GOODS_%1(INVOICEID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,CURRENCY,PAYMENTMETHOD,EXCHANGERATE,DISCOUNT,REBATE) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,INVOICEID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?,?)";
 
 GoodsStore::GoodsStore()
 :m_db(NULL)
@@ -65,17 +63,14 @@ bool GoodsStore::insert(const QString &date, Goods *goods)
 
     QString insertSql = QString(kInsertSQL).arg(date);
     query.prepare(insertSql);
-    query.addBindValue(goods->invoiceid);
+    query.addBindValue(QUuid::createUuid().toString());
+    query.addBindValue(goods->invoiceId);
     query.addBindValue(goods->shopName);
     query.addBindValue(goods->name);
     query.addBindValue(goods->price);
     query.addBindValue(goods->attribute);
     query.addBindValue(goods->count);
-    query.addBindValue(goods->currency);
-    query.addBindValue(goods->paymentMethod);
-    query.addBindValue(goods->exchangeRate);
-    query.addBindValue(goods->discount);
-    query.addBindValue(goods->rebate);
+    query.addBindValue(0);
     if (false == query.exec())
     {
         qDebug() << query.lastError();

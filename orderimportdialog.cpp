@@ -110,7 +110,6 @@ void OrderImportDialog::on_createOrderButton_clicked()
             return;
         }
 
-
         int col = 0;
         model->setItem(row, col++, new QStandardItem(details->id));
         model->setItem(row, col++, new QStandardItem(details->title));
@@ -120,7 +119,6 @@ void OrderImportDialog::on_createOrderButton_clicked()
         model->setItem(row, col++, new QStandardItem(details->sell_remark));
         model->setItem(row, col++, new QStandardItem(details->user_name));
         row++;
-
     }
 }
 
@@ -204,7 +202,7 @@ bool OrderImportDialog::verifyOrderFile(QString orderFile, QString orderDetailFi
     {
         return false;
     }
-    date = orderDetailFile;
+    date = orderDetailFile.left(8);
     return true;
 }
 

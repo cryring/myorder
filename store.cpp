@@ -47,3 +47,16 @@ bool Store::insertGoods(const QString &date, Goods *goods)
     }
     return false;
 }
+
+void Store::getOrderByDate(const QString& date, QVector<Order*>& orders)
+{
+    if (NULL != m_orderStore)
+    {
+        m_orderStore->select(date, orders);
+    }
+}
+
+void Store::getGoodsByDate(const QString& date, QVector<Goods*>& goodss)
+{
+
+}

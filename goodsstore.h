@@ -2,7 +2,7 @@
 #define GOODSSTORE_H
 
 #include <QString>
-#include "invoicedefine.h"
+#include "goodsdefine.h"
 
 class QSqlDatabase;
 

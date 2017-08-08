@@ -22,6 +22,10 @@ private slots:
 
     void on_settleButton_clicked();
 
+    void on_goodsNameManageButton_clicked();
+
+    void on_shopManageButton_clicked();
+
 private:
     Ui::Dialog *ui;
 };

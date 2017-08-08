@@ -2,6 +2,7 @@
 #define STORE_H
 
 #include <QString>
+#include <QVector>
 #include "singleton.h"
 
 class QSqlDatabase;
@@ -24,9 +25,9 @@ public:
 
     bool insertGoods(const QString& date, Goods* goods);
 
-    void getOrderByDate();
+    void getOrderByDate(const QString& date, QVector<Order*>& orders);
 
-    void getGoodsByDate();
+    void getGoodsByDate(const QString& date, QVector<Goods*>& goodss);
 
 private:
     OrderStore* m_orderStore;

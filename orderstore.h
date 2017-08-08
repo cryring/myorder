@@ -18,6 +18,8 @@ public:
 
     bool insert(const QString& date, Order* order);
 
+    void select(const QString& date, QVector<Order*>& orders);
+
     bool update();
 
 private:

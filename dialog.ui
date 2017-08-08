@@ -52,6 +52,32 @@
     <string>结算</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="goodsNameManageButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>40</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>商品管理</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="shopManageButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>90</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>商场管理</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
