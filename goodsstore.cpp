@@ -19,9 +19,10 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
                                 "SETTLED INT NOT NULL)";
 
 static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,INVOICEID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?,?)";
+static const char* kUpdateSettled = "UPDATE GOODS_%1 SET SETTLED=? WHERE ID=?";
 
 GoodsStore::GoodsStore()
-:m_db(NULL)
+    : m_db(NULL)
 {
 
 }
@@ -45,7 +46,7 @@ bool GoodsStore::init(QSqlDatabase* db)
     return true;
 }
 
-bool GoodsStore::insert(const QString &date, Goods *goods)
+bool GoodsStore::insert(const QString& date, Goods* goods)
 {
     if (NULL == m_db || NULL == goods)
     {
@@ -71,6 +72,27 @@ bool GoodsStore::insert(const QString &date, Goods *goods)
     query.addBindValue(goods->attribute);
     query.addBindValue(goods->count);
     query.addBindValue(0);
+    if (false == query.exec())
+    {
+        qDebug() << query.lastError();
+        return false;
+    }
+
+    return true;
+}
+
+bool GoodsStore::updateSettle(Goods* goods, bool settled)
+{
+    if (NULL == m_db || NULL == goods)
+    {
+        return false;
+    }
+
+    QString updateSql = QString(kUpdateSettled).arg(goods->date);
+    QSqlQuery query;
+    query.prepare(updateSql);
+    query.addBindValue(settled ? 1 : 0);
+    query.addBindValue(goods->id);
     if (false == query.exec())
     {
         qDebug() << query.lastError();

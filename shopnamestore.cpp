@@ -59,7 +59,7 @@ bool ShopNameStore::insert(const QString& name)
     return true;
 }
 
-const QVector<QString>&ShopNameStore::getNames()
+const QVector<QString>& ShopNameStore::getNames()
 {
     return m_names;
 }

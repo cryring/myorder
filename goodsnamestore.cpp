@@ -15,7 +15,7 @@ GoodsNameStore::GoodsNameStore()
 
 }
 
-bool GoodsNameStore::init(QSqlDatabase *db)
+bool GoodsNameStore::init(QSqlDatabase* db)
 {
     QSqlQuery query;
     query.prepare(kCreateSQL);
@@ -44,7 +44,7 @@ bool GoodsNameStore::init(QSqlDatabase *db)
     return true;
 }
 
-bool GoodsNameStore::insert(const QString& brand, const QString &name)
+bool GoodsNameStore::insert(const QString& brand, const QString& name)
 {
     QSqlQuery query;
     query.prepare(kInsertSQL);

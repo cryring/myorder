@@ -5,7 +5,7 @@
 #include "orderdefine.h"
 #include "store.h"
 
-ViewOrderDialog::ViewOrderDialog(QWidget *parent) :
+ViewOrderDialog::ViewOrderDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::ViewOrderDialog)
 {
@@ -54,7 +54,7 @@ void ViewOrderDialog::on_queryButton_clicked()
 
 void ViewOrderDialog::init()
 {
-    QStandardItemModel* model = new QStandardItemModel(0,7);
+    QStandardItemModel* model = new QStandardItemModel(0, 7);
     ui->orderView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));

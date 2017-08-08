@@ -48,6 +48,48 @@ bool Store::insertGoods(const QString &date, Goods *goods)
     return false;
 }
 
+bool Store::orderAttachGoods(Order* order, Goods* goods)
+{
+    if (NULL == order || NULL == goods)
+    {
+        return false;
+    }
+
+    if (false == m_orderStore->attachGoods(order, goods->id))
+    {
+        return false;
+    }
+
+    if (false == m_goodsStore->updateSettle(goods, true))
+    {
+        m_orderStore->detachGoods(order, goods->id);
+        return false;
+    }
+
+    return true;
+}
+
+bool Store::orderDetachGoods(Order* order, Goods* goods)
+{
+    if (NULL == order || NULL == goods)
+    {
+        return false;
+    }
+
+    if (false == m_orderStore->detachGoods(order, goods->id))
+    {
+        return false;
+    }
+
+    if (false == m_goodsStore->updateSettle(goods, false))
+    {
+        m_orderStore->attachGoods(order, goods->id);
+        return false;
+    }
+
+    return true;
+}
+
 void Store::getOrderByDate(const QString& date, QVector<Order*>& orders)
 {
     if (NULL != m_orderStore)

@@ -3,7 +3,7 @@
 #include "newinvoicedialog.h"
 #include "viewinvoicedialog.h"
 
-InvoiceManageDialog::InvoiceManageDialog(QWidget *parent) :
+InvoiceManageDialog::InvoiceManageDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::InvoiceManageDialog)
 {

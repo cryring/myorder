@@ -4,15 +4,15 @@
 #include "utils.h"
 
 CsvLoader::CsvLoader(CsvProcessor* processor)
-:m_processor(processor)
+    : m_processor(processor)
 {
 
 }
 
-bool CsvLoader::Load(const QString &filename)
+bool CsvLoader::Load(const QString& filename)
 {
     QFile file(filename);
-    if (false == file.open(QIODevice::ReadOnly|QIODevice::Text))
+    if (false == file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         return false;
     }

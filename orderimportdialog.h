@@ -5,7 +5,8 @@
 #include <QVector>
 #include "orderdetaillist.h"
 
-namespace Ui {
+namespace Ui
+{
 class OrderImportDialog;
 }
 
@@ -14,7 +15,7 @@ class OrderImportDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OrderImportDialog(QWidget *parent = 0);
+    explicit OrderImportDialog(QWidget* parent = 0);
     ~OrderImportDialog();
 
 private slots:
@@ -32,7 +33,7 @@ private:
     bool verifyOrderFile(QString orderFile, QString orderDetailFile, QString& date);
 
 private:
-    Ui::OrderImportDialog *ui;
+    Ui::OrderImportDialog* ui;
 
     OrderDetailList m_orderList;
 };

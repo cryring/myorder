@@ -11,7 +11,7 @@ class QSqlDatabase;
 typedef QMap<QString, QVector<QString> > GNMAP;
 
 class GoodsNameStore : public Singleton<GoodsNameStore>
-{    
+{
 public:
     GoodsNameStore();
 

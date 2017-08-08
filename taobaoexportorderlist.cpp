@@ -35,7 +35,7 @@ bool TaobaoExportOrderList::process(const QStringList& fields)
     return true;
 }
 
-TBExportOrder *TaobaoExportOrderList::get(const QString &id)
+TBExportOrder* TaobaoExportOrderList::get(const QString& id)
 {
     if (false == m_orders.contains(id))
     {

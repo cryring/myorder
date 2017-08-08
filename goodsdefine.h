@@ -13,8 +13,10 @@ struct GoodsAttribute
 
 struct Goods : public GoodsAttribute
 {
+    QString id;
     QString invoiceId;
     QString shopName;
+    QString date;
     bool settled;
 };
 

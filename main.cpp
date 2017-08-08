@@ -19,7 +19,7 @@ public:
         m_db.setDatabaseName(dbpath);
         if (false == m_db.open())
         {
-           qFatal(m_db.lastError().text().toStdString().c_str());
+            qFatal(m_db.lastError().text().toStdString().c_str());
         }
     }
 
@@ -38,7 +38,7 @@ private:
     QSqlDatabase m_db;
 };
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
 

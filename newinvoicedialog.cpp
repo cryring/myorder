@@ -8,7 +8,7 @@
 #include "goodsnamestore.h"
 #include "store.h"
 
-NewInvoiceDialog::NewInvoiceDialog(QWidget *parent) :
+NewInvoiceDialog::NewInvoiceDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::NewInvoiceDialog)
 {
@@ -84,7 +84,7 @@ void NewInvoiceDialog::on_delGoodsButton_clicked()
     }
 }
 
-void NewInvoiceDialog::on_shopNameBox_activated(const QString &name)
+void NewInvoiceDialog::on_shopNameBox_activated(const QString& name)
 {
     qDebug() << "Combo:" << name;
 }
@@ -146,7 +146,7 @@ void NewInvoiceDialog::init()
     ui->currencyBox->addItem("韩元");
     ui->currencyBox->addItem("人民币");
 
-    QStandardItemModel* model = new QStandardItemModel(0,4);
+    QStandardItemModel* model = new QStandardItemModel(0, 4);
     ui->invoiceView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("商品名"));
@@ -193,7 +193,7 @@ float NewInvoiceDialog::calcTotalPrice(float paperTotalPrice)
 
     float p0 = paperTotalPrice * fRebate;
     float p1 = paperTotalPrice * fTaxFree;
-    float p2 = fPayPrice * fDiscount * (1+fFeeRate);
+    float p2 = fPayPrice * fDiscount * (1 + fFeeRate);
     float p3 = fCoupon * fCouponDiscount;
     float p4 = (p2 + p3) - (p0 + p1);
     float p5 = p4 * fExchangeRate;
@@ -201,12 +201,12 @@ float NewInvoiceDialog::calcTotalPrice(float paperTotalPrice)
 }
 
 
-void NewInvoiceDialog::on_invoiceView_activated(const QModelIndex &index)
+void NewInvoiceDialog::on_invoiceView_activated(const QModelIndex& index)
 {
     qDebug() << "View actived" << index.row();
 }
 
-void NewInvoiceDialog::on_brandComboBox_activated(const QString &brand)
+void NewInvoiceDialog::on_brandComboBox_activated(const QString& brand)
 {
     ui->savedGoodsNameBox->clear();
     const GNMAP& goodsNames = GoodsNameStore::instance()->getNames();

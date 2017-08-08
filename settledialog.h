@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class SettleDialog;
 }
 
@@ -12,7 +13,7 @@ class SettleDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SettleDialog(QWidget *parent = 0);
+    explicit SettleDialog(QWidget* parent = 0);
     ~SettleDialog();
 
 private slots:
@@ -25,7 +26,10 @@ private slots:
     void on_detachButton_clicked();
 
 private:
-    Ui::SettleDialog *ui;
+    void init();
+
+private:
+    Ui::SettleDialog* ui;
 };
 
 #endif // SETTLEDIALOG_H

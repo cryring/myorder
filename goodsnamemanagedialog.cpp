@@ -3,7 +3,7 @@
 #include "ui_goodsnamemanagedialog.h"
 #include "goodsnamestore.h"
 
-GoodsNameManageDialog::GoodsNameManageDialog(QWidget *parent) :
+GoodsNameManageDialog::GoodsNameManageDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::GoodsNameManageDialog)
 {
@@ -47,7 +47,7 @@ void GoodsNameManageDialog::on_saveButton_clicked()
 
 void GoodsNameManageDialog::init()
 {
-    QStandardItemModel* model = new QStandardItemModel(0,2);
+    QStandardItemModel* model = new QStandardItemModel(0, 2);
     ui->goodsView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("品牌"));

@@ -10,12 +10,12 @@
 #include "store.h"
 
 #ifdef WINDOWS
-    #define PATHSEP '\\'
+#define PATHSEP '\\'
 #else
-    #define PATHSEP '/'
+#define PATHSEP '/'
 #endif
 
-OrderImportDialog::OrderImportDialog(QWidget *parent) :
+OrderImportDialog::OrderImportDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::OrderImportDialog)
 {
@@ -155,7 +155,7 @@ void OrderImportDialog::on_saveButton_clicked()
 
 void OrderImportDialog::init()
 {
-    QStandardItemModel* model = new QStandardItemModel(0,7);
+    QStandardItemModel* model = new QStandardItemModel(0, 7);
     ui->orderView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));

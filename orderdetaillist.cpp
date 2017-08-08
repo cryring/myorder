@@ -4,12 +4,12 @@
 #include "taobaoexportorderlist.h"
 
 OrderDetailList::OrderDetailList()
-:m_date("")
+    : m_date("")
 {
 
 }
 
-bool OrderDetailList::merge(TaobaoExportOrderList *orderList, TaobaoExportOrderDetailList *orderDetailList)
+bool OrderDetailList::merge(TaobaoExportOrderList* orderList, TaobaoExportOrderDetailList* orderDetailList)
 {
     if (NULL == orderDetailList || NULL == orderList)
     {
@@ -63,7 +63,7 @@ bool OrderDetailList::merge(TaobaoExportOrderList *orderList, TaobaoExportOrderD
     return true;
 }
 
-void OrderDetailList::getIds(QVector<QString> &ids)
+void OrderDetailList::getIds(QVector<QString>& ids)
 {
     QMap<QString, Order*>::iterator it = m_orders.begin();
     for (; it != m_orders.end(); ++it)
@@ -72,7 +72,7 @@ void OrderDetailList::getIds(QVector<QString> &ids)
     }
 }
 
-Order* OrderDetailList::get(const QString &id)
+Order* OrderDetailList::get(const QString& id)
 {
     if (false == m_orders.contains(id))
     {
@@ -82,7 +82,7 @@ Order* OrderDetailList::get(const QString &id)
     return m_orders[id];
 }
 
-void OrderDetailList::setDate(const QString &date)
+void OrderDetailList::setDate(const QString& date)
 {
     m_date = date;
 }

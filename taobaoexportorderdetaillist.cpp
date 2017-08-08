@@ -27,7 +27,7 @@ bool TaobaoExportOrderDetailList::process(const QStringList& fields)
         return false;
     }
 
-//    qDebug() << "Process Detail: " << fields;
+    //    qDebug() << "Process Detail: " << fields;
     TBExportOrderDetail* order_detail = new TBExportOrderDetail();
     order_detail->id = id;
     order_detail->title = QString(fields[1]).replace("\"", "");
@@ -40,7 +40,7 @@ bool TaobaoExportOrderDetailList::process(const QStringList& fields)
     return true;
 }
 
-QVector<TBExportOrderDetail*>* TaobaoExportOrderDetailList::get(const QString &id)
+QVector<TBExportOrderDetail*>* TaobaoExportOrderDetailList::get(const QString& id)
 {
     if (false == m_orders.contains(id))
     {

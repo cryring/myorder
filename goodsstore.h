@@ -18,6 +18,8 @@ public:
 
     bool insert(const QString& date, Goods* goods);
 
+    bool updateSettle(Goods* goods, bool settled);
+
 private:
     QSqlDatabase* m_db;
 };

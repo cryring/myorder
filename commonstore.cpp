@@ -19,7 +19,7 @@ CommonStore::~CommonStore()
 
 }
 
-bool CommonStore::init(QSqlDatabase *db)
+bool CommonStore::init(QSqlDatabase* db)
 {
     m_db = db;
     QSqlQuery query;

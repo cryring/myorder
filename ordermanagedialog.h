@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class OrderManageDialog;
 }
 
@@ -12,7 +13,7 @@ class OrderManageDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit OrderManageDialog(QWidget *parent = 0);
+    explicit OrderManageDialog(QWidget* parent = 0);
     ~OrderManageDialog();
 
 private slots:
@@ -21,7 +22,7 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    Ui::OrderManageDialog *ui;
+    Ui::OrderManageDialog* ui;
 };
 
 #endif // ORDERMANAGEDIALOG_H

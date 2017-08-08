@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class InvoiceManageDialog;
 }
 
@@ -12,7 +13,7 @@ class InvoiceManageDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit InvoiceManageDialog(QWidget *parent = 0);
+    explicit InvoiceManageDialog(QWidget* parent = 0);
     ~InvoiceManageDialog();
 
 private slots:
@@ -21,7 +22,7 @@ private slots:
     void on_viewInvoiceButton_clicked();
 
 private:
-    Ui::InvoiceManageDialog *ui;
+    Ui::InvoiceManageDialog* ui;
 };
 
 #endif // INVOICEMANAGEDIALOG_H

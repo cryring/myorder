@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class ShopManageDialog;
 }
 
@@ -12,7 +13,7 @@ class ShopManageDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShopManageDialog(QWidget *parent = 0);
+    explicit ShopManageDialog(QWidget* parent = 0);
     ~ShopManageDialog();
 
 private slots:
@@ -22,7 +23,7 @@ private:
     void init(void);
 
 private:
-    Ui::ShopManageDialog *ui;
+    Ui::ShopManageDialog* ui;
 };
 
 #endif // SHOPMANAGEDIALOG_H

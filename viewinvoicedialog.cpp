@@ -1,7 +1,7 @@
 #include "viewinvoicedialog.h"
 #include "ui_viewinvoicedialog.h"
 
-ViewInvoiceDialog::ViewInvoiceDialog(QWidget *parent) :
+ViewInvoiceDialog::ViewInvoiceDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::ViewInvoiceDialog)
 {

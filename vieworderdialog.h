@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class ViewOrderDialog;
 }
 
@@ -14,7 +15,7 @@ class ViewOrderDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ViewOrderDialog(QWidget *parent = 0);
+    explicit ViewOrderDialog(QWidget* parent = 0);
     ~ViewOrderDialog();
 
 private slots:
@@ -26,7 +27,7 @@ private:
     void clearCurrentOrders(void);
 
 private:
-    Ui::ViewOrderDialog *ui;
+    Ui::ViewOrderDialog* ui;
 
     QVector<Order*> m_currentOrders;
 };

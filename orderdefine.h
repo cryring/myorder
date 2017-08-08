@@ -30,6 +30,7 @@ struct TBExportOrderDetail
 
 struct Order
 {
+    QString date;
     QString id;
     QString title;
     QString price;
@@ -38,6 +39,7 @@ struct Order
     QString user_remark;
     QString sell_remark;
     QString user_name;
+    QString goods_id;
 };
 
 #endif // ORDERDEFINE_H

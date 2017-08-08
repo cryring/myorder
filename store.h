@@ -25,6 +25,10 @@ public:
 
     bool insertGoods(const QString& date, Goods* goods);
 
+    bool orderAttachGoods(Order* order, Goods* goods);
+
+    bool orderDetachGoods(Order* order, Goods* goods);
+
     void getOrderByDate(const QString& date, QVector<Order*>& orders);
 
     void getGoodsByDate(const QString& date, QVector<Goods*>& goodss);

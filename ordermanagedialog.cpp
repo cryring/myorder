@@ -3,7 +3,7 @@
 #include "orderimportdialog.h"
 #include "vieworderdialog.h"
 
-OrderManageDialog::OrderManageDialog(QWidget *parent) :
+OrderManageDialog::OrderManageDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::OrderManageDialog)
 {

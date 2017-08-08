@@ -14,14 +14,17 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS ORDER_%1(" \
                                 "COUNT VARCHAR NOT NULL," \
                                 "USER_REMARK VARCHAR," \
                                 "SELL_REMARK VARCHAR," \
-                                "USER_NAME VARCHAR NOT NULL)";
+                                "USER_NAME VARCHAR NOT NULL," \
+                                "GOODS_ID VARCHAR)";
 
 static const char* kInsertSQL = "INSERT INTO ORDER_%1(ID,TITLE,PRICE,COUNT,USER_REMARK,SELL_REMARK,USER_NAME) VALUES(?,?,?,?,?,?,?)";
 
 static const char* kSelectByDateSQL = "SELECT * FROM ORDER_%1";
 
+static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=? WHERE ID=?";
+
 OrderStore::OrderStore()
-:m_db(NULL)
+    : m_db(NULL)
 {
 
 }
@@ -110,6 +113,53 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
         order->user_name = query.value(unameNo).toString();
         orders.append(order);
     }
+}
+
+bool OrderStore::attachGoods(Order* order, const QString& goodsId)
+{
+    if (NULL == order || goodsId.isEmpty())
+    {
+        return false;
+    }
+
+    if (NULL == m_db || NULL == order)
+    {
+        return false;
+    }
+
+    QString updateSql = QString(kUpdateSettledSQL).arg(order->date);
+    QSqlQuery query;
+    query.prepare(updateSql);
+    query.addBindValue(goodsId);
+    query.addBindValue(order->id);
+    if (false == query.exec())
+    {
+        qDebug() << query.lastError();
+        return false;
+    }
+
+    return true;
+}
+
+bool OrderStore::detachGoods(Order* order, const QString& goodsId)
+{
+    if (NULL == order || goodsId.isEmpty())
+    {
+        return false;
+    }
+
+    QString updateSql = QString(kUpdateSettledSQL).arg(order->date);
+    QSqlQuery query;
+    query.prepare(updateSql);
+    query.addBindValue("");
+    query.addBindValue(order->id);
+    if (false == query.exec())
+    {
+        qDebug() << query.lastError();
+        return false;
+    }
+
+    return true;
 }
 
 bool OrderStore::update()
