@@ -28,6 +28,9 @@ private slots:
     void on_shopManageButton_clicked();
 
 private:
+    void init(void);
+
+private:
     Ui::Dialog* ui;
 };
 

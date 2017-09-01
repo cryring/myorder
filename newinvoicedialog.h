@@ -9,7 +9,7 @@ namespace Ui
 class NewInvoiceDialog;
 }
 
-class GoodsAttribute;
+struct GoodsAttribute;
 
 class NewInvoiceDialog : public QDialog
 {

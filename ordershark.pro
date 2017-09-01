@@ -48,7 +48,9 @@ SOURCES += \
     shopnamestore.cpp \
     shopmanagedialog.cpp \
     goodsnamemanagedialog.cpp \
-    settledialog.cpp
+    settledialog.cpp \
+    profitstore.cpp \
+    dboperation.cpp
 
 HEADERS += \
         dialog.h \
@@ -80,7 +82,9 @@ HEADERS += \
     shopnamestore.h \
     shopmanagedialog.h \
     goodsnamemanagedialog.h \
-    settledialog.h
+    settledialog.h \
+    profitstore.h \
+    dboperation.h
 
 FORMS += \
         dialog.ui \
@@ -93,3 +97,6 @@ FORMS += \
     shopmanagedialog.ui \
     goodsnamemanagedialog.ui \
     settledialog.ui
+
+RESOURCES += \
+    res/rc.qrc

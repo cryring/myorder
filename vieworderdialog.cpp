@@ -1,9 +1,11 @@
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QStringListModel>
 #include "vieworderdialog.h"
 #include "ui_vieworderdialog.h"
 #include "orderdefine.h"
 #include "store.h"
+#include "dboperation.h"
 
 ViewOrderDialog::ViewOrderDialog(QWidget* parent) :
     QDialog(parent),
@@ -23,7 +25,39 @@ void ViewOrderDialog::on_queryButton_clicked()
     QString date = ui->dateEdit->date().toString("yyyyMMdd");
     qDebug() << "dateEdit:" << date;
 
+    queryOrder(date);
+}
+
+void ViewOrderDialog::init()
+{
+    QStandardItemModel* model = new QStandardItemModel(0, 7);
+    ui->orderView->setModel(model);
+    int col = 0;
+    model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("标题"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("价格"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("买家备注"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("卖家备注"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
+}
+
+void ViewOrderDialog::clearCurrentOrders()
+{
+    for (int i = 0; i < m_currentOrders.size(); ++i)
+    {
+        delete m_currentOrders[i];
+        m_currentOrders[i] = NULL;
+    }
+    m_currentOrders.clear();
+}
+
+void ViewOrderDialog::queryOrder(const QString& date)
+{
+    ui->orderView->reset();
+
     clearCurrentOrders();
+
     Store::instance()->getOrderByDate(date, m_currentOrders);
     if (m_currentOrders.empty())
     {
@@ -52,26 +86,31 @@ void ViewOrderDialog::on_queryButton_clicked()
     }
 }
 
-void ViewOrderDialog::init()
+void ViewOrderDialog::on_queryAllButton_clicked()
 {
-    QStandardItemModel* model = new QStandardItemModel(0, 7);
-    ui->orderView->setModel(model);
-    int col = 0;
-    model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("标题"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("价格"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("买家备注"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("卖家备注"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
+    ui->allOrderView->reset();
+
+    QStringList names = DBOperation::getAllTableName();
+    QStringList dates;
+    for (int i = 0; i < names.size(); ++i)
+    {
+        const QString& tableName = names[i];
+        if (0 == tableName.indexOf("ORDER_20"))
+        {
+            dates.append(tableName.right(8));
+        }
+    }
+    ui->allOrderView->setModel(new QStringListModel(dates));
 }
 
-void ViewOrderDialog::clearCurrentOrders()
+void ViewOrderDialog::on_allOrderView_activated(const QModelIndex &index)
 {
-    for (int i = 0; i < m_currentOrders.size(); ++i)
-    {
-        delete m_currentOrders[i];
-        m_currentOrders[i] = NULL;
-    }
-    m_currentOrders.clear();
+    qDebug() << "actived" << index.data().toString();
+}
+
+void ViewOrderDialog::on_allOrderView_clicked(const QModelIndex &index)
+{
+    qDebug() << "clicked" << index.data().toString();
+
+    queryOrder(index.data().toString());
 }

@@ -38,6 +38,19 @@ private:
     QSqlDatabase m_db;
 };
 
+//设置指定样式
+static void setStyle(const QString &qssFile) {
+    QFile file(qssFile);
+    if (file.open(QFile::ReadOnly))
+    {
+        QString qss = QLatin1String(file.readAll());
+        qApp->setStyleSheet(qss);
+        QString PaletteColor = qss.mid(20, 7);
+        qApp->setPalette(QPalette(QColor(PaletteColor)));
+        file.close();
+    }
+}
+
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
@@ -60,6 +73,8 @@ int main(int argc, char* argv[])
     {
         return -1;
     }
+
+    setStyle(":/qss/black.css");
 
     Dialog w;
     w.show();

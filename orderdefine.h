@@ -40,6 +40,7 @@ struct Order
     QString sell_remark;
     QString user_name;
     QString goods_id;
+    QString goods_price;
 };
 
 #endif // ORDERDEFINE_H

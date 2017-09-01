@@ -11,6 +11,8 @@ Dialog::Dialog(QWidget* parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+
+    init();
 }
 
 Dialog::~Dialog()
@@ -46,4 +48,10 @@ void Dialog::on_shopManageButton_clicked()
 {
     ShopManageDialog dlg;
     dlg.exec();
+}
+
+void Dialog::init()
+{
+    this->setProperty("Form", true);
+    this->setProperty("CanMove", true);
 }

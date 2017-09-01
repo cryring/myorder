@@ -52,6 +52,13 @@ void NewInvoiceDialog::on_saveGoodsButton_clicked()
         return;
     }
 
+    QString attr = ui->attributeEdit->text();
+    if ("" == attr)
+    {
+        // TODO: Message Box
+        return;
+    }
+
     QString name = ui->savedGoodsNameBox->currentText();
 
     QStandardItemModel* model = (QStandardItemModel*)ui->invoiceView->model();
@@ -65,12 +72,13 @@ void NewInvoiceDialog::on_saveGoodsButton_clicked()
     int row = model->rowCount();
     model->setItem(row, col++, new QStandardItem(name));
     model->setItem(row, col++, new QStandardItem(price));
+    model->setItem(row, col++, new QStandardItem(attr));
     model->setItem(row, col++, new QStandardItem(count));
 
     GoodsAttribute* goodsAttr = new GoodsAttribute();
     goodsAttr->name = name;
     goodsAttr->price = price;
-    goodsAttr->attribute = "";
+    goodsAttr->attribute = attr;
     goodsAttr->count = count;
     m_goodsAttribute.append(goodsAttr);
 }

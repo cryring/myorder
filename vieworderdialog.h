@@ -21,10 +21,18 @@ public:
 private slots:
     void on_queryButton_clicked();
 
+    void on_queryAllButton_clicked();
+
+    void on_allOrderView_activated(const QModelIndex &index);
+
+    void on_allOrderView_clicked(const QModelIndex &index);
+
 private:
     void init(void);
 
     void clearCurrentOrders(void);
+
+    void queryOrder(const QString& date);
 
 private:
     Ui::ViewOrderDialog* ui;

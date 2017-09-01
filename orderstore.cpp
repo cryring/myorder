@@ -2,11 +2,6 @@
 #include <QtSql>
 #include "orderstore.h"
 
-static const char* kTestSQL = "CREATE TABLE IF NOT EXISTS TEST(" \
-                              "ID VARCHAR PRIMARY KEY NOT NULL," \
-                              "NAME VARCHAR NOT NULL," \
-                              "DATE VARCHAR NOT NULL)";
-
 static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS ORDER_%1(" \
                                 "ID VARCHAR PRIMARY KEY NOT NULL," \
                                 "TITLE VARCHAR NOT NULL," \
@@ -15,13 +10,14 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS ORDER_%1(" \
                                 "USER_REMARK VARCHAR," \
                                 "SELL_REMARK VARCHAR," \
                                 "USER_NAME VARCHAR NOT NULL," \
-                                "GOODS_ID VARCHAR)";
+                                "GOODS_ID VARCHAR," \
+                                "GOODS_PRICE VARCHAR)";
 
 static const char* kInsertSQL = "INSERT INTO ORDER_%1(ID,TITLE,PRICE,COUNT,USER_REMARK,SELL_REMARK,USER_NAME) VALUES(?,?,?,?,?,?,?)";
 
 static const char* kSelectByDateSQL = "SELECT * FROM ORDER_%1";
 
-static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=? WHERE ID=?";
+static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=? GOODS_PRICE=? WHERE ID=?";
 
 OrderStore::OrderStore()
     : m_db(NULL)
@@ -37,14 +33,6 @@ OrderStore::~OrderStore()
 bool OrderStore::init(QSqlDatabase* db)
 {
     m_db = db;
-    QSqlQuery query;
-    query.prepare(kTestSQL);
-    if (false == query.exec())
-    {
-        qDebug() << query.lastError();
-        return false;
-    }
-
     return true;
 }
 
@@ -115,9 +103,9 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
     }
 }
 
-bool OrderStore::attachGoods(Order* order, const QString& goodsId)
+bool OrderStore::attachGoods(Order* order)
 {
-    if (NULL == order || goodsId.isEmpty())
+    if (NULL == order || order->goods_id.isEmpty())
     {
         return false;
     }
@@ -130,7 +118,8 @@ bool OrderStore::attachGoods(Order* order, const QString& goodsId)
     QString updateSql = QString(kUpdateSettledSQL).arg(order->date);
     QSqlQuery query;
     query.prepare(updateSql);
-    query.addBindValue(goodsId);
+    query.addBindValue(order->goods_id);
+    query.addBindValue(order->goods_price);
     query.addBindValue(order->id);
     if (false == query.exec())
     {
@@ -141,9 +130,9 @@ bool OrderStore::attachGoods(Order* order, const QString& goodsId)
     return true;
 }
 
-bool OrderStore::detachGoods(Order* order, const QString& goodsId)
+bool OrderStore::detachGoods(Order* order)
 {
-    if (NULL == order || goodsId.isEmpty())
+    if (NULL == order)
     {
         return false;
     }
@@ -151,6 +140,7 @@ bool OrderStore::detachGoods(Order* order, const QString& goodsId)
     QString updateSql = QString(kUpdateSettledSQL).arg(order->date);
     QSqlQuery query;
     query.prepare(updateSql);
+    query.addBindValue("");
     query.addBindValue("");
     query.addBindValue(order->id);
     if (false == query.exec())

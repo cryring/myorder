@@ -85,7 +85,7 @@
     <string>退出</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="profitEdit">
    <property name="geometry">
     <rect>
      <x>80</x>

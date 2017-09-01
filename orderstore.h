@@ -20,9 +20,9 @@ public:
 
     void select(const QString& date, QVector<Order*>& orders);
 
-    bool attachGoods(Order* order, const QString& goodsId);
+    bool attachGoods(Order* order);
 
-    bool detachGoods(Order* order, const QString& goodsId);
+    bool detachGoods(Order* order);
 
     bool update();
 

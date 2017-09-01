@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>查看小票</string>
+    <string>查看库存</string>
    </property>
   </widget>
  </widget>

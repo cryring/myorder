@@ -116,8 +116,8 @@ void Store::getOrderByDate(const QString& date, QVector<Order*>& orders)
 
 void Store::getGoodsByDate(const QString& date, QVector<Goods*>& goodss)
 {
-    if (NULL != m_orderStore)
+    if (NULL != m_goodsStore)
     {
-        m_orderStore->select(date, orders);
+        m_goodsStore->select(date, goodss);
     }
 }
