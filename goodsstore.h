@@ -18,7 +18,7 @@ public:
 
     bool insert(const QString& date, Goods* goods);
 
-    void select(const QString& date, QVector<Order*>& orders);
+    void select(const QString& date, QVector<Goods*>& goodss);
 
     bool updateSettle(Goods* goods, bool settled);
 

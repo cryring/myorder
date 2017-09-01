@@ -69,7 +69,7 @@ bool GoodsStore::insert(const QString& date, Goods* goods)
     return true;
 }
 
-void GoodsStore::select(const QString& date, QVector<Goods*>& goods)
+void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
 {
     QString sql = QString(kSelectByDateSQL).arg(date);
     QSqlQuery query;
@@ -88,18 +88,19 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goods)
     int attrNo = query.record().indexOf("ATTRIBUTE");
     int cntNo = query.record().indexOf("COUNT");
     int settledNo = query.record().indexOf("SETTLED");
-    orders.reserve(query.record().count());
+    goodss.reserve(query.record().count());
     while (query.next())
     {
-        Goods* goods = new Order();
-        order->id = query.value(idNo).toString();
-        order->title = query.value(titleNo).toString();
-        order->price = query.value(priceNo).toString();
-        order->count = query.value(countNo).toString();
-        order->user_remark = query.value(urNo).toString();
-        order->sell_remark = query.value(srNo).toString();
-        order->user_name = query.value(unameNo).toString();
-        orders.append(order);
+        Goods* goods = new Goods();
+        goods->id = query.value(idNo).toString();
+        goods->invoiceId = query.value(iidNo).toString();
+        goods->shopName = query.value(shopnameNo).toString();
+        goods->name = query.value(nameNo).toString();
+        goods->price = query.value(priceNo).toString();
+        goods->attribute = query.value(attrNo).toString();
+        goods->count = query.value(cntNo).toString();
+        goods->settled = query.value(settledNo).toInt() ? true : false;
+        goodss.append(goods);
     }
 }
 
