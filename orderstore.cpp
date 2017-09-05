@@ -17,7 +17,7 @@ static const char* kInsertSQL = "INSERT INTO ORDER_%1(ID,TITLE,PRICE,COUNT,USER_
 
 static const char* kSelectByDateSQL = "SELECT * FROM ORDER_%1";
 
-static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=? GOODS_PRICE=? WHERE ID=?";
+static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=?,GOODS_PRICE=? WHERE ID=?";
 
 OrderStore::OrderStore()
     : m_db(NULL)

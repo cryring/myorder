@@ -52,6 +52,6 @@ void Dialog::on_shopManageButton_clicked()
 
 void Dialog::init()
 {
-    this->setProperty("Form", true);
-    this->setProperty("CanMove", true);
+//    this->setProperty("Form", true);
+//    this->setProperty("CanMove", true);
 }

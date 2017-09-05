@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVector>
+#include <QMap>
 
 namespace Ui
 {
@@ -40,12 +41,24 @@ private:
 
     void clearGoods(void);
 
+    void loadOrderDate(void);
+
+    void loadGoodsDate(void);
+
+    void getYMD(const QString& date, QString& year, QString& month, QString& day);
+
 private:
     Ui::SettleDialog* ui;
 
     QVector<Goods*> m_curGoods;
 
     QVector<Order*> m_curOrder;
+
+    QStringList m_tables;
+
+    QMap<QString, QMap<QString, QString> > m_orderDate;
+
+    QMap<QString, QMap<QString, QString> > m_goodsDate;
 };
 
 #endif // SETTLEDIALOG_H

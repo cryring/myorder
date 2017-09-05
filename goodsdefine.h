@@ -17,7 +17,7 @@ struct Goods : public GoodsAttribute
     QString invoiceId;
     QString shopName;
     QString date;
-    bool settled;
+    int settled;
 };
 
 #endif // INVOICEDEFINE_H

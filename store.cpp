@@ -82,7 +82,7 @@ bool Store::orderAttachGoods(Order* order, Goods* goods)
         order->goods_price = "";
     }
 
-    return true;
+    return ret;
 }
 
 bool Store::orderDetachGoods(Order* order, Goods* goods)

@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    setStyle(":/qss/black.css");
+    // setStyle(":/qss/black.css");
 
     Dialog w;
     w.show();

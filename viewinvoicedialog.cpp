@@ -45,7 +45,7 @@ void ViewInvoiceDialog::on_queryGoodsButton_clicked()
     {
         Goods* goods = m_curGoods[i];
         int col = 0;
-        model->setItem(i, col++, new QStandardItem(goods->settled));
+        model->setItem(i, col++, new QStandardItem(goods->settled ? "是" : "否"));
         model->setItem(i, col++, new QStandardItem(goods->id));
         model->setItem(i, col++, new QStandardItem(goods->name));
         model->setItem(i, col++, new QStandardItem(goods->price));
@@ -56,7 +56,7 @@ void ViewInvoiceDialog::on_queryGoodsButton_clicked()
 
 void ViewInvoiceDialog::init()
 {
-    QStandardItemModel* goodsModel = new QStandardItemModel(0, 5);
+    QStandardItemModel* goodsModel = new QStandardItemModel(0, 6);
     ui->goodsView->setModel(goodsModel);
     int col = 0;
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("已结算"));

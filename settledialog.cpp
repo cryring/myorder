@@ -5,6 +5,7 @@
 #include "store.h"
 #include "goodsdefine.h"
 #include "orderdefine.h"
+#include "dboperation.h"
 
 SettleDialog::SettleDialog(QWidget* parent) :
     QDialog(parent),
@@ -49,7 +50,7 @@ void SettleDialog::on_exitButton_clicked()
 void SettleDialog::on_attachButton_clicked()
 {
     int goodsRow = ui->goodsView->currentIndex().row();
-    if (goodsRow >= m_curGoods.size())
+    if (0 > goodsRow || goodsRow >= m_curGoods.size())
     {
         qDebug() << "error goods row";
         return;
@@ -68,7 +69,7 @@ void SettleDialog::on_attachButton_clicked()
     }
 
     int orderRow = ui->orderView->currentIndex().row();
-    if (orderRow >= m_curOrder.size())
+    if (0 > orderRow || orderRow >= m_curOrder.size())
     {
         qDebug() << "error order row";
         return;
@@ -80,7 +81,7 @@ void SettleDialog::on_attachButton_clicked()
         qDebug() << "error order";
         return;
     }
-    if (false != order->goods_id.isEmpty())
+    if (false == order->goods_id.isEmpty())
     {
         qDebug() << "order has been settled";
         return;
@@ -94,13 +95,13 @@ void SettleDialog::on_attachButton_clicked()
     }
 
     QAbstractItemModel* orderModel = ui->orderView->model();
-    QModelIndex orderIndex = orderModel->index(orderRow,7);
+    QModelIndex orderIndex = orderModel->index(orderRow,0);
     orderModel->setData(orderIndex, QVariant(goods->id));
     order->goods_id = goods->id;
 
-    QAbstractItemModel* goodsModel = ui->orderView->model();
-    QModelIndex goodsIndex = goodsModel->index(orderRow,4);
-    goodsModel->setData(goodsIndex, QVariant("done"));
+    QAbstractItemModel* goodsModel = ui->goodsView->model();
+    QModelIndex goodsIndex = goodsModel->index(orderRow,0);
+    goodsModel->setData(goodsIndex, QVariant("是"));
     goods->settled = true;
 }
 
@@ -188,6 +189,16 @@ void SettleDialog::init()
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("买家备注"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("卖家备注"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
+
+    ui->orderView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->orderView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    ui->goodsView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->goodsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    m_tables = DBOperation::getAllTableName();
+    loadOrderDate();
+    loadGoodsDate();
 }
 
 void SettleDialog::clearOrder()
@@ -220,6 +231,43 @@ void SettleDialog::clearGoods()
     ui->goodsView->reset();
 }
 
+void SettleDialog::loadOrderDate()
+{
+    for (int i = 0; i < m_tables.size(); ++i)
+    {
+        const QString& tableName = m_tables[i];
+        if (0 == tableName.indexOf("ORDER_20"))
+        {
+            QString date = tableName.right(8);
+            QString year;
+            QString month;
+            QString day;
+            getYMD(date, year, month, day);
+        }
+    }
+}
+
+void SettleDialog::loadGoodsDate()
+{
+    for (int i = 0; i < names.size(); ++i)
+    {
+        const QString& m_tables = names[i];
+        if (0 == tableName.indexOf("GOODS_20"))
+        {
+            QString date = tableName.right(8);
+            QString year;
+            QString month;
+            QString day;
+            getYMD(date, year, month, day);
+        }
+    }
+}
+
+void SettleDialog::getYMD(const QString& date, QString& year, QString& month, QString& day)
+{
+
+}
+
 
 void SettleDialog::on_orderSearchButton_clicked()
 {
@@ -246,6 +294,7 @@ void SettleDialog::on_orderSearchButton_clicked()
     {
         Order* order = m_curOrder[i];
         int col = 0;
+        model->setItem(i, col++, new QStandardItem(order->goods_id));
         model->setItem(i, col++, new QStandardItem(order->id));
         model->setItem(i, col++, new QStandardItem(order->title));
         model->setItem(i, col++, new QStandardItem(order->price));
@@ -253,7 +302,7 @@ void SettleDialog::on_orderSearchButton_clicked()
         model->setItem(i, col++, new QStandardItem(order->user_remark));
         model->setItem(i, col++, new QStandardItem(order->sell_remark));
         model->setItem(i, col++, new QStandardItem(order->user_name));
-        model->setItem(i, col++, new QStandardItem(order->goods_id));
+        order->date = date;
     }
 }
 
@@ -282,11 +331,12 @@ void SettleDialog::on_goodsSearchButton_clicked()
     {
         Goods* goods = m_curGoods[i];
         int col = 0;
-        model->setItem(i, col++, new QStandardItem(goods->settled));
+        model->setItem(i, col++, new QStandardItem(goods->settled ? "是" : "否"));
         model->setItem(i, col++, new QStandardItem(goods->id));
         model->setItem(i, col++, new QStandardItem(goods->name));
         model->setItem(i, col++, new QStandardItem(goods->price));
         model->setItem(i, col++, new QStandardItem(goods->attribute));
         model->setItem(i, col++, new QStandardItem(goods->count));
+        goods->date = date;
     }
 }
