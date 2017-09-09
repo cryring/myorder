@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ShopManageDialog</class>
- <widget class="QDialog" name="ShopManageDialog">
+ <class>ViewGoodsDialog</class>
+ <widget class="QDialog" name="ViewGoodsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>353</height>
+    <width>541</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>331</width>
-     <height>331</height>
+     <x>11</x>
+     <y>12</y>
+     <width>521</width>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>名称</string>
-        </property>
-       </widget>
+       <widget class="QComboBox" name="yearBox"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="nameEdit"/>
+       <widget class="QComboBox" name="monthBox"/>
       </item>
       <item>
-       <widget class="QPushButton" name="saveButton">
+       <widget class="QComboBox" name="dayBox"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="queryGoodsButton">
         <property name="text">
-         <string>添加</string>
+         <string>查询货品</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="QTableView" name="shopView"/>
+     <widget class="QTableView" name="goodsView"/>
     </item>
    </layout>
   </widget>

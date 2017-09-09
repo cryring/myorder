@@ -6,95 +6,94 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>433</height>
+    <width>610</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="importOrderButton">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>101</width>
-     <height>24</height>
+     <x>430</x>
+     <y>440</y>
+     <width>168</width>
+     <height>29</height>
     </rect>
    </property>
-   <property name="text">
-    <string>导入订单</string>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QPushButton" name="createOrderButton">
+      <property name="text">
+       <string>生成订单</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="saveButton">
+      <property name="text">
+       <string>保存</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QPushButton" name="importOrderDetailButton">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>60</y>
-     <width>101</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>导入订单详情</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="createOrderButton">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>90</y>
-     <width>101</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>生成订单</string>
-   </property>
-  </widget>
-  <widget class="QTableView" name="orderView">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
+     <y>10</y>
      <width>591</width>
-     <height>281</height>
+     <height>421</height>
     </rect>
    </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="importOrderButton">
+          <property name="text">
+           <string>导入订单</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="importOrderDetailButton">
+          <property name="text">
+           <string>导入订单详情</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLineEdit" name="orderFileEdit"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="orderDetailFileEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTableView" name="orderView"/>
+    </item>
+   </layout>
   </widget>
-  <widget class="QLineEdit" name="orderFileEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>30</y>
-     <width>441</width>
-     <height>24</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="orderDetailFileEdit">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>60</y>
-     <width>441</width>
-     <height>24</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="saveButton">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>90</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>保存</string>
-   </property>
-  </widget>
+  <zorder>importOrderButton</zorder>
+  <zorder>importOrderDetailButton</zorder>
+  <zorder>createOrderButton</zorder>
+  <zorder>orderView</zorder>
+  <zorder>orderFileEdit</zorder>
+  <zorder>orderDetailFileEdit</zorder>
+  <zorder>saveButton</zorder>
+  <zorder>saveButton</zorder>
  </widget>
  <resources/>
  <connections/>

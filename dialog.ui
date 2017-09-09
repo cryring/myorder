@@ -6,77 +6,52 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>208</width>
-    <height>150</height>
+    <width>103</width>
+    <height>183</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="invoiceManageButton">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
-     <width>80</width>
-     <height>24</height>
+     <width>82</width>
+     <height>161</height>
     </rect>
    </property>
-   <property name="text">
-    <string>小票管理</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="orderManageButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>订单管理</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="settleButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>110</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>结算</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="goodsNameManageButton">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>10</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商品管理</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="shopManageButton">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>60</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商场管理</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="invoiceManageButton">
+      <property name="text">
+       <string>小票管理</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="orderManageButton">
+      <property name="text">
+       <string>订单管理</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="goodsNameManageButton">
+      <property name="text">
+       <string>商品管理</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="shopManageButton">
+      <property name="text">
+       <string>商场管理</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

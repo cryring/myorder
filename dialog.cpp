@@ -1,10 +1,9 @@
 #include "dialog.h"
 #include "ui_dialog.h"
-#include "invoicemanagedialog.h"
+#include "goodsmanagedialog.h"
 #include "ordermanagedialog.h"
 #include "shopmanagedialog.h"
 #include "goodsnamemanagedialog.h"
-#include "settledialog.h"
 
 Dialog::Dialog(QWidget* parent) :
     QDialog(parent),
@@ -22,19 +21,13 @@ Dialog::~Dialog()
 
 void Dialog::on_invoiceManageButton_clicked()
 {
-    InvoiceManageDialog dlg;
+    GoodsManageDialog dlg;
     dlg.exec();
 }
 
 void Dialog::on_orderManageButton_clicked()
 {
     OrderManageDialog dlg;
-    dlg.exec();
-}
-
-void Dialog::on_settleButton_clicked()
-{
-    SettleDialog dlg;
     dlg.exec();
 }
 

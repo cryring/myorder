@@ -1,7 +1,7 @@
 #include "ordermanagedialog.h"
 #include "ui_ordermanagedialog.h"
 #include "orderimportdialog.h"
-#include "vieworderdialog.h"
+#include "settledialog.h"
 
 OrderManageDialog::OrderManageDialog(QWidget* parent) :
     QDialog(parent),
@@ -23,6 +23,6 @@ void OrderManageDialog::on_importTBorderButton_clicked()
 
 void OrderManageDialog::on_pushButton_2_clicked()
 {
-    ViewOrderDialog dlg;
+    SettleDialog dlg;
     dlg.exec();
 }

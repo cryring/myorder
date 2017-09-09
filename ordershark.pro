@@ -26,9 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         dialog.cpp \
-    invoicemanagedialog.cpp \
-    newinvoicedialog.cpp \
-    viewinvoicedialog.cpp \
     csvloader.cpp \
     orderdetaillist.cpp \
     taobaoexportorderlist.cpp \
@@ -37,26 +34,23 @@ SOURCES += \
     ordermanagedialog.cpp \
     orderimportdialog.cpp \
     utils.cpp \
-    invoice.cpp \
     orders.cpp \
-    invoices.cpp \
     store.cpp \
     goodsstore.cpp \
     commonstore.cpp \
     goodsnamestore.cpp \
-    vieworderdialog.cpp \
     shopnamestore.cpp \
     shopmanagedialog.cpp \
     goodsnamemanagedialog.cpp \
     settledialog.cpp \
     profitstore.cpp \
-    dboperation.cpp
+    dboperation.cpp \
+    viewgoodsdialog.cpp \
+    goodsmanagedialog.cpp \
+    goodsimportdialog.cpp
 
 HEADERS += \
         dialog.h \
-    invoicemanagedialog.h \
-    newinvoicedialog.h \
-    viewinvoicedialog.h \
     csvloader.h \
     orderdefine.h \
     orderdetaillist.h \
@@ -68,35 +62,34 @@ HEADERS += \
     orderimportdialog.h \
     singleton.h \
     utils.h \
-    invoice.h \
     commondefine.h \
     initdb.h \
     orders.h \
-    invoices.h \
     store.h \
     goodsstore.h \
     goodsdefine.h \
     commonstore.h \
     goodsnamestore.h \
-    vieworderdialog.h \
     shopnamestore.h \
     shopmanagedialog.h \
     goodsnamemanagedialog.h \
     settledialog.h \
     profitstore.h \
-    dboperation.h
+    dboperation.h \
+    viewgoodsdialog.h \
+    goodsmanagedialog.h \
+    goodsimportdialog.h
 
 FORMS += \
         dialog.ui \
-    invoicemanagedialog.ui \
-    newinvoicedialog.ui \
-    viewinvoicedialog.ui \
     ordermanagedialog.ui \
     orderimportdialog.ui \
-    vieworderdialog.ui \
     shopmanagedialog.ui \
     goodsnamemanagedialog.ui \
-    settledialog.ui
+    settledialog.ui \
+    viewgoodsdialog.ui \
+    goodsimportdialog.ui \
+    goodsmanagedialog.ui
 
 RESOURCES += \
     res/rc.qrc

@@ -6,19 +6,19 @@
 
 namespace Ui
 {
-class NewInvoiceDialog;
+class GoodsImportDialog;
 }
 
 struct GoodsAttribute;
 
-class NewInvoiceDialog : public QDialog
+class GoodsImportDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit NewInvoiceDialog(QWidget* parent = 0);
+    explicit GoodsImportDialog(QWidget* parent = 0);
 
-    ~NewInvoiceDialog();
+    ~GoodsImportDialog();
 
 private slots:
     void on_saveGoodsButton_clicked();
@@ -39,7 +39,7 @@ private:
     float calcTotalPrice(float paperTotalPrice);
 
 private:
-    Ui::NewInvoiceDialog* ui;
+    Ui::GoodsImportDialog* ui;
 
     QVector<GoodsAttribute*> m_goodsAttribute;
 };

@@ -1,23 +1,23 @@
 #include <QDebug>
 #include <QStandardItemModel>
 #include <QMessageBox>
-#include "newinvoicedialog.h"
-#include "ui_newinvoicedialog.h"
+#include "goodsimportdialog.h"
+#include "ui_goodsimportdialog.h"
 #include "goodsdefine.h"
 #include "shopnamestore.h"
 #include "goodsnamestore.h"
 #include "store.h"
 
-NewInvoiceDialog::NewInvoiceDialog(QWidget* parent) :
+GoodsImportDialog::GoodsImportDialog(QWidget* parent) :
     QDialog(parent),
-    ui(new Ui::NewInvoiceDialog)
+    ui(new Ui::GoodsImportDialog)
 {
     ui->setupUi(this);
 
     init();
 }
 
-NewInvoiceDialog::~NewInvoiceDialog()
+GoodsImportDialog::~GoodsImportDialog()
 {
     delete ui;
 
@@ -29,7 +29,7 @@ NewInvoiceDialog::~NewInvoiceDialog()
     m_goodsAttribute.clear();
 }
 
-void NewInvoiceDialog::on_saveGoodsButton_clicked()
+void GoodsImportDialog::on_saveGoodsButton_clicked()
 {
     QString count = ui->goodsCountEdit->text();
     if ("" == count)
@@ -40,13 +40,6 @@ void NewInvoiceDialog::on_saveGoodsButton_clicked()
 
     QString price = ui->goodsPriceEdit->text();
     if ("" == price)
-    {
-        // TODO: Message Box
-        return;
-    }
-
-    QString id = ui->idEdit->text();
-    if ("" == id)
     {
         // TODO: Message Box
         return;
@@ -83,7 +76,7 @@ void NewInvoiceDialog::on_saveGoodsButton_clicked()
     m_goodsAttribute.append(goodsAttr);
 }
 
-void NewInvoiceDialog::on_delGoodsButton_clicked()
+void GoodsImportDialog::on_delGoodsButton_clicked()
 {
     int row = ui->invoiceView->currentIndex().row();
     if (0 <= row && m_goodsAttribute.size() > row)
@@ -92,12 +85,12 @@ void NewInvoiceDialog::on_delGoodsButton_clicked()
     }
 }
 
-void NewInvoiceDialog::on_shopNameBox_activated(const QString& name)
+void GoodsImportDialog::on_shopNameBox_activated(const QString& name)
 {
     qDebug() << "Combo:" << name;
 }
 
-void NewInvoiceDialog::on_saveButton_clicked()
+void GoodsImportDialog::on_saveButton_clicked()
 {
     float paperTotalPrice = 0;
     for (int i = 0; i < m_goodsAttribute.size(); ++i)
@@ -111,13 +104,11 @@ void NewInvoiceDialog::on_saveButton_clicked()
         QMessageBox::warning(this, tr("OrderShark"), tr("Error Total Price"));
         return;
     }
-    QString invoiceId = ui->idEdit->text();
     QString shopName = ui->shopNameBox->currentText();
     QString date = ui->dateEdit->date().toString("yyyyMMdd");
     for (int i = 0; i < m_goodsAttribute.size(); ++i)
     {
         Goods goods;
-        goods.invoiceId = invoiceId;
         goods.shopName = shopName;
         goods.name = m_goodsAttribute[i]->name;
         goods.price = QString::number(m_goodsAttribute[i]->price.toFloat() / paperTotalPrice * totalPrice);
@@ -127,7 +118,7 @@ void NewInvoiceDialog::on_saveButton_clicked()
     }
 }
 
-void NewInvoiceDialog::init()
+void GoodsImportDialog::init()
 {
     const QVector<QString>& shopNames = ShopNameStore::instance()->getNames();
     for (int i = 0; i < shopNames.size(); ++i)
@@ -150,10 +141,6 @@ void NewInvoiceDialog::init()
         }
     }
 
-    ui->currencyBox->addItem("美元");
-    ui->currencyBox->addItem("韩元");
-    ui->currencyBox->addItem("人民币");
-
     QStandardItemModel* model = new QStandardItemModel(0, 4);
     ui->invoiceView->setModel(model);
     int col = 0;
@@ -163,7 +150,7 @@ void NewInvoiceDialog::init()
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
 }
 
-float NewInvoiceDialog::calcTotalPrice(float paperTotalPrice)
+float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
 {
     if (0 == paperTotalPrice)
     {
@@ -209,12 +196,12 @@ float NewInvoiceDialog::calcTotalPrice(float paperTotalPrice)
 }
 
 
-void NewInvoiceDialog::on_invoiceView_activated(const QModelIndex& index)
+void GoodsImportDialog::on_invoiceView_activated(const QModelIndex& index)
 {
     qDebug() << "View actived" << index.row();
 }
 
-void NewInvoiceDialog::on_brandComboBox_activated(const QString& brand)
+void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
 {
     ui->savedGoodsNameBox->clear();
     const GNMAP& goodsNames = GoodsNameStore::instance()->getNames();

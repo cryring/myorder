@@ -5,16 +5,16 @@
 
 namespace Ui
 {
-class InvoiceManageDialog;
+class GoodsManageDialog;
 }
 
-class InvoiceManageDialog : public QDialog
+class GoodsManageDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit InvoiceManageDialog(QWidget* parent = 0);
-    ~InvoiceManageDialog();
+    explicit GoodsManageDialog(QWidget* parent = 0);
+    ~GoodsManageDialog();
 
 private slots:
     void on_newInvoiceButton_clicked();
@@ -22,7 +22,7 @@ private slots:
     void on_viewInvoiceButton_clicked();
 
 private:
-    Ui::InvoiceManageDialog* ui;
+    Ui::GoodsManageDialog* ui;
 };
 
 #endif // INVOICEMANAGEDIALOG_H
