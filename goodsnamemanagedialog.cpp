@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QStandardItemModel>
 #include "goodsnamemanagedialog.h"
 #include "ui_goodsnamemanagedialog.h"
@@ -45,6 +46,25 @@ void GoodsNameManageDialog::on_saveButton_clicked()
     model->setItem(row, col++, new QStandardItem(name));
 }
 
+void GoodsNameManageDialog::on_delButton_clicked()
+{
+    QAbstractItemModel* model = ui->goodsView->model();
+    int row = ui->goodsView->currentIndex().row();
+    if (0 > row || row >= model->rowCount())
+    {
+        qDebug() << "error order row";
+        return;
+    }
+
+    QString brand = model->index(row,0).data().toString();
+    QString name = model->index(row,1).data().toString();
+
+    if (false != GoodsNameStore::instance()->remove(brand, name))
+    {
+        model->removeRow(row);
+    }
+}
+
 void GoodsNameManageDialog::init()
 {
     QStandardItemModel* model = new QStandardItemModel(0, 2);
@@ -59,13 +79,14 @@ void GoodsNameManageDialog::init()
     GNMAP::const_iterator it = goodsNames.begin();
     for (; it != goodsNames.end(); ++it)
     {
-        const QString& brand = it.key();
-        const QVector<QString>& names = it.value();
-        for (int i = 0; i < names.size(); ++i)
+        auto brand = it.key();
+        auto names = it.value();
+        auto it = names.begin();
+        for (; it != names.end(); it++)
         {
             int col = 0;
             model->setItem(row, col++, new QStandardItem(brand));
-            model->setItem(row, col++, new QStandardItem(names[i]));
+            model->setItem(row, col++, new QStandardItem(*it));
             row++;
         }
     }

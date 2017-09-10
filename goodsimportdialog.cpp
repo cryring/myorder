@@ -109,6 +109,7 @@ void GoodsImportDialog::on_saveButton_clicked()
     for (int i = 0; i < m_goodsAttribute.size(); ++i)
     {
         Goods goods;
+        goods.date = date;
         goods.shopName = shopName;
         goods.name = m_goodsAttribute[i]->name;
         goods.price = QString::number(m_goodsAttribute[i]->price.toFloat() / paperTotalPrice * totalPrice);
@@ -133,10 +134,11 @@ void GoodsImportDialog::init()
         ui->brandComboBox->addItem(it.key());
         if (0 == ui->savedGoodsNameBox->count())
         {
-            const QVector<QString>& brandGoodsNames = it.value();
-            for (int i = 0; i < brandGoodsNames.size(); ++i)
+            auto brandGoodsNames = it.value();
+            auto it = brandGoodsNames.begin();
+            for (; it != brandGoodsNames.end(); it++)
             {
-                ui->savedGoodsNameBox->addItem(brandGoodsNames[i]);
+                ui->savedGoodsNameBox->addItem(*it);
             }
         }
     }
@@ -157,48 +159,46 @@ float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
         return -1;
     }
 
-    QString payPrice = ui->payPriceEdit->text();
-    QString feeRate = ui->feeRateEdit->text();
-    QString disCount = ui->disCountEdit->text();
-    QString exchangeRate = ui->exchangeRateEdit->text();
-    QString coupon = ui->couponEdit->text();
-    QString couponDiscount = ui->couponDiscountEdit->text();
-    QString rebate = ui->rebateEdit->text();
-    QString taxFree = ui->taxFreeEdit->text();
-
-    if (payPrice.isEmpty() ||
-        feeRate.isEmpty() ||
-        exchangeRate.isEmpty() ||
-        coupon.isEmpty() ||
-        couponDiscount.isEmpty() ||
-        rebate.isEmpty() ||
-        taxFree.isEmpty())
+    if (false == checkNeededInput())
     {
         return -1;
     }
 
-    float fPayPrice = payPrice.toFloat();
-    float fFeeRate = feeRate.toFloat();
-    float fDiscount = disCount.toFloat();
-    float fExchangeRate = exchangeRate.toFloat();
-    float fCoupon = coupon.toFloat();
-    float fCouponDiscount = couponDiscount.toFloat();
-    float fRebate = rebate.toFloat();
-    float fTaxFree = taxFree.toFloat();
+    float fPayPrice = m_payPrice.toFloat();
+    float fExchangeRate = m_exchangeRate.toFloat();
+    float fCoupon = m_coupon.toFloat();
+    float fCouponDiscount = m_couponDiscount.toFloat();
+    float fRebate = m_rebate.toFloat();
+    float fTaxFree = m_taxFree.toFloat();
 
-    float p0 = paperTotalPrice * fRebate;
-    float p1 = paperTotalPrice * fTaxFree;
-    float p2 = fPayPrice * fDiscount * (1 + fFeeRate);
-    float p3 = fCoupon * fCouponDiscount;
-    float p4 = (p2 + p3) - (p0 + p1);
-    float p5 = p4 * fExchangeRate;
-    return p5;
+    float p0 = fCoupon + paperTotalPrice;
+    float p1 = p0 * (fRebate/100);
+    float p2 = p0 * (fRebate/100);
+    float p3 = fCoupon * ((100-fCouponDiscount)/100);
+    float finish = p0 - p1 - p2 - p3;
+    return finish / fExchangeRate;
 }
 
-
-void GoodsImportDialog::on_invoiceView_activated(const QModelIndex& index)
+bool GoodsImportDialog::checkNeededInput()
 {
-    qDebug() << "View actived" << index.row();
+    m_payPrice = ui->payPriceEdit->text();
+    m_exchangeRate = ui->exchangeRateEdit->text();
+    m_coupon = ui->couponEdit->text();
+    m_couponDiscount = ui->couponDiscountEdit->text();
+    m_rebate = ui->rebateEdit->text();
+    m_taxFree = ui->taxFreeEdit->text();
+
+    if (m_payPrice.isEmpty() ||
+        m_exchangeRate.isEmpty() ||
+        m_coupon.isEmpty() ||
+        m_couponDiscount.isEmpty() ||
+        m_rebate.isEmpty() ||
+        m_taxFree.isEmpty())
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
@@ -207,10 +207,11 @@ void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
     const GNMAP& goodsNames = GoodsNameStore::instance()->getNames();
     if (goodsNames.contains(brand))
     {
-        const QVector<QString>& names = goodsNames[brand];
-        for (int i = 0; i < names.size(); ++i)
+        auto names = goodsNames[brand];
+        auto it = names.begin();
+        for (; it != names.end(); it++)
         {
-            ui->savedGoodsNameBox->addItem(names[i]);
+            ui->savedGoodsNameBox->addItem(*it);
         }
     }
 }

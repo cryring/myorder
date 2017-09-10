@@ -32,43 +32,31 @@ private slots:
 
     void on_orderSearchButton_clicked();
 
-//    void on_goodsSearchButton_clicked();
+    void on_orderView_doubleClicked(const QModelIndex &index);
 
 private:
     void init();
 
     void clearOrder(void);
 
-//    void clearGoods(void);
-
     void loadOrderDate(void);
 
-//    void loadGoodsDate(void);
-
     void insertOrderDate(const QString& date);
-
-//    void insertGoodsDate(const QString& date);
 
     void fillOrderMonthBox(const QString& year);
 
     void fillOrderDayBox(const QString& month);
 
-//    void fillGoodsMonthBox(const QString& year);
-
-//    void fillGoodsDayBox(const QString& month);
+    Goods *getGoods(void);
 
 private:
     Ui::SettleDialog* ui;
-
-//    QVector<Goods*> m_curGoods;
 
     QVector<Order*> m_curOrder;
 
     QStringList m_tables;
 
     QMap<QString, QMap<QString, QStringList> > m_orderDate;
-
-//    QMap<QString, QMap<QString, QStringList> > m_goodsDate;
 };
 
 #endif // SETTLEDIALOG_H

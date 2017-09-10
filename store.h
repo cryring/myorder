@@ -27,7 +27,7 @@ public:
 
     bool orderAttachGoods(Order* order, Goods* goods);
 
-    bool orderDetachGoods(Order* order, Goods* goods);
+    bool orderDetachGoods(Order* order, const QString& goods_id);
 
     void getOrderByDate(const QString& date, QVector<Order*>& orders);
 

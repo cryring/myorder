@@ -14,10 +14,23 @@ struct GoodsAttribute
 struct Goods : public GoodsAttribute
 {
     QString id;
-    QString invoiceId;
     QString shopName;
     QString date;
     int settled;
+
+    Goods* clone()
+    {
+        Goods* g = new Goods();
+        g->name = name;
+        g->price = price;
+        g->attribute = attribute;
+        g->count = count;
+        g->id = id;
+        g->shopName = shopName;
+        g->date = date;
+        g->settled = settled;
+        return g;
+    }
 };
 
 #endif // INVOICEDEFINE_H

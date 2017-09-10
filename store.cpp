@@ -66,7 +66,7 @@ bool Store::orderAttachGoods(Order* order, Goods* goods)
             break;
         }
 
-        if (false == m_goodsStore->updateSettle(goods, true))
+        if (false == m_goodsStore->updateSettle(goods->id, true))
         {
             m_orderStore->detachGoods(order);
             break;
@@ -85,9 +85,9 @@ bool Store::orderAttachGoods(Order* order, Goods* goods)
     return ret;
 }
 
-bool Store::orderDetachGoods(Order* order, Goods* goods)
+bool Store::orderDetachGoods(Order* order, const QString& goods_id)
 {
-    if (NULL == order || NULL == goods)
+    if (NULL == order || goods_id.isEmpty())
     {
         return false;
     }
@@ -97,7 +97,7 @@ bool Store::orderDetachGoods(Order* order, Goods* goods)
         return false;
     }
 
-    if (false == m_goodsStore->updateSettle(goods, false))
+    if (false == m_goodsStore->updateSettle(goods_id, false))
     {
         m_orderStore->attachGoods(order);
         return false;

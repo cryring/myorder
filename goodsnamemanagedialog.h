@@ -19,6 +19,8 @@ public:
 private slots:
     void on_saveButton_clicked();
 
+    void on_delButton_clicked();
+
 private:
     void init(void);
 

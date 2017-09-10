@@ -6,7 +6,9 @@
 #include "goodsdefine.h"
 #include "dboperation.h"
 
-ViewGoodsDialog::ViewGoodsDialog(QWidget* parent) :
+ViewGoodsDialog::ViewGoodsDialog(int mode, QWidget* parent) :
+    m_mode(mode),
+    m_selectRow(-1),
     QDialog(parent),
     ui(new Ui::ViewGoodsDialog)
 {
@@ -19,6 +21,15 @@ ViewGoodsDialog::~ViewGoodsDialog()
 {
     clearGoods();
     delete ui;
+}
+
+Goods *ViewGoodsDialog::selectGoods()
+{
+    if (m_selectRow >= 0 && m_selectRow < m_curGoods.size())
+    {
+        return m_curGoods[m_selectRow]->clone();
+    }
+    return NULL;
 }
 
 void ViewGoodsDialog::on_queryGoodsButton_clicked()
@@ -66,6 +77,9 @@ void ViewGoodsDialog::init()
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("价格"));
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("属性"));
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("数量"));
+
+    ui->goodsView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->goodsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     m_tables = DBOperation::getAllTableName();
     loadGoodsDate();
@@ -150,5 +164,30 @@ void ViewGoodsDialog::fillGoodsDayBox(const QString& month)
     for (int i = 0; i < days.size(); i++)
     {
         ui->dayBox->addItem(days[i]);
+    }
+}
+
+void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
+{
+    if (m_mode == MODE_NORMAL)
+    {
+        return;
+    }
+
+    if (m_mode == MODE_SETTLE)
+    {
+        m_selectRow = index.row();
+        if (m_selectRow >= 0 && m_selectRow < m_curGoods.size())
+        {
+            if (m_curGoods[m_selectRow]->settled)
+            {
+                // TODO: MessageBox
+                m_selectRow = -1;
+            }
+            else
+            {
+                accept();
+            }
+        }
     }
 }

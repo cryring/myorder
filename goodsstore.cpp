@@ -5,7 +5,6 @@
 
 static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
                                 "ID VARCHAR PRIMARY KEY NOT NULL," \
-                                "INVOICEID VARCHAR NOT NULL," \
                                 "SHOPNAME VARCHAR NOT NULL," \
                                 "NAME VARCHAR NOT NULL," \
                                 "PRICE VARCHAR NOT NULL," \
@@ -14,7 +13,8 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
                                 "SETTLED INT NOT NULL)";
 
 static const char* kSelectByDateSQL = "SELECT * FROM GOODS_%1";
-static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,INVOICEID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?,?)";
+static const char* kSelectByID = "SELECT * FROM GOODS_%1 WHERE ID=?";
+static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?)";
 static const char* kUpdateSQL = "UPDATE GOODS_%1 SET SETTLED=? WHERE ID=?";
 
 GoodsStore::GoodsStore()
@@ -52,8 +52,7 @@ bool GoodsStore::insert(const QString& date, Goods* goods)
 
     QString insertSql = QString(kInsertSQL).arg(date);
     query.prepare(insertSql);
-    query.addBindValue(QUuid::createUuid().toString());
-    query.addBindValue(goods->invoiceId);
+    query.addBindValue(date+QUuid::createUuid().toString());
     query.addBindValue(goods->shopName);
     query.addBindValue(goods->name);
     query.addBindValue(goods->price);
@@ -93,7 +92,6 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
     {
         Goods* goods = new Goods();
         goods->id = query.value(idNo).toString();
-        goods->invoiceId = query.value(iidNo).toString();
         goods->shopName = query.value(shopnameNo).toString();
         goods->name = query.value(nameNo).toString();
         goods->price = query.value(priceNo).toString();
@@ -104,18 +102,54 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
     }
 }
 
-bool GoodsStore::updateSettle(Goods* goods, bool settled)
+Goods* GoodsStore::selectGoodsByID(const QString &goods_id)
 {
-    if (NULL == m_db || NULL == goods)
+    auto date = goods_id.left(8);
+    QString sql = QString(kSelectByID).arg(date);
+    QSqlQuery query;
+    query.prepare(sql);
+    if (false == query.exec())
+    {
+        qDebug() << query.lastError();
+        return NULL;
+    }
+
+    int idNo = query.record().indexOf("ID");
+    int iidNo = query.record().indexOf("INVOICEID");
+    int shopnameNo = query.record().indexOf("SHOPNAME");
+    int nameNo = query.record().indexOf("NAME");
+    int priceNo = query.record().indexOf("PRICE");
+    int attrNo = query.record().indexOf("ATTRIBUTE");
+    int cntNo = query.record().indexOf("COUNT");
+    int settledNo = query.record().indexOf("SETTLED");
+    if (query.next())
+    {
+        Goods* goods = new Goods();
+        goods->id = query.value(idNo).toString();
+        goods->shopName = query.value(shopnameNo).toString();
+        goods->name = query.value(nameNo).toString();
+        goods->price = query.value(priceNo).toString();
+        goods->attribute = query.value(attrNo).toString();
+        goods->count = query.value(cntNo).toString();
+        goods->settled = query.value(settledNo).toInt() ? true : false;
+        return goods;
+    }
+    return NULL;
+}
+
+bool GoodsStore::updateSettle(const QString& goods_id, bool settled)
+{
+    if (NULL == m_db || goods_id.isEmpty())
     {
         return false;
     }
 
-    QString updateSql = QString(kUpdateSQL).arg(goods->date);
+    auto date = goods_id.left(8);
+    QString updateSql = QString(kUpdateSQL).arg(date);
     QSqlQuery query;
     query.prepare(updateSql);
     query.addBindValue(settled ? 1 : 0);
-    query.addBindValue(goods->id);
+    query.addBindValue(goods_id);
     if (false == query.exec())
     {
         qDebug() << query.lastError();

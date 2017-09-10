@@ -10,6 +10,8 @@ static const char* kGetAllSQL = "SELECT * from GOODSNAMES";
 
 static const char* kInsertSQL = "INSERT INTO GOODSNAMES(BRAND,NAME) VALUES(?,?)";
 
+static const char* kDeleteSQL = "DELETE FROM GOODSNAMES WHERE BRAND=? and NAME =?";
+
 GoodsNameStore::GoodsNameStore()
 {
 
@@ -38,7 +40,7 @@ bool GoodsNameStore::init(QSqlDatabase* db)
     {
         QString brand = query.value(brandNo).toString();
         QString name = query.value(nameNo).toString();
-        m_names[brand].append(name);
+        m_names[brand].insert(name);
     }
 
     return true;
@@ -46,6 +48,15 @@ bool GoodsNameStore::init(QSqlDatabase* db)
 
 bool GoodsNameStore::insert(const QString& brand, const QString& name)
 {
+    if (m_names.contains(brand))
+    {
+        auto names = m_names[brand];
+        if (names.contains(name))
+        {
+            return false;
+        }
+    }
+
     QSqlQuery query;
     query.prepare(kInsertSQL);
     query.addBindValue(brand);
@@ -56,7 +67,27 @@ bool GoodsNameStore::insert(const QString& brand, const QString& name)
         return false;
     }
 
-    m_names[brand].append(name);
+    m_names[brand].insert(name);
+
+    return true;
+}
+
+bool GoodsNameStore::remove(const QString& brand, const QString& name)
+{
+    QSqlQuery query;
+    query.prepare(kDeleteSQL);
+    query.addBindValue(brand);
+    query.addBindValue(name);
+    if (false == query.exec())
+    {
+        qDebug() << query.lastError();
+        return false;
+    }
+
+    if (m_names.contains(brand))
+    {
+        m_names[brand].remove(name);
+    }
 
     return true;
 }

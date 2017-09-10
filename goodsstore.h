@@ -20,7 +20,9 @@ public:
 
     void select(const QString& date, QVector<Goods*>& goodss);
 
-    bool updateSettle(Goods* goods, bool settled);
+    Goods* selectGoodsByID(const QString& goods_id);
+
+    bool updateSettle(const QString& goods_id, bool settled);
 
 private:
     QSqlDatabase* m_db;

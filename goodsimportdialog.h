@@ -29,19 +29,26 @@ private slots:
 
     void on_saveButton_clicked();
 
-    void on_invoiceView_activated(const QModelIndex& index);
-
     void on_brandComboBox_activated(const QString& brand);
 
 private:
     void init();
 
     float calcTotalPrice(float paperTotalPrice);
+    
+    bool checkNeededInput(void);
 
 private:
     Ui::GoodsImportDialog* ui;
 
     QVector<GoodsAttribute*> m_goodsAttribute;
+
+    QString m_payPrice;
+    QString m_exchangeRate;
+    QString m_coupon;
+    QString m_couponDiscount;
+    QString m_rebate;
+    QString m_taxFree;
 };
 
 #endif // NEWINVOICEDIALOG_H

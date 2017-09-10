@@ -13,164 +13,144 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>495</width>
+     <x>12</x>
+     <y>11</y>
+     <width>491</width>
      <height>571</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_6">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>日期</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDateEdit" name="dateEdit">
-            <property name="wrapping">
-             <bool>false</bool>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::UpDownArrows</enum>
-            </property>
-            <property name="accelerated">
-             <bool>false</bool>
-            </property>
-            <property name="dateTime">
-             <datetime>
-              <hour>0</hour>
-              <minute>0</minute>
-              <second>0</second>
-              <year>2000</year>
-              <month>1</month>
-              <day>1</day>
-             </datetime>
-            </property>
-            <property name="displayFormat">
-             <string>yyyy/M/d</string>
-            </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>日期</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>商场名</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="shopNameBox">
-            <property name="editable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>品牌</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>金额</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>品牌</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="brandComboBox"/>
-          </item>
-         </layout>
+         <widget class="QDateEdit" name="dateEdit">
+          <property name="wrapping">
+           <bool>false</bool>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::UpDownArrows</enum>
+          </property>
+          <property name="accelerated">
+           <bool>false</bool>
+          </property>
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2000</year>
+            <month>1</month>
+            <day>1</day>
+           </datetime>
+          </property>
+          <property name="displayFormat">
+           <string>yyyy/M/d</string>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;商品名&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="savedGoodsNameBox">
-            <property name="editable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QComboBox" name="brandComboBox"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="goodsPriceEdit"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>金额</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="goodsPriceEdit"/>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>商场名</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>数量</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="goodsCountEdit"/>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;商品名&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>属性</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="attributeEdit"/>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>数量</string>
+          </property>
+         </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <widget class="QComboBox" name="shopNameBox">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="savedGoodsNameBox">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="goodsCountEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>属性</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="attributeEdit"/>
       </item>
      </layout>
     </item>
@@ -185,13 +165,6 @@
          <widget class="QLabel" name="label_5">
           <property name="text">
            <string>当日汇率</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>购买折扣</string>
           </property>
          </widget>
         </item>
@@ -217,9 +190,6 @@
          <widget class="QLineEdit" name="exchangeRateEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="disCountEdit"/>
-        </item>
-        <item>
          <widget class="QLineEdit" name="couponEdit"/>
         </item>
         <item>
@@ -233,13 +203,6 @@
          <widget class="QLabel" name="label_15">
           <property name="text">
            <string>支付金额</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_17">
-          <property name="text">
-           <string>手续费比例</string>
           </property>
          </widget>
         </item>
@@ -265,9 +228,6 @@
          <widget class="QLineEdit" name="payPriceEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="feeRateEdit"/>
-        </item>
-        <item>
          <widget class="QLineEdit" name="couponDiscountEdit"/>
         </item>
         <item>
@@ -280,6 +240,13 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
+       <widget class="QPushButton" name="delGoodsButton">
+        <property name="text">
+         <string>删除商品</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="saveGoodsButton">
         <property name="text">
          <string>添加商品</string>
@@ -287,9 +254,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="delGoodsButton">
+       <widget class="QPushButton" name="saveButton">
         <property name="text">
-         <string>删除商品</string>
+         <string>保存退出</string>
         </property>
        </widget>
       </item>

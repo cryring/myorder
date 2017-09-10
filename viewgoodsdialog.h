@@ -15,11 +15,23 @@ class ViewGoodsDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ViewGoodsDialog(QWidget *parent = 0);
+    enum
+    {
+        MODE_NORMAL,
+        MODE_SETTLE,
+    };
+
+public:
+    explicit ViewGoodsDialog(int mode = MODE_NORMAL, QWidget *parent = 0);
+
     ~ViewGoodsDialog();
+
+    Goods* selectGoods(void);
 
 private slots:
     void on_queryGoodsButton_clicked();
+
+    void on_goodsView_doubleClicked(const QModelIndex &index);
 
 private:
     void init(void);
@@ -36,6 +48,10 @@ private:
 
 private:
     Ui::ViewGoodsDialog *ui;
+
+    int m_mode;
+
+    int m_selectRow;
 
     QVector<Goods*> m_curGoods;
 
