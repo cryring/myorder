@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include "goodsnamemanagedialog.h"
 #include "ui_goodsnamemanagedialog.h"
 #include "goodsnamestore.h"
@@ -37,6 +38,7 @@ void GoodsNameManageDialog::on_saveButton_clicked()
     if (NULL == model)
     {
         // TODO: Message Box
+        QMessageBox::warning(this, tr("order"), tr("wtf, the view model is null."));
         return;
     }
 
@@ -53,6 +55,7 @@ void GoodsNameManageDialog::on_delButton_clicked()
     if (0 > row || row >= model->rowCount())
     {
         qDebug() << "error order row";
+        QMessageBox::warning(this, tr("order"), tr("please select one goods."));
         return;
     }
 

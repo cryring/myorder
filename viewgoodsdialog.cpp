@@ -1,5 +1,6 @@
 #include <QtDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include "viewgoodsdialog.h"
 #include "ui_viewgoodsdialog.h"
 #include "store.h"
@@ -7,10 +8,10 @@
 #include "dboperation.h"
 
 ViewGoodsDialog::ViewGoodsDialog(int mode, QWidget* parent) :
-    m_mode(mode),
-    m_selectRow(-1),
     QDialog(parent),
-    ui(new Ui::ViewGoodsDialog)
+    ui(new Ui::ViewGoodsDialog),
+    m_mode(mode),
+    m_selectRow(-1)
 {
     ui->setupUi(this);
 
@@ -182,6 +183,7 @@ void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
             if (m_curGoods[m_selectRow]->settled)
             {
                 // TODO: MessageBox
+                QMessageBox::warning(this, tr("order"), tr("the goods has been settled."));
                 m_selectRow = -1;
             }
             else

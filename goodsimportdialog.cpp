@@ -35,6 +35,7 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     if ("" == count)
     {
         // TODO: Message box
+        QMessageBox::warning(this, tr("order"), tr("please input goods count."));
         return;
     }
 
@@ -42,6 +43,7 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     if ("" == price)
     {
         // TODO: Message Box
+        QMessageBox::warning(this, tr("order"), tr("please input goods price."));
         return;
     }
 
@@ -49,6 +51,7 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     if ("" == attr)
     {
         // TODO: Message Box
+        QMessageBox::warning(this, tr("order"), tr("please input goods attribute."));
         return;
     }
 
@@ -58,6 +61,7 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     if (NULL == model)
     {
         // TODO: Message Box
+        QMessageBox::warning(this, tr("order"), tr("wtf, view model is null."));
         return;
     }
 
@@ -101,7 +105,7 @@ void GoodsImportDialog::on_saveButton_clicked()
     if (totalPrice < 0)
     {
         // QMessageBox
-        QMessageBox::warning(this, tr("OrderShark"), tr("Error Total Price"));
+        QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
         return;
     }
     QString shopName = ui->shopNameBox->currentText();
@@ -164,7 +168,6 @@ float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
         return -1;
     }
 
-    float fPayPrice = m_payPrice.toFloat();
     float fExchangeRate = m_exchangeRate.toFloat();
     float fCoupon = m_coupon.toFloat();
     float fCouponDiscount = m_couponDiscount.toFloat();
@@ -173,7 +176,7 @@ float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
 
     float p0 = fCoupon + paperTotalPrice;
     float p1 = p0 * (fRebate/100);
-    float p2 = p0 * (fRebate/100);
+    float p2 = p0 * (fTaxFree/100);
     float p3 = fCoupon * ((100-fCouponDiscount)/100);
     float finish = p0 - p1 - p2 - p3;
     return finish / fExchangeRate;

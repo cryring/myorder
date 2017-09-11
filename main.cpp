@@ -55,8 +55,8 @@ int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
 
-    // DBDefer dd("/Users/siwen/share/data.db");
-    DBDefer dd("f:\\data.db");
+    DBDefer dd("/Users/siwen/share/data.db");
+    // DBDefer dd("f:\\data.db");
     QSqlDatabase& db = dd.db();
     if (false == CommonStore::instance()->init(&db))
     {

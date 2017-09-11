@@ -80,7 +80,6 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
     }
 
     int idNo = query.record().indexOf("ID");
-    int iidNo = query.record().indexOf("INVOICEID");
     int shopnameNo = query.record().indexOf("SHOPNAME");
     int nameNo = query.record().indexOf("NAME");
     int priceNo = query.record().indexOf("PRICE");
@@ -115,7 +114,6 @@ Goods* GoodsStore::selectGoodsByID(const QString &goods_id)
     }
 
     int idNo = query.record().indexOf("ID");
-    int iidNo = query.record().indexOf("INVOICEID");
     int shopnameNo = query.record().indexOf("SHOPNAME");
     int nameNo = query.record().indexOf("NAME");
     int priceNo = query.record().indexOf("PRICE");

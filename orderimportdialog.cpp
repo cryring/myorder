@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QStandardItemModel>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "orderimportdialog.h"
 #include "ui_orderimportdialog.h"
 #include "csvloader.h"
@@ -53,7 +54,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     if (false == verifyOrderFile(orderFile, orderDetailFile, date))
     {
         // TODO: Message box
-        qDebug() << "Error1";
+        QMessageBox::warning(this, tr("order"), tr("please check your input file, they must has the same date."));
         return;
     }
     m_orderList.setDate(date);
@@ -65,20 +66,20 @@ void OrderImportDialog::on_createOrderButton_clicked()
     if (false == orderLoader.Load(orderFile))
     {
         // TODO: Message box
-        qDebug() << "Error2";
+        QMessageBox::warning(this, tr("order"), tr("load order file failed."));
         return;
     }
     if (false == orderDetailLoader.Load(orderDetailFile))
     {
         // TODO: Message box
-        qDebug() << "Error3";
+        QMessageBox::warning(this, tr("order"), tr("load order detail file failed."));
         return;
     }
 
     if (false == m_orderList.merge(&tbOrderList, &tbOrderDetailList))
     {
         // TODO: Message box
-        qDebug() << "Error4";
+        QMessageBox::warning(this, tr("order"), tr("merge two order file failed."));
         return;
     }
 
@@ -87,7 +88,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     if (ids.empty())
     {
         // TODO:
-        qDebug() << "Error5";
+        QMessageBox::warning(this, tr("order"), tr("get id from order list failed."));
         return;
     }
 
@@ -99,7 +100,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
         if (NULL == details)
         {
             // TODO:
-            qDebug() << "Error6";
+            qDebug() << "get details failed, " << ids[i];
             return;
         }
         QStandardItemModel* model = (QStandardItemModel*)ui->orderView->model();

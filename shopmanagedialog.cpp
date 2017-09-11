@@ -1,4 +1,5 @@
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include "shopmanagedialog.h"
 #include "ui_shopmanagedialog.h"
 #include "shopnamestore.h"
@@ -28,6 +29,7 @@ void ShopManageDialog::on_saveButton_clicked()
         if (NULL == model)
         {
             // TODO: Message Box
+            QMessageBox::warning(this, tr("order"), tr("wtf, the view model is null."));
             return;
         }
 

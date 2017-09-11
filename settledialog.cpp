@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include "settledialog.h"
 #include "ui_settledialog.h"
 #include "store.h"
@@ -32,6 +33,7 @@ void SettleDialog::on_settleButton_clicked()
         if (m_curOrder[i]->goods_id.isEmpty())
         {
             // TODO:
+            QMessageBox::warning(this, tr("order"), tr("not all the order has been settled."));
             return;
         }
 
@@ -65,6 +67,7 @@ void SettleDialog::on_attachButton_clicked()
     if (false == order->goods_id.isEmpty())
     {
         qDebug() << "order has been settled";
+        QMessageBox::warning(this, tr("order"), tr("the order has been settled."));
         return;
     }
     
@@ -107,6 +110,7 @@ void SettleDialog::on_detachButton_clicked()
     if (false == order->goods_id.isEmpty())
     {
         qDebug() << "order has not been settled";
+        QMessageBox::warning(this, tr("order"), tr("the order has not been settled."));
         return;
     }
 

@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string/>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>430</x>
@@ -39,7 +39,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -86,14 +86,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>importOrderButton</zorder>
-  <zorder>importOrderDetailButton</zorder>
-  <zorder>createOrderButton</zorder>
-  <zorder>orderView</zorder>
-  <zorder>orderFileEdit</zorder>
-  <zorder>orderDetailFileEdit</zorder>
-  <zorder>saveButton</zorder>
-  <zorder>saveButton</zorder>
  </widget>
  <resources/>
  <connections/>
