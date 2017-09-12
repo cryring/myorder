@@ -25,6 +25,9 @@ public:
     bool updateSettle(const QString& goods_id, bool settled);
 
 private:
+    QString createID(const QString& date);
+
+private:
     QSqlDatabase* m_db;
 };
 

@@ -33,6 +33,8 @@ public:
 
     void getGoodsByDate(const QString& date, QVector<Goods*>& goodss);
 
+    Goods* getGoodsByID(const QString& id);
+
 private:
     OrderStore* m_orderStore;
 

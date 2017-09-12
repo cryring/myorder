@@ -88,6 +88,8 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
     int urNo = query.record().indexOf("USER_REMARK");
     int srNo = query.record().indexOf("SELL_REMARK");
     int unameNo = query.record().indexOf("USER_NAME");
+    int gidNo = query.record().indexOf("GOODS_ID");
+    int gpNo = query.record().indexOf("GOODS_PRICE");
     orders.reserve(query.record().count());
     while (query.next())
     {
@@ -99,6 +101,8 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
         order->user_remark = query.value(urNo).toString();
         order->sell_remark = query.value(srNo).toString();
         order->user_name = query.value(unameNo).toString();
+        order->goods_id = query.value(gidNo).toString();
+        order->goods_price = query.value(gpNo).toString();
         orders.append(order);
     }
 }

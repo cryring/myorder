@@ -38,6 +38,8 @@ private:
     
     bool checkNeededInput(void);
 
+    QString createID(const QString& date);
+
 private:
     Ui::GoodsImportDialog* ui;
 
@@ -49,6 +51,7 @@ private:
     QString m_couponDiscount;
     QString m_rebate;
     QString m_taxFree;
+
 };
 
 #endif // NEWINVOICEDIALOG_H

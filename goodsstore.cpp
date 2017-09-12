@@ -5,6 +5,7 @@
 
 static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
                                 "ID VARCHAR PRIMARY KEY NOT NULL," \
+                                "INVOICEID VARCHAR NOT NULL," \
                                 "SHOPNAME VARCHAR NOT NULL," \
                                 "NAME VARCHAR NOT NULL," \
                                 "PRICE VARCHAR NOT NULL," \
@@ -14,7 +15,7 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODS_%1(" \
 
 static const char* kSelectByDateSQL = "SELECT * FROM GOODS_%1";
 static const char* kSelectByID = "SELECT * FROM GOODS_%1 WHERE ID=?";
-static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?)";
+static const char* kInsertSQL = "INSERT INTO GOODS_%1(ID,INVOICEID,SHOPNAME,NAME,PRICE,ATTRIBUTE,COUNT,SETTLED) VALUES(?,?,?,?,?,?,?,?)";
 static const char* kUpdateSQL = "UPDATE GOODS_%1 SET SETTLED=? WHERE ID=?";
 
 GoodsStore::GoodsStore()
@@ -52,7 +53,8 @@ bool GoodsStore::insert(const QString& date, Goods* goods)
 
     QString insertSql = QString(kInsertSQL).arg(date);
     query.prepare(insertSql);
-    query.addBindValue(date+QUuid::createUuid().toString());
+    query.addBindValue(goods->id);
+    query.addBindValue(goods->invoiceid);
     query.addBindValue(goods->shopName);
     query.addBindValue(goods->name);
     query.addBindValue(goods->price);
@@ -80,6 +82,7 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
     }
 
     int idNo = query.record().indexOf("ID");
+    int iidNo = query.record().indexOf("INVOICEID");
     int shopnameNo = query.record().indexOf("SHOPNAME");
     int nameNo = query.record().indexOf("NAME");
     int priceNo = query.record().indexOf("PRICE");
@@ -91,6 +94,7 @@ void GoodsStore::select(const QString& date, QVector<Goods*>& goodss)
     {
         Goods* goods = new Goods();
         goods->id = query.value(idNo).toString();
+        goods->invoiceid = query.value(iidNo).toString();
         goods->shopName = query.value(shopnameNo).toString();
         goods->name = query.value(nameNo).toString();
         goods->price = query.value(priceNo).toString();

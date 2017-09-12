@@ -47,7 +47,8 @@ SOURCES += \
     dboperation.cpp \
     viewgoodsdialog.cpp \
     goodsmanagedialog.cpp \
-    goodsimportdialog.cpp
+    goodsimportdialog.cpp \
+    viewgoodsbinddialog.cpp
 
 HEADERS += \
         dialog.h \
@@ -78,7 +79,8 @@ HEADERS += \
     dboperation.h \
     viewgoodsdialog.h \
     goodsmanagedialog.h \
-    goodsimportdialog.h
+    goodsimportdialog.h \
+    viewgoodsbinddialog.h
 
 FORMS += \
         dialog.ui \
@@ -89,7 +91,8 @@ FORMS += \
     settledialog.ui \
     viewgoodsdialog.ui \
     goodsimportdialog.ui \
-    goodsmanagedialog.ui
+    goodsmanagedialog.ui \
+    viewgoodsbinddialog.ui
 
 RESOURCES += \
     res/rc.qrc

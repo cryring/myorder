@@ -8,6 +8,7 @@
 #include "orderdefine.h"
 #include "dboperation.h"
 #include "viewgoodsdialog.h"
+#include "viewgoodsbinddialog.h"
 
 SettleDialog::SettleDialog(QWidget* parent) :
     QDialog(parent),
@@ -317,4 +318,31 @@ void SettleDialog::on_orderView_doubleClicked(const QModelIndex &index)
     QModelIndex orderIndex = orderModel->index(row,0);
     orderModel->setData(orderIndex, QVariant(goods->id));
     order->goods_id = goods->id;
+}
+
+void SettleDialog::on_viewBindButton_clicked()
+{
+    int orderRow = ui->orderView->currentIndex().row();
+    if (orderRow >= m_curOrder.size())
+    {
+        qDebug() << "error order row";
+        return;
+    }
+
+    Order* order = m_curOrder[orderRow];
+    if (NULL == order)
+    {
+        qDebug() << "error order";
+        return;
+    }
+
+    if (false != order->goods_id.isEmpty())
+    {
+        return;
+    }
+
+    ViewGoodsBindDialog dlg;
+    dlg.setOrder(order);
+    dlg.load();
+    dlg.exec();
 }

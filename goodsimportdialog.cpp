@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QStandardItemModel>
 #include <QMessageBox>
+#include <QUuid>
 #include "goodsimportdialog.h"
 #include "ui_goodsimportdialog.h"
 #include "goodsdefine.h"
@@ -108,11 +109,15 @@ void GoodsImportDialog::on_saveButton_clicked()
         QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
         return;
     }
+
     QString shopName = ui->shopNameBox->currentText();
     QString date = ui->dateEdit->date().toString("yyyyMMdd");
+    QString invoiceid = createID(date);
     for (int i = 0; i < m_goodsAttribute.size(); ++i)
     {
         Goods goods;
+        goods.id = createID(date);
+        goods.invoiceid = invoiceid;
         goods.date = date;
         goods.shopName = shopName;
         goods.name = m_goodsAttribute[i]->name;
@@ -218,4 +223,14 @@ void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
         }
     }
 }
+
+QString GoodsImportDialog::createID(const QString& date)
+{
+    QString uuid = QUuid::createUuid().toString();
+    uuid.replace("{", "");
+    uuid.replace("}", "");
+    uuid.replace("-", "");
+    return date + "_" + uuid;
+}
+
 

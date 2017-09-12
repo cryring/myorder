@@ -34,6 +34,8 @@ private slots:
 
     void on_orderView_doubleClicked(const QModelIndex &index);
 
+    void on_viewBindButton_clicked();
+
 private:
     void init();
 

@@ -121,3 +121,13 @@ void Store::getGoodsByDate(const QString& date, QVector<Goods*>& goodss)
         m_goodsStore->select(date, goodss);
     }
 }
+
+Goods* Store::getGoodsByID(const QString& id)
+{
+    if (NULL != m_goodsStore)
+    {
+        return m_goodsStore->selectGoodsByID(id);
+    }
+
+    return NULL;
+}

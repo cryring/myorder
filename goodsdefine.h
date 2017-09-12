@@ -14,6 +14,7 @@ struct GoodsAttribute
 struct Goods : public GoodsAttribute
 {
     QString id;
+    QString invoiceid;
     QString shopName;
     QString date;
     int settled;
@@ -26,6 +27,7 @@ struct Goods : public GoodsAttribute
         g->attribute = attribute;
         g->count = count;
         g->id = id;
+        g->invoiceid = invoiceid;
         g->shopName = shopName;
         g->date = date;
         g->settled = settled;
