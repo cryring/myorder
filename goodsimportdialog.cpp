@@ -30,6 +30,16 @@ GoodsImportDialog::~GoodsImportDialog()
     m_goodsAttribute.clear();
 }
 
+void GoodsImportDialog::setInvoiceID(const QString& id)
+{
+    m_invoiceId = id;
+}
+
+void GoodsImportDialog::setDate(const QString& date)
+{
+    m_date = date;
+}
+
 void GoodsImportDialog::on_saveGoodsButton_clicked()
 {
     QString count = ui->goodsCountEdit->text();
@@ -66,19 +76,25 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
         return;
     }
 
-    int col = 0;
-    int row = model->rowCount();
-    model->setItem(row, col++, new QStandardItem(name));
-    model->setItem(row, col++, new QStandardItem(price));
-    model->setItem(row, col++, new QStandardItem(attr));
-    model->setItem(row, col++, new QStandardItem(count));
+    int ncnt = count.toInt();
+    float fprice = price.toFloat() / ncnt;
+    for (int i = 0; i < ncnt; i++)
+    {
+        int col = 0;
+        int row = model->rowCount();
+        model->setItem(row, col++, new QStandardItem(name));
+        model->setItem(row, col++, new QStandardItem(QString::number(fprice)));
+        model->setItem(row, col++, new QStandardItem(""));
+        model->setItem(row, col++, new QStandardItem(attr));
+        model->setItem(row, col++, new QStandardItem("1"));
 
-    GoodsAttribute* goodsAttr = new GoodsAttribute();
-    goodsAttr->name = name;
-    goodsAttr->price = price;
-    goodsAttr->attribute = attr;
-    goodsAttr->count = count;
-    m_goodsAttribute.append(goodsAttr);
+        GoodsAttribute* goodsAttr = new GoodsAttribute();
+        goodsAttr->name = name;
+        goodsAttr->price = QString::number(fprice);
+        goodsAttr->attribute = attr;
+        goodsAttr->count = "1";
+        m_goodsAttribute.append(goodsAttr);
+    }
 }
 
 void GoodsImportDialog::on_delGoodsButton_clicked()
@@ -88,11 +104,6 @@ void GoodsImportDialog::on_delGoodsButton_clicked()
     {
         m_goodsAttribute.remove(row);
     }
-}
-
-void GoodsImportDialog::on_shopNameBox_activated(const QString& name)
-{
-    qDebug() << "Combo:" << name;
 }
 
 void GoodsImportDialog::on_saveButton_clicked()
@@ -110,26 +121,60 @@ void GoodsImportDialog::on_saveButton_clicked()
         return;
     }
 
+    Store::instance()->removeGoodsByInvoiceID(m_date, m_invoiceId);
+
     QString shopName = ui->shopNameBox->currentText();
     QString date = ui->dateEdit->date().toString("yyyyMMdd");
-    QString invoiceid = createID(date);
+    QString invoiceId = createID(date);
     for (int i = 0; i < m_goodsAttribute.size(); ++i)
     {
         Goods goods;
         goods.id = createID(date);
-        goods.invoiceid = invoiceid;
+        goods.invoiceid = invoiceId;
         goods.date = date;
         goods.shopName = shopName;
         goods.name = m_goodsAttribute[i]->name;
         goods.price = QString::number(m_goodsAttribute[i]->price.toFloat() / paperTotalPrice * totalPrice);
         goods.count = m_goodsAttribute[i]->count;
         goods.attribute = m_goodsAttribute[i]->attribute;
-        Store::instance()->insertGoods(date, &goods);
+        Store::instance()->insertGoods(&goods);
     }
+    m_date = date;
+    m_invoiceId = invoiceId;
 }
 
 void GoodsImportDialog::init()
 {
+    QDoubleValidator* aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->couponEdit->setValidator(aDoubleValidator);
+    ui->couponEdit->setText("0");
+
+    QIntValidator* aIntValidator = new QIntValidator;
+    aIntValidator->setRange(0, 100);
+    ui->couponDiscountEdit->setValidator(aIntValidator);
+    ui->couponDiscountEdit->setText("100");
+
+    aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->goodsPriceEdit->setValidator(aDoubleValidator);
+    ui->goodsPriceEdit->setText("");
+
+    aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->payPriceEdit->setValidator(aDoubleValidator);
+    ui->payPriceEdit->setText("");
+
+    aDoubleValidator = new QDoubleValidator(0.00,100000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->exchangeRateEdit->setValidator(aDoubleValidator);
+    ui->exchangeRateEdit->setText("");
+
+    aIntValidator = new QIntValidator;
+    aIntValidator->setRange(1, 100);
+    ui->goodsCountEdit->setValidator(aIntValidator);
+    ui->goodsCountEdit->setText("1");
+
     const QVector<QString>& shopNames = ShopNameStore::instance()->getNames();
     for (int i = 0; i < shopNames.size(); ++i)
     {
@@ -156,7 +201,8 @@ void GoodsImportDialog::init()
     ui->invoiceView->setModel(model);
     int col = 0;
     model->setHeaderData(col++, Qt::Horizontal, tr("商品名"));
-    model->setHeaderData(col++, Qt::Horizontal, tr("价格"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("外币价格"));
+    model->setHeaderData(col++, Qt::Horizontal, tr("实际价格"));
     model->setHeaderData(col++, Qt::Horizontal, tr("属性"));
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
 }
@@ -176,14 +222,10 @@ float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
     float fExchangeRate = m_exchangeRate.toFloat();
     float fCoupon = m_coupon.toFloat();
     float fCouponDiscount = m_couponDiscount.toFloat();
-    float fRebate = m_rebate.toFloat();
-    float fTaxFree = m_taxFree.toFloat();
 
     float p0 = fCoupon + paperTotalPrice;
-    float p1 = p0 * (fRebate/100);
-    float p2 = p0 * (fTaxFree/100);
     float p3 = fCoupon * ((100-fCouponDiscount)/100);
-    float finish = p0 - p1 - p2 - p3;
+    float finish = p0 - p3;
     return finish / fExchangeRate;
 }
 
@@ -193,15 +235,11 @@ bool GoodsImportDialog::checkNeededInput()
     m_exchangeRate = ui->exchangeRateEdit->text();
     m_coupon = ui->couponEdit->text();
     m_couponDiscount = ui->couponDiscountEdit->text();
-    m_rebate = ui->rebateEdit->text();
-    m_taxFree = ui->taxFreeEdit->text();
 
     if (m_payPrice.isEmpty() ||
         m_exchangeRate.isEmpty() ||
         m_coupon.isEmpty() ||
-        m_couponDiscount.isEmpty() ||
-        m_rebate.isEmpty() ||
-        m_taxFree.isEmpty())
+        m_couponDiscount.isEmpty())
     {
         return false;
     }

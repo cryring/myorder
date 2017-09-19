@@ -38,6 +38,7 @@ void ViewGoodsBindDialog::load()
 
     for (int i = 0; i < m_goodsID.size(); i++)
     {
+        qDebug() << "goods_id:" << m_goodsID[i];
         Goods* goods = Store::instance()->getGoodsByID(m_goodsID[i]);
         if (NULL != goods)
         {

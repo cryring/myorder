@@ -80,7 +80,8 @@ HEADERS += \
     viewgoodsdialog.h \
     goodsmanagedialog.h \
     goodsimportdialog.h \
-    viewgoodsbinddialog.h
+    viewgoodsbinddialog.h \
+    goodssql.h
 
 FORMS += \
         dialog.ui \

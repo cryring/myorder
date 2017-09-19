@@ -130,11 +130,10 @@ void SettleDialog::on_detachButton_clicked()
 
 void SettleDialog::init()
 {
-    QStandardItemModel* orderModel = new QStandardItemModel(0, 8);
+    QStandardItemModel* orderModel = new QStandardItemModel(0, 7);
     ui->orderView->setModel(orderModel);
     int col = 0;
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("商品ID"));
-    orderModel->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("标题"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("价格"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("数量"));
@@ -265,7 +264,6 @@ void SettleDialog::on_orderSearchButton_clicked()
         Order* order = m_curOrder[i];
         int col = 0;
         model->setItem(i, col++, new QStandardItem(order->goods_id));
-        model->setItem(i, col++, new QStandardItem(order->id));
         model->setItem(i, col++, new QStandardItem(order->title));
         model->setItem(i, col++, new QStandardItem(order->price));
         model->setItem(i, col++, new QStandardItem(order->count));
@@ -345,4 +343,5 @@ void SettleDialog::on_viewBindButton_clicked()
     dlg.setOrder(order);
     dlg.load();
     dlg.exec();
+    on_orderSearchButton_clicked();
 }

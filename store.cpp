@@ -30,20 +30,43 @@ bool Store::init(QSqlDatabase* db)
     return true;
 }
 
-bool Store::insertOrder(const QString &date, Order *order)
+bool Store::insertOrder(Order* order)
 {
     if (NULL != m_orderStore)
     {
-        return m_orderStore->insert(date, order);
+        return m_orderStore->insert(order);
     }
     return false;
 }
 
-bool Store::insertGoods(const QString &date, Goods *goods)
+bool Store::insertGoods(Goods *goods)
 {
     if (NULL != m_goodsStore)
     {
-        return m_goodsStore->insert(date, goods);
+        return m_goodsStore->insert(goods);
+    }
+    return false;
+}
+
+bool Store::updateGoods(Goods* goods)
+{
+    if (NULL != m_goodsStore)
+    {
+        return m_goodsStore->update(goods);
+    }
+    return false;
+}
+
+bool Store::removeGoodsByInvoiceID(const QString& date, const QString& invoiceid)
+{
+
+}
+
+bool Store::goodsExist(const QString& id)
+{
+    if (NULL != m_goodsStore)
+    {
+        return m_goodsStore->exist(id);
     }
     return false;
 }

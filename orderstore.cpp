@@ -36,14 +36,14 @@ bool OrderStore::init(QSqlDatabase* db)
     return true;
 }
 
-bool OrderStore::insert(const QString& date, Order* order)
+bool OrderStore::insert(Order* order)
 {
     if (NULL == m_db || NULL == order)
     {
         return false;
     }
 
-    QString createSql = QString(kCreateSQL).arg(date);
+    QString createSql = QString(kCreateSQL).arg(order->date);
     QSqlQuery query;
     query.prepare(createSql);
     if (false == query.exec())
@@ -52,7 +52,7 @@ bool OrderStore::insert(const QString& date, Order* order)
         return false;
     }
 
-    QString insertSql = QString(kInsertSQL).arg(date);
+    QString insertSql = QString(kInsertSQL).arg(order->date);
     query.prepare(insertSql);
     query.addBindValue(order->id);
     query.addBindValue(order->title);

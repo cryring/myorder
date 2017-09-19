@@ -16,7 +16,7 @@ public:
 public:
     bool init(QSqlDatabase* db);
 
-    bool insert(const QString& date, Order* order);
+    bool insert(Order* order);
 
     void select(const QString& date, QVector<Order*>& orders);
 

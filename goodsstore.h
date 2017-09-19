@@ -16,13 +16,21 @@ public:
 public:
     bool init(QSqlDatabase* db);
 
-    bool insert(const QString& date, Goods* goods);
+    bool insert(Goods* goods);
 
     void select(const QString& date, QVector<Goods*>& goodss);
 
-    Goods* selectGoodsByID(const QString& goods_id);
+    bool update(Goods* goods);
 
-    bool updateSettle(const QString& goods_id, bool settled);
+    bool remove(Goods* goods);
+
+    bool removeByInvoiceID(const QString& date, const QString& invoiceid);
+
+    bool exist(const QString& id);
+
+    Goods* selectGoodsByID(const QString& id);
+
+    bool updateSettle(const QString& id, bool settled);
 
 private:
     QString createID(const QString& date);

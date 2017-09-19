@@ -20,12 +20,14 @@ public:
 
     ~GoodsImportDialog();
 
+    void setInvoiceID(const QString& id);
+
+    void setDate(const QString& date);
+
 private slots:
     void on_saveGoodsButton_clicked();
 
     void on_delGoodsButton_clicked();
-
-    void on_shopNameBox_activated(const QString& arg1);
 
     void on_saveButton_clicked();
 
@@ -45,12 +47,12 @@ private:
 
     QVector<GoodsAttribute*> m_goodsAttribute;
 
+    QString m_date;
+    QString m_invoiceId;
     QString m_payPrice;
     QString m_exchangeRate;
     QString m_coupon;
     QString m_couponDiscount;
-    QString m_rebate;
-    QString m_taxFree;
 
 };
 

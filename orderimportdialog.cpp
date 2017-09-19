@@ -147,7 +147,7 @@ void OrderImportDialog::on_saveButton_clicked()
             return;
         }
 
-        if (false == Store::instance()->insertOrder(date, order))
+        if (false == Store::instance()->insertOrder(order))
         {
             return;
         }
@@ -156,10 +156,9 @@ void OrderImportDialog::on_saveButton_clicked()
 
 void OrderImportDialog::init()
 {
-    QStandardItemModel* model = new QStandardItemModel(0, 7);
+    QStandardItemModel* model = new QStandardItemModel(0, 6);
     ui->orderView->setModel(model);
     int col = 0;
-    model->setHeaderData(col++, Qt::Horizontal, tr("订单编号"));
     model->setHeaderData(col++, Qt::Horizontal, tr("标题"));
     model->setHeaderData(col++, Qt::Horizontal, tr("价格"));
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));

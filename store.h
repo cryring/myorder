@@ -21,9 +21,15 @@ public:
 public:
     bool init(QSqlDatabase* db);
 
-    bool insertOrder(const QString& date, Order* order);
+    bool insertOrder(Order* order);
 
-    bool insertGoods(const QString& date, Goods* goods);
+    bool insertGoods(Goods* goods);
+
+    bool updateGoods(Goods* goods);
+
+    bool removeGoodsByInvoiceID(const QString& date, const QString& invoiceid);
+
+    bool goodsExist(const QString& id);
 
     bool orderAttachGoods(Order* order, Goods* goods);
 
