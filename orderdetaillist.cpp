@@ -49,7 +49,7 @@ bool OrderDetailList::merge(TaobaoExportOrderList* orderList, TaobaoExportOrderD
         for (int i = 0; i < size; ++i)
         {
             Order* detail = new Order();
-            detail->id = id;
+            detail->date = m_date;
             detail->title = details->at(i)->title;
             detail->price = details->at(i)->price;
             detail->count = details->at(i)->count;
@@ -57,7 +57,8 @@ bool OrderDetailList::merge(TaobaoExportOrderList* orderList, TaobaoExportOrderD
             detail->user_remark = details->at(i)->remark;
             detail->sell_remark = tbOrder->sell_remark;
             detail->user_name = tbOrder->user_name;
-            m_orders[id] = detail;
+            detail->id = id + "_" + detail->title;
+            m_orders[detail->id] = detail;
         }
     }
     return true;

@@ -11,13 +11,13 @@ static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS ORDER_%1(" \
                                 "SELL_REMARK VARCHAR," \
                                 "USER_NAME VARCHAR NOT NULL," \
                                 "GOODS_ID VARCHAR," \
-                                "GOODS_PRICE VARCHAR)";
+                                "IGNORE INT)";
 
 static const char* kInsertSQL = "INSERT INTO ORDER_%1(ID,TITLE,PRICE,COUNT,USER_REMARK,SELL_REMARK,USER_NAME) VALUES(?,?,?,?,?,?,?)";
 
 static const char* kSelectByDateSQL = "SELECT * FROM ORDER_%1";
 
-static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=?,GOODS_PRICE=? WHERE ID=?";
+static const char* kUpdateSettledSQL = "UPDATE ORDER_%1 SET GOODS_ID=? WHERE ID=?";
 
 OrderStore::OrderStore()
     : m_db(NULL)
@@ -63,7 +63,7 @@ bool OrderStore::insert(Order* order)
     query.addBindValue(order->user_name);
     if (false == query.exec())
     {
-        qDebug() << query.lastError();
+        qDebug() << "insert" << order->id << "error:" << query.lastError();
         return false;
     }
 
@@ -89,7 +89,6 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
     int srNo = query.record().indexOf("SELL_REMARK");
     int unameNo = query.record().indexOf("USER_NAME");
     int gidNo = query.record().indexOf("GOODS_ID");
-    int gpNo = query.record().indexOf("GOODS_PRICE");
     orders.reserve(query.record().count());
     while (query.next())
     {
@@ -102,7 +101,6 @@ void OrderStore::select(const QString& date, QVector<Order*>& orders)
         order->sell_remark = query.value(srNo).toString();
         order->user_name = query.value(unameNo).toString();
         order->goods_id = query.value(gidNo).toString();
-        order->goods_price = query.value(gpNo).toString();
         orders.append(order);
     }
 }
@@ -123,7 +121,6 @@ bool OrderStore::attachGoods(Order* order)
     QSqlQuery query;
     query.prepare(updateSql);
     query.addBindValue(order->goods_id);
-    query.addBindValue(order->goods_price);
     query.addBindValue(order->id);
     if (false == query.exec())
     {

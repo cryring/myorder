@@ -2,6 +2,7 @@
 #define ORDERDEFINE_H
 
 #include <QString>
+#include "goodsdefine.h"
 
 struct TBExportOrder
 {
@@ -30,6 +31,7 @@ struct TBExportOrderDetail
 
 struct Order
 {
+    // base
     QString date;
     QString id;
     QString title;
@@ -39,8 +41,12 @@ struct Order
     QString user_remark;
     QString sell_remark;
     QString user_name;
+
+    // goods
     QString goods_id;
-    QString goods_price;
+
+    // status
+    bool ignore;
 };
 
 #endif // ORDERDEFINE_H

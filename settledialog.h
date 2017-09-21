@@ -36,6 +36,10 @@ private slots:
 
     void on_viewBindButton_clicked();
 
+    void on_ignoreButton_clicked();
+
+    void on_orderView_clicked(const QModelIndex &index);
+
 private:
     void init();
 

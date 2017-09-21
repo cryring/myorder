@@ -79,7 +79,6 @@ bool Store::orderAttachGoods(Order* order, Goods* goods)
     }
 
     order->goods_id = goods->id;
-    order->goods_price = goods->price;
 
     bool ret = false;
     do
@@ -102,7 +101,6 @@ bool Store::orderAttachGoods(Order* order, Goods* goods)
     if (false == ret)
     {
         order->goods_id = "";
-        order->goods_price = "";
     }
 
     return ret;
@@ -131,7 +129,7 @@ bool Store::orderDetachGoods(Order* order, const QString& goods_id)
 
 void Store::getOrderByDate(const QString& date, QVector<Order*>& orders)
 {
-    if (NULL != m_orderStore)
+    if (NULL != m_orderStore && NULL != m_goodsStore)
     {
         m_orderStore->select(date, orders);
     }

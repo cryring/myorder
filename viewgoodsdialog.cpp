@@ -193,3 +193,8 @@ void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
         }
     }
 }
+
+void ViewGoodsDialog::on_openInvoiceButton_clicked()
+{
+
+}

@@ -9,7 +9,7 @@ namespace Ui
 class GoodsImportDialog;
 }
 
-struct GoodsAttribute;
+struct Goods;
 
 class GoodsImportDialog : public QDialog
 {
@@ -33,6 +33,8 @@ private slots:
 
     void on_brandComboBox_activated(const QString& brand);
 
+    void on_calcButton_clicked();
+
 private:
     void init();
 
@@ -45,7 +47,7 @@ private:
 private:
     Ui::GoodsImportDialog* ui;
 
-    QVector<GoodsAttribute*> m_goodsAttribute;
+    QVector<Goods*> m_goods;
 
     QString m_date;
     QString m_invoiceId;

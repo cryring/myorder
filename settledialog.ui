@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string/>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -85,6 +85,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="ignoreButton">
+        <property name="text">
+         <string>忽略</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="viewBindButton">

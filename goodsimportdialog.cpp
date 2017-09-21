@@ -22,12 +22,12 @@ GoodsImportDialog::~GoodsImportDialog()
 {
     delete ui;
 
-    for (int i = 0; i < m_goodsAttribute.size(); ++i)
+    for (int i = 0; i < m_goods.size(); ++i)
     {
-        delete m_goodsAttribute[i];
-        m_goodsAttribute[i] = NULL;
+        delete m_goods[i];
+        m_goods[i] = NULL;
     }
-    m_goodsAttribute.clear();
+    m_goods.clear();
 }
 
 void GoodsImportDialog::setInvoiceID(const QString& id)
@@ -45,7 +45,6 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     QString count = ui->goodsCountEdit->text();
     if ("" == count)
     {
-        // TODO: Message box
         QMessageBox::warning(this, tr("order"), tr("please input goods count."));
         return;
     }
@@ -53,25 +52,16 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     QString price = ui->goodsPriceEdit->text();
     if ("" == price)
     {
-        // TODO: Message Box
         QMessageBox::warning(this, tr("order"), tr("please input goods price."));
         return;
     }
 
     QString attr = ui->attributeEdit->text();
-    if ("" == attr)
-    {
-        // TODO: Message Box
-        QMessageBox::warning(this, tr("order"), tr("please input goods attribute."));
-        return;
-    }
-
     QString name = ui->savedGoodsNameBox->currentText();
 
     QStandardItemModel* model = (QStandardItemModel*)ui->invoiceView->model();
     if (NULL == model)
     {
-        // TODO: Message Box
         QMessageBox::warning(this, tr("order"), tr("wtf, view model is null."));
         return;
     }
@@ -88,30 +78,30 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
         model->setItem(row, col++, new QStandardItem(attr));
         model->setItem(row, col++, new QStandardItem("1"));
 
-        GoodsAttribute* goodsAttr = new GoodsAttribute();
-        goodsAttr->name = name;
-        goodsAttr->price = QString::number(fprice);
-        goodsAttr->attribute = attr;
-        goodsAttr->count = "1";
-        m_goodsAttribute.append(goodsAttr);
+        Goods* goods = new Goods();
+        goods->name = name;
+        goods->price = QString::number(fprice);
+        goods->attribute = attr;
+        goods->count = "1";
+        m_goods.append(goods);
     }
 }
 
 void GoodsImportDialog::on_delGoodsButton_clicked()
 {
     int row = ui->invoiceView->currentIndex().row();
-    if (0 <= row && m_goodsAttribute.size() > row)
+    if (0 <= row && m_goods.size() > row)
     {
-        m_goodsAttribute.remove(row);
+        m_goods.remove(row);
     }
 }
 
 void GoodsImportDialog::on_saveButton_clicked()
 {
     float paperTotalPrice = 0;
-    for (int i = 0; i < m_goodsAttribute.size(); ++i)
+    for (int i = 0; i < m_goods.size(); ++i)
     {
-        paperTotalPrice += m_goodsAttribute[i]->price.toFloat();
+        paperTotalPrice += m_goods[i]->price.toFloat();
     }
     float totalPrice = calcTotalPrice(paperTotalPrice);
     if (totalPrice < 0)
@@ -126,17 +116,17 @@ void GoodsImportDialog::on_saveButton_clicked()
     QString shopName = ui->shopNameBox->currentText();
     QString date = ui->dateEdit->date().toString("yyyyMMdd");
     QString invoiceId = createID(date);
-    for (int i = 0; i < m_goodsAttribute.size(); ++i)
+    for (int i = 0; i < m_goods.size(); ++i)
     {
         Goods goods;
         goods.id = createID(date);
         goods.invoiceid = invoiceId;
         goods.date = date;
         goods.shopName = shopName;
-        goods.name = m_goodsAttribute[i]->name;
-        goods.price = QString::number(m_goodsAttribute[i]->price.toFloat() / paperTotalPrice * totalPrice);
-        goods.count = m_goodsAttribute[i]->count;
-        goods.attribute = m_goodsAttribute[i]->attribute;
+        goods.name = m_goods[i]->name;
+        goods.price = QString::number(m_goods[i]->price.toFloat() / paperTotalPrice * totalPrice);
+        goods.count = m_goods[i]->count;
+        goods.attribute = m_goods[i]->attribute;
         Store::instance()->insertGoods(&goods);
     }
     m_date = date;
@@ -262,6 +252,38 @@ void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
     }
 }
 
+void GoodsImportDialog::on_calcButton_clicked()
+{
+    float paperTotalPrice = 0;
+    for (int i = 0; i < m_goods.size(); ++i)
+    {
+        paperTotalPrice += m_goods[i]->price.toFloat();
+    }
+    float totalPrice = calcTotalPrice(paperTotalPrice);
+    if (totalPrice < 0)
+    {
+        QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
+        return;
+    }
+
+    Store::instance()->removeGoodsByInvoiceID(m_date, m_invoiceId);
+
+    QString shopName = ui->shopNameBox->currentText();
+    QString date = ui->dateEdit->date().toString("yyyyMMdd");
+    QString invoiceId = createID(date);
+    for (int i = 0; i < m_goods.size(); ++i)
+    {
+        Goods* goods = m_goods[i];
+        goods->id = createID(date);
+        goods->invoiceid = invoiceId;
+        goods->date = date;
+        goods->shopName = shopName;
+        goods->price = QString::number(goods->price.toFloat() / paperTotalPrice * totalPrice);
+    }
+    m_date = date;
+    m_invoiceId = invoiceId;
+}
+
 QString GoodsImportDialog::createID(const QString& date)
 {
     QString uuid = QUuid::createUuid().toString();
@@ -270,5 +292,4 @@ QString GoodsImportDialog::createID(const QString& date)
     uuid.replace("-", "");
     return date + "_" + uuid;
 }
-
 

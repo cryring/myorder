@@ -33,6 +33,8 @@ private slots:
 
     void on_goodsView_doubleClicked(const QModelIndex &index);
 
+    void on_openInvoiceButton_clicked();
+
 private:
     void init(void);
 

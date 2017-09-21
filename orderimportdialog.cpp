@@ -53,32 +53,29 @@ void OrderImportDialog::on_createOrderButton_clicked()
     QString date;
     if (false == verifyOrderFile(orderFile, orderDetailFile, date))
     {
-        // TODO: Message box
         QMessageBox::warning(this, tr("order"), tr("please check your input file, they must has the same date."));
         return;
     }
     m_orderList.setDate(date);
 
     TaobaoExportOrderList tbOrderList;
-    TaobaoExportOrderDetailList tbOrderDetailList;
     CsvLoader orderLoader(&tbOrderList);
-    CsvLoader orderDetailLoader(&tbOrderDetailList);
     if (false == orderLoader.Load(orderFile))
     {
-        // TODO: Message box
         QMessageBox::warning(this, tr("order"), tr("load order file failed."));
         return;
     }
+
+    TaobaoExportOrderDetailList tbOrderDetailList;
+    CsvLoader orderDetailLoader(&tbOrderDetailList);
     if (false == orderDetailLoader.Load(orderDetailFile))
     {
-        // TODO: Message box
         QMessageBox::warning(this, tr("order"), tr("load order detail file failed."));
         return;
     }
 
     if (false == m_orderList.merge(&tbOrderList, &tbOrderDetailList))
     {
-        // TODO: Message box
         QMessageBox::warning(this, tr("order"), tr("merge two order file failed."));
         return;
     }
@@ -87,7 +84,6 @@ void OrderImportDialog::on_createOrderButton_clicked()
     m_orderList.getIds(ids);
     if (ids.empty())
     {
-        // TODO:
         QMessageBox::warning(this, tr("order"), tr("get id from order list failed."));
         return;
     }
@@ -112,7 +108,6 @@ void OrderImportDialog::on_createOrderButton_clicked()
         }
 
         int col = 0;
-        model->setItem(row, col++, new QStandardItem(details->id));
         model->setItem(row, col++, new QStandardItem(details->title));
         model->setItem(row, col++, new QStandardItem(details->price));
         model->setItem(row, col++, new QStandardItem(details->count));
@@ -131,8 +126,7 @@ void OrderImportDialog::on_saveButton_clicked()
     m_orderList.getIds(ids);
     if (ids.empty())
     {
-        // TODO:
-        qDebug() << "Error5";
+        QMessageBox::warning(this, tr("order"), tr("order list is empty"));
         return;
     }
 
@@ -142,8 +136,7 @@ void OrderImportDialog::on_saveButton_clicked()
         Order* order = m_orderList.get(ids[i]);
         if (NULL == order)
         {
-            // TODO:
-            qDebug() << "Error6";
+            qDebug() << "there is empty order in the list";
             return;
         }
 

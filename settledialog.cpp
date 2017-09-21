@@ -31,16 +31,14 @@ void SettleDialog::on_settleButton_clicked()
     int size = m_curOrder.size();
     for (int i = 0; i < size; ++i)
     {
-        if (m_curOrder[i]->goods_id.isEmpty())
+        if (m_curOrder[i]->goods_id.isEmpty() && !m_curOrder[i]->ignore)
         {
-            // TODO:
             QMessageBox::warning(this, tr("order"), tr("not all the order has been settled."));
             return;
         }
 
-        float order_price = m_curOrder[i]->price.toFloat();
-        float goods_price = m_curOrder[i]->goods_price.toFloat();
-        money += order_price - goods_price;
+        // float order_price = m_curOrder[i]->price.toFloat();
+        // TODO:
     }
     ui->profitEdit->setText(QString::number(money));
 }
@@ -52,22 +50,22 @@ void SettleDialog::on_exitButton_clicked()
 
 void SettleDialog::on_attachButton_clicked()
 {
-    int orderRow = ui->orderView->currentIndex().row();
-    if (0 > orderRow || orderRow >= m_curOrder.size())
+    int row = ui->orderView->currentIndex().row();
+    if (0 > row || row >= m_curOrder.size())
     {
-        qDebug() << "error order row";
+        QMessageBox::warning(this, tr("order"), tr("WTF? the order row is error."));
         return;
     }
 
-    Order* order = m_curOrder[orderRow];
+    Order* order = m_curOrder[row];
     if (NULL == order)
     {
-        qDebug() << "error order";
+        QMessageBox::warning(this, tr("order"), tr("WTF? the order is empty."));
         return;
     }
+
     if (false == order->goods_id.isEmpty())
     {
-        qDebug() << "order has been settled";
         QMessageBox::warning(this, tr("order"), tr("the order has been settled."));
         return;
     }
@@ -81,56 +79,52 @@ void SettleDialog::on_attachButton_clicked()
 
     if (false == Store::instance()->orderAttachGoods(order, goods))
     {
-        qDebug() << "attach goods to order failed";
-        // QMessageBox
+        QMessageBox::warning(this, tr("order"), tr("attach goods to order failed."));
         return;
     }
 
     QAbstractItemModel* orderModel = ui->orderView->model();
-    QModelIndex orderIndex = orderModel->index(orderRow,0);
+    QModelIndex orderIndex = orderModel->index(row,0);
     orderModel->setData(orderIndex, QVariant(goods->id));
     order->goods_id = goods->id;
 }
 
 void SettleDialog::on_detachButton_clicked()
 {
-    int orderRow = ui->orderView->currentIndex().row();
-    if (orderRow >= m_curOrder.size())
+    int row = ui->orderView->currentIndex().row();
+    if (row >= m_curOrder.size())
     {
-        qDebug() << "error order row";
-        return;
+        QMessageBox::warning(this, tr("order"), tr("WTF? the order row is error."));
     }
 
-    Order* order = m_curOrder[orderRow];
+    Order* order = m_curOrder[row];
     if (NULL == order)
     {
-        qDebug() << "error order";
+        QMessageBox::warning(this, tr("order"), tr("WTF? the order is empty."));
         return;
     }
 
     if (false == order->goods_id.isEmpty())
     {
-        qDebug() << "order has not been settled";
         QMessageBox::warning(this, tr("order"), tr("the order has not been settled."));
         return;
     }
 
     if (false == Store::instance()->orderDetachGoods(order, order->goods_id))
     {
-        qDebug() << "detach goods from order failed";
-        // QMessageBox
+        QMessageBox::warning(this, tr("order"), tr("detach goods from order failed."));
         return;
     }
 
     QAbstractItemModel* orderModel = ui->orderView->model();
-    QModelIndex orderIndex = orderModel->index(orderRow,7);
+    QModelIndex orderIndex = orderModel->index(row,7);
     orderModel->setData(orderIndex, QVariant(""));
     order->goods_id = "";
 }
 
 void SettleDialog::init()
 {
-    QStandardItemModel* orderModel = new QStandardItemModel(0, 7);
+    QStandardItemModel* orderModel = new QStandardItemModel(0, 8);
     ui->orderView->setModel(orderModel);
     int col = 0;
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("商品ID"));
@@ -140,6 +134,7 @@ void SettleDialog::init()
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("买家备注"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("卖家备注"));
     orderModel->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
+    orderModel->setHeaderData(col++, Qt::Horizontal, tr("忽略"));
 
     ui->orderView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->orderView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -344,4 +339,49 @@ void SettleDialog::on_viewBindButton_clicked()
     dlg.load();
     dlg.exec();
     on_orderSearchButton_clicked();
+}
+
+void SettleDialog::on_ignoreButton_clicked()
+{
+    int orderRow = ui->orderView->currentIndex().row();
+    if (orderRow >= m_curOrder.size())
+    {
+        qDebug() << "error order row";
+        return;
+    }
+
+    Order* order = m_curOrder[orderRow];
+    if (NULL == order)
+    {
+        qDebug() << "error order";
+        return;
+    }
+
+    order->ignore = !order->ignore;
+}
+
+void SettleDialog::on_orderView_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    if (row < 0 || row >= m_curOrder.size())
+    {
+        qDebug() << "error order row";
+        return;
+    }
+
+    Order* order = m_curOrder[row];
+    if (NULL == order)
+    {
+        qDebug() << "error order";
+        return;
+    }
+
+    if (order->ignore)
+    {
+        ui->ignoreButton->setText("取消忽略");
+    }
+    else
+    {
+        ui->ignoreButton->setText("忽略");
+    }
 }
