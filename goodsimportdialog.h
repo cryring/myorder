@@ -38,7 +38,7 @@ private slots:
 private:
     void init();
 
-    float calcTotalPrice(float paperTotalPrice);
+    float calcTotalPrice();
     
     bool checkNeededInput(void);
 
@@ -55,6 +55,8 @@ private:
     QString m_exchangeRate;
     QString m_coupon;
     QString m_couponDiscount;
+    QString m_cExchangeRate;
+    QString m_creditCard;
 
 };
 

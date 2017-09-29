@@ -103,8 +103,8 @@ void GoodsImportDialog::on_saveButton_clicked()
     {
         paperTotalPrice += m_goods[i]->price.toFloat();
     }
-    float totalPrice = calcTotalPrice(paperTotalPrice);
-    if (totalPrice < 0)
+    float totalPrice = calcTotalPrice();
+    if (totalPrice <= 0)
     {
         // QMessageBox
         QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
@@ -197,26 +197,17 @@ void GoodsImportDialog::init()
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
 }
 
-float GoodsImportDialog::calcTotalPrice(float paperTotalPrice)
+float GoodsImportDialog::calcTotalPrice()
 {
-    if (0 == paperTotalPrice)
-    {
-        return -1;
-    }
-
     if (false == checkNeededInput())
     {
         return -1;
     }
 
-    float fExchangeRate = m_exchangeRate.toFloat();
-    float fCoupon = m_coupon.toFloat();
-    float fCouponDiscount = m_couponDiscount.toFloat();
-
-    float p0 = fCoupon + paperTotalPrice;
-    float p3 = fCoupon * ((100-fCouponDiscount)/100);
-    float finish = p0 - p3;
-    return finish / fExchangeRate;
+    float p1 = m_coupon.toFloat() * m_couponDiscount.toFloat() / m_cExchangeRate.toFloat();
+    float p2 = m_payPrice.toFloat() / m_exchangeRate.toFloat();
+    float p3 = m_creditCard.toFloat();
+    return p1 + p2 + p3;
 }
 
 bool GoodsImportDialog::checkNeededInput()
@@ -225,11 +216,15 @@ bool GoodsImportDialog::checkNeededInput()
     m_exchangeRate = ui->exchangeRateEdit->text();
     m_coupon = ui->couponEdit->text();
     m_couponDiscount = ui->couponDiscountEdit->text();
+    m_cExchangeRate = ui->cExchangeRateEdit->text();
+    m_creditCard = ui->creditCardEdit->text();
 
     if (m_payPrice.isEmpty() ||
         m_exchangeRate.isEmpty() ||
         m_coupon.isEmpty() ||
-        m_couponDiscount.isEmpty())
+        m_couponDiscount.isEmpty() ||
+        m_cExchangeRate.isEmpty() ||
+        m_creditCard.isEmpty())
     {
         return false;
     }
@@ -259,8 +254,8 @@ void GoodsImportDialog::on_calcButton_clicked()
     {
         paperTotalPrice += m_goods[i]->price.toFloat();
     }
-    float totalPrice = calcTotalPrice(paperTotalPrice);
-    if (totalPrice < 0)
+    float totalPrice = calcTotalPrice();
+    if (totalPrice <= 0)
     {
         QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
         return;

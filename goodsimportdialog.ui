@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string/>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>11</x>
      <y>10</y>
      <width>491</width>
-     <height>571</height>
+     <height>581</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -35,16 +35,23 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>当日汇率</string>
+           <string>商品卷</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="label_15">
           <property name="text">
-           <string>商品卷</string>
+           <string>现金金额</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>刷卡金额</string>
           </property>
          </widget>
         </item>
@@ -85,10 +92,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="exchangeRateEdit"/>
+         <widget class="QLineEdit" name="couponEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="couponEdit"/>
+         <widget class="QLineEdit" name="payPriceEdit"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="creditCardEdit"/>
         </item>
        </layout>
       </item>
@@ -102,16 +112,26 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_15">
+         <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>支付金额</string>
+           <string>商品卷折扣</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>商品卷折扣</string>
+           <string>现金汇率</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>商品卷汇率</string>
           </property>
          </widget>
         </item>
@@ -127,10 +147,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="payPriceEdit"/>
+         <widget class="QLineEdit" name="couponDiscountEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="couponDiscountEdit"/>
+         <widget class="QLineEdit" name="exchangeRateEdit"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="cExchangeRateEdit">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
