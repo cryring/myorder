@@ -11,6 +11,9 @@ GoodsNameManageDialog::GoodsNameManageDialog(QWidget* parent) :
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon(":icon/main.ico"));
+    setWindowFlags(Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
+
     init();
 }
 

@@ -19,14 +19,14 @@
      <x>10</x>
      <y>10</y>
      <width>121</width>
-     <height>62</height>
+     <height>65</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPushButton" name="importTBorderButton">
       <property name="text">
-       <string>导入淘宝订单</string>
+       <string>导入订单</string>
       </property>
      </widget>
     </item>

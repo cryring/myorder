@@ -86,6 +86,8 @@ int main(int argc, char* argv[])
     // setStyle(":/qss/black.css");
 
     Dialog w;
+    w.setWindowIcon(QIcon(":icon/main.ico"));
+    w.setWindowFlags(Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
     w.show();
 
     return a.exec();

@@ -8,6 +8,9 @@ OrderManageDialog::OrderManageDialog(QWidget* parent) :
     ui(new Ui::OrderManageDialog)
 {
     ui->setupUi(this);
+
+    setWindowIcon(QIcon(":icon/main.ico"));
+    setWindowFlags(Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
 }
 
 OrderManageDialog::~OrderManageDialog()

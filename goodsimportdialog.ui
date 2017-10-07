@@ -6,273 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
+    <width>661</width>
     <height>589</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string/>
   </property>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>82</y>
-     <width>26</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>找零</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="changeEdit">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>82</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QTableView" name="invoiceView">
    <property name="geometry">
     <rect>
      <x>12</x>
      <y>139</y>
-     <width>601</width>
+     <width>641</width>
      <height>311</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>12</x>
-     <y>52</y>
-     <width>39</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商品卷</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>12</x>
-     <y>82</y>
-     <width>52</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>现金金额</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>12</x>
-     <y>111</y>
-     <width>52</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>刷卡金额</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_8">
-   <property name="geometry">
-    <rect>
-     <x>12</x>
-     <y>20</y>
-     <width>26</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>日期</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="creditCardEdit">
-   <property name="geometry">
-    <rect>
-     <x>72</x>
-     <y>111</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="payPriceEdit">
-   <property name="geometry">
-    <rect>
-     <x>72</x>
-     <y>82</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="couponEdit">
-   <property name="geometry">
-    <rect>
-     <x>72</x>
-     <y>52</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDateEdit" name="dateEdit">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>18</y>
-     <width>125</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="wrapping">
-    <bool>false</bool>
-   </property>
-   <property name="frame">
-    <bool>true</bool>
-   </property>
-   <property name="buttonSymbols">
-    <enum>QAbstractSpinBox::UpDownArrows</enum>
-   </property>
-   <property name="accelerated">
-    <bool>false</bool>
-   </property>
-   <property name="dateTime">
-    <datetime>
-     <hour>0</hour>
-     <minute>0</minute>
-     <second>0</second>
-     <year>2000</year>
-     <month>1</month>
-     <day>1</day>
-    </datetime>
-   </property>
-   <property name="displayFormat">
-    <string>yyyy/M/d</string>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>209</x>
-     <y>82</y>
-     <width>52</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>现金汇率</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>20</y>
-     <width>39</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商场名</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>52</y>
-     <width>65</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商品卷折扣</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>52</y>
-     <width>65</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>商品卷汇率</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="shopNameBox">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>18</y>
-     <width>125</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="couponDiscountEdit">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>52</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="exchangeRateEdit">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>82</y>
-     <width>125</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="cExchangeRateEdit">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>52</y>
-     <width>125</width>
-     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>182</x>
+     <x>202</x>
      <y>472</y>
-     <width>39</width>
+     <width>64</width>
      <height>19</height>
     </rect>
    </property>
@@ -283,9 +39,9 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>182</x>
+     <x>202</x>
      <y>500</y>
-     <width>26</width>
+     <width>64</width>
      <height>19</height>
     </rect>
    </property>
@@ -298,7 +54,7 @@
     <rect>
      <x>12</x>
      <y>500</y>
-     <width>26</width>
+     <width>64</width>
      <height>19</height>
     </rect>
    </property>
@@ -309,7 +65,7 @@
   <widget class="QLineEdit" name="goodsPriceEdit">
    <property name="geometry">
     <rect>
-     <x>49</x>
+     <x>69</x>
      <y>500</y>
      <width>125</width>
      <height>21</height>
@@ -319,7 +75,7 @@
   <widget class="QLineEdit" name="goodsCountEdit">
    <property name="geometry">
     <rect>
-     <x>229</x>
+     <x>249</x>
      <y>500</y>
      <width>125</width>
      <height>21</height>
@@ -329,9 +85,9 @@
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>390</x>
      <y>500</y>
-     <width>26</width>
+     <width>64</width>
      <height>19</height>
     </rect>
    </property>
@@ -342,7 +98,7 @@
   <widget class="QLineEdit" name="attributeEdit">
    <property name="geometry">
     <rect>
-     <x>410</x>
+     <x>430</x>
      <y>500</y>
      <width>125</width>
      <height>21</height>
@@ -406,7 +162,7 @@
     <rect>
      <x>12</x>
      <y>472</y>
-     <width>31</width>
+     <width>64</width>
      <height>16</height>
     </rect>
    </property>
@@ -417,7 +173,7 @@
   <widget class="QLineEdit" name="goodsIdEdit">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>70</x>
      <y>470</y>
      <width>125</width>
      <height>21</height>
@@ -430,12 +186,388 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>250</x>
      <y>470</y>
      <width>125</width>
      <height>21</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>49</y>
+     <width>592</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_6">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>商品卷</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="couponEdit">
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_7">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>卷折扣</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="couponDiscountEdit">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_9">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>卷汇率</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="cExchangeRateEdit">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>109</y>
+     <width>194</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>刷卡金额</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="creditCardEdit">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>79</y>
+     <width>592</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="label_15">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>现金金额</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="payPriceEdit">
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>现金汇率</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="exchangeRateEdit">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_11">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>找零</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="changeEdit">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>19</y>
+     <width>393</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_8">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>日期</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="wrapping">
+       <bool>false</bool>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::UpDownArrows</enum>
+      </property>
+      <property name="accelerated">
+       <bool>false</bool>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2000</year>
+        <month>1</month>
+        <day>1</day>
+       </datetime>
+      </property>
+      <property name="displayFormat">
+       <string>yyyy/M/d</string>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_10">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>商场名</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="shopNameBox">
+      <property name="minimumSize">
+       <size>
+        <width>125</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
