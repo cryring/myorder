@@ -358,6 +358,15 @@ void SettleDialog::on_ignoreButton_clicked()
     }
 
     order->ignore = !order->ignore;
+
+    if (order->ignore)
+    {
+        ui->ignoreButton->setText("取消忽略");
+    }
+    else
+    {
+        ui->ignoreButton->setText("忽略");
+    }
 }
 
 void SettleDialog::on_orderView_clicked(const QModelIndex &index)

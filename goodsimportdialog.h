@@ -31,9 +31,9 @@ private slots:
 
     void on_saveButton_clicked();
 
-    void on_brandComboBox_activated(const QString& brand);
-
     void on_calcButton_clicked();
+
+    void on_goodsIdEdit_textChanged(const QString &id);
 
 private:
     void init();
@@ -53,6 +53,7 @@ private:
     QString m_invoiceId;
     QString m_payPrice;
     QString m_exchangeRate;
+    QString m_change;
     QString m_coupon;
     QString m_couponDiscount;
     QString m_cExchangeRate;

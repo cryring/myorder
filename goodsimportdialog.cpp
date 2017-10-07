@@ -42,6 +42,13 @@ void GoodsImportDialog::setDate(const QString& date)
 
 void GoodsImportDialog::on_saveGoodsButton_clicked()
 {
+    QString shopName = ui->shopNameBox->currentText();
+    if ("" == shopName)
+    {
+        QMessageBox::warning(this, tr("order"), tr("please input shopname."));
+        return;
+    }
+
     QString count = ui->goodsCountEdit->text();
     if ("" == count)
     {
@@ -56,8 +63,21 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
         return;
     }
 
+    QString id = ui->goodsIdEdit->text();
+    if ("" == id)
+    {
+        QMessageBox::warning(this, tr("order"), tr("please input goods id."));
+        return;
+    }
+
+    QString name = ui->goodsNameEdit->text();
+    if ("" == name)
+    {
+        QMessageBox::warning(this, tr("order"), tr("please input goods name."));
+        return;
+    }
+
     QString attr = ui->attributeEdit->text();
-    QString name = ui->savedGoodsNameBox->currentText();
 
     QStandardItemModel* model = (QStandardItemModel*)ui->invoiceView->model();
     if (NULL == model)
@@ -106,11 +126,11 @@ void GoodsImportDialog::on_saveButton_clicked()
     float totalPrice = calcTotalPrice();
     if (totalPrice <= 0)
     {
-        // QMessageBox
         QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
         return;
     }
 
+    // remove old goods first
     Store::instance()->removeGoodsByInvoiceID(m_date, m_invoiceId);
 
     QString shopName = ui->shopNameBox->currentText();
@@ -140,27 +160,40 @@ void GoodsImportDialog::init()
     ui->couponEdit->setValidator(aDoubleValidator);
     ui->couponEdit->setText("0");
 
-    QIntValidator* aIntValidator = new QIntValidator;
-    aIntValidator->setRange(0, 100);
-    ui->couponDiscountEdit->setValidator(aIntValidator);
+    aDoubleValidator = new QDoubleValidator(0.00,100.00,2);
+    ui->couponDiscountEdit->setValidator(aDoubleValidator);
     ui->couponDiscountEdit->setText("100");
+
+    aDoubleValidator = new QDoubleValidator(0.00,100000.00,2);
+    ui->cExchangeRateEdit->setValidator(aDoubleValidator);
+    ui->cExchangeRateEdit->setText("1");
 
     aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
     aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
     ui->goodsPriceEdit->setValidator(aDoubleValidator);
-    ui->goodsPriceEdit->setText("");
+    ui->goodsPriceEdit->setText("0");
 
     aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
     aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
     ui->payPriceEdit->setValidator(aDoubleValidator);
-    ui->payPriceEdit->setText("");
+    ui->payPriceEdit->setText("0");
 
     aDoubleValidator = new QDoubleValidator(0.00,100000.00,2);
     aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
     ui->exchangeRateEdit->setValidator(aDoubleValidator);
-    ui->exchangeRateEdit->setText("");
+    ui->exchangeRateEdit->setText("1");
 
-    aIntValidator = new QIntValidator;
+    aDoubleValidator = new QDoubleValidator(0.00,100000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->changeEdit->setValidator(aDoubleValidator);
+    ui->changeEdit->setText("0");
+
+    aDoubleValidator = new QDoubleValidator(0.00,100000.00,2);
+    aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
+    ui->creditCardEdit->setValidator(aDoubleValidator);
+    ui->creditCardEdit->setText("0");
+
+    QIntValidator* aIntValidator = new QIntValidator;
     aIntValidator->setRange(1, 100);
     ui->goodsCountEdit->setValidator(aIntValidator);
     ui->goodsCountEdit->setText("1");
@@ -171,22 +204,6 @@ void GoodsImportDialog::init()
         ui->shopNameBox->addItem(shopNames[i]);
     }
 
-    const GNMAP& goodsNames = GoodsNameStore::instance()->getNames();
-    GNMAP::const_iterator it = goodsNames.begin();
-    for (; it != goodsNames.end(); ++it)
-    {
-        ui->brandComboBox->addItem(it.key());
-        if (0 == ui->savedGoodsNameBox->count())
-        {
-            auto brandGoodsNames = it.value();
-            auto it = brandGoodsNames.begin();
-            for (; it != brandGoodsNames.end(); it++)
-            {
-                ui->savedGoodsNameBox->addItem(*it);
-            }
-        }
-    }
-
     QStandardItemModel* model = new QStandardItemModel(0, 4);
     ui->invoiceView->setModel(model);
     int col = 0;
@@ -195,6 +212,13 @@ void GoodsImportDialog::init()
     model->setHeaderData(col++, Qt::Horizontal, tr("实际价格"));
     model->setHeaderData(col++, Qt::Horizontal, tr("属性"));
     model->setHeaderData(col++, Qt::Horizontal, tr("数量"));
+
+    // init invoice
+    if (false == m_invoiceId.isEmpty() && false == m_date.isEmpty())
+    {
+        // init invoice base information
+
+    }
 }
 
 float GoodsImportDialog::calcTotalPrice()
@@ -204,8 +228,8 @@ float GoodsImportDialog::calcTotalPrice()
         return -1;
     }
 
-    float p1 = m_coupon.toFloat() * m_couponDiscount.toFloat() / m_cExchangeRate.toFloat();
-    float p2 = m_payPrice.toFloat() / m_exchangeRate.toFloat();
+    float p1 = m_coupon.toFloat() * (m_couponDiscount.toFloat() / 100) / m_cExchangeRate.toFloat();
+    float p2 = (m_payPrice.toFloat() - m_change.toFloat()) / m_exchangeRate.toFloat();
     float p3 = m_creditCard.toFloat();
     return p1 + p2 + p3;
 }
@@ -214,6 +238,7 @@ bool GoodsImportDialog::checkNeededInput()
 {
     m_payPrice = ui->payPriceEdit->text();
     m_exchangeRate = ui->exchangeRateEdit->text();
+    m_change = ui->changeEdit->text();
     m_coupon = ui->couponEdit->text();
     m_couponDiscount = ui->couponDiscountEdit->text();
     m_cExchangeRate = ui->cExchangeRateEdit->text();
@@ -221,6 +246,7 @@ bool GoodsImportDialog::checkNeededInput()
 
     if (m_payPrice.isEmpty() ||
         m_exchangeRate.isEmpty() ||
+        m_change.isEmpty() ||
         m_coupon.isEmpty() ||
         m_couponDiscount.isEmpty() ||
         m_cExchangeRate.isEmpty() ||
@@ -230,21 +256,6 @@ bool GoodsImportDialog::checkNeededInput()
     }
 
     return true;
-}
-
-void GoodsImportDialog::on_brandComboBox_activated(const QString& brand)
-{
-    ui->savedGoodsNameBox->clear();
-    const GNMAP& goodsNames = GoodsNameStore::instance()->getNames();
-    if (goodsNames.contains(brand))
-    {
-        auto names = goodsNames[brand];
-        auto it = names.begin();
-        for (; it != names.end(); it++)
-        {
-            ui->savedGoodsNameBox->addItem(*it);
-        }
-    }
 }
 
 void GoodsImportDialog::on_calcButton_clicked()
@@ -261,22 +272,17 @@ void GoodsImportDialog::on_calcButton_clicked()
         return;
     }
 
-    Store::instance()->removeGoodsByInvoiceID(m_date, m_invoiceId);
-
-    QString shopName = ui->shopNameBox->currentText();
-    QString date = ui->dateEdit->date().toString("yyyyMMdd");
-    QString invoiceId = createID(date);
+    QAbstractItemModel* model = ui->invoiceView->model();
     for (int i = 0; i < m_goods.size(); ++i)
     {
         Goods* goods = m_goods[i];
-        goods->id = createID(date);
-        goods->invoiceid = invoiceId;
-        goods->date = date;
-        goods->shopName = shopName;
-        goods->price = QString::number(goods->price.toFloat() / paperTotalPrice * totalPrice);
+        float price = goods->price.toFloat() / paperTotalPrice * totalPrice;
+        goods->price = QString::number(price);
+
+
+        QModelIndex index = model->index(i, 2);
+        model->setData(index, QVariant(goods->price));
     }
-    m_date = date;
-    m_invoiceId = invoiceId;
 }
 
 QString GoodsImportDialog::createID(const QString& date)
@@ -288,3 +294,25 @@ QString GoodsImportDialog::createID(const QString& date)
     return date + "_" + uuid;
 }
 
+
+void GoodsImportDialog::on_goodsIdEdit_textChanged(const QString &id)
+{
+    qDebug() << id;
+    if (id.length() <= 3)
+    {
+        ui->goodsNameEdit->setText("");
+    }
+    else
+    {
+        GoodsName* gn = GoodsNameStore::instance()->get(id);
+        if (gn != NULL)
+        {
+            QString name = gn->brand + " " + gn->name;
+            ui->goodsNameEdit->setText(name);
+        }
+        else
+        {
+            ui->goodsNameEdit->setText("");
+        }
+    }
+}

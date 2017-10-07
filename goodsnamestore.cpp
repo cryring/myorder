@@ -2,17 +2,22 @@
 #include "goodsnamestore.h"
 
 static const char* kCreateSQL = "CREATE TABLE IF NOT EXISTS GOODSNAMES(" \
-                                "ID INTEGER PRIMARY KEY AUTOINCREMENT," \
+                                "ID VARCHAR PRIMARY KEY," \
                                 "BRAND VARCHAR NOT NULL," \
                                 "NAME VARCHAR NOT NULL)";
 
 static const char* kGetAllSQL = "SELECT * from GOODSNAMES";
 
-static const char* kInsertSQL = "INSERT INTO GOODSNAMES(BRAND,NAME) VALUES(?,?)";
+static const char* kInsertSQL = "INSERT INTO GOODSNAMES(ID,BRAND,NAME) VALUES(?,?,?)";
 
-static const char* kDeleteSQL = "DELETE FROM GOODSNAMES WHERE BRAND=? and NAME =?";
+static const char* kDeleteSQL = "DELETE FROM GOODSNAMES WHERE ID=?";
 
 GoodsNameStore::GoodsNameStore()
+{
+
+}
+
+GoodsNameStore::~GoodsNameStore()
 {
 
 }
@@ -34,31 +39,31 @@ bool GoodsNameStore::init(QSqlDatabase* db)
         return false;
     }
 
+    int idNo = query.record().indexOf("ID");
     int brandNo = query.record().indexOf("BRAND");
     int nameNo = query.record().indexOf("NAME");
     while (query.next())
     {
-        QString brand = query.value(brandNo).toString();
-        QString name = query.value(nameNo).toString();
-        m_names[brand].insert(name);
+        GoodsName* gn = new GoodsName();
+        gn->id = query.value(idNo).toString();
+        gn->brand = query.value(brandNo).toString();
+        gn->name = query.value(nameNo).toString();
+        m_names.insert(gn->id, gn);
     }
 
     return true;
 }
 
-bool GoodsNameStore::insert(const QString& brand, const QString& name)
+bool GoodsNameStore::insert(const QString& id, const QString& brand, const QString& name)
 {
-    if (m_names.contains(brand))
+    if (m_names.contains(id))
     {
-        auto names = m_names[brand];
-        if (names.contains(name))
-        {
-            return false;
-        }
+        return false;
     }
 
     QSqlQuery query;
     query.prepare(kInsertSQL);
+    query.addBindValue(id);
     query.addBindValue(brand);
     query.addBindValue(name);
     if (false == query.exec())
@@ -67,27 +72,27 @@ bool GoodsNameStore::insert(const QString& brand, const QString& name)
         return false;
     }
 
-    m_names[brand].insert(name);
+    GoodsName* gn = new GoodsName();
+    gn->id = id;
+    gn->brand = brand;
+    gn->name = name;
+    m_names.insert(id, gn);
 
     return true;
 }
 
-bool GoodsNameStore::remove(const QString& brand, const QString& name)
+bool GoodsNameStore::remove(const QString& id)
 {
     QSqlQuery query;
     query.prepare(kDeleteSQL);
-    query.addBindValue(brand);
-    query.addBindValue(name);
+    query.addBindValue(id);
     if (false == query.exec())
     {
         qDebug() << query.lastError();
         return false;
     }
 
-    if (m_names.contains(brand))
-    {
-        m_names[brand].remove(name);
-    }
+    m_names.remove(id);
 
     return true;
 }
@@ -95,4 +100,13 @@ bool GoodsNameStore::remove(const QString& brand, const QString& name)
 const GNMAP& GoodsNameStore::getNames()
 {
     return m_names;
+}
+
+GoodsName* GoodsNameStore::get(const QString& id)
+{
+    if (m_names.contains(id))
+    {
+        return m_names[id];
+    }
+    return NULL;
 }

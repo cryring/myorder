@@ -6,6 +6,7 @@
 #include "store.h"
 #include "goodsdefine.h"
 #include "dboperation.h"
+#include "goodsimportdialog.h"
 
 ViewGoodsDialog::ViewGoodsDialog(int mode, QWidget* parent) :
     QDialog(parent),
@@ -119,7 +120,6 @@ void ViewGoodsDialog::loadGoodsDate()
         ui->yearBox->addItem(it.key());
     }
 
-
     fillGoodsMonthBox(ui->yearBox->currentText());
     fillGoodsDayBox(ui->monthBox->currentText());
 }
@@ -182,7 +182,6 @@ void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
         {
             if (m_curGoods[m_selectRow]->settled)
             {
-                // TODO: MessageBox
                 QMessageBox::warning(this, tr("order"), tr("the goods has been settled."));
                 m_selectRow = -1;
             }
@@ -196,5 +195,17 @@ void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
 
 void ViewGoodsDialog::on_openInvoiceButton_clicked()
 {
+    int row = ui->goodsView->currentIndex().row();
+    if (row < 0 || row >= m_curGoods.size())
+    {
+        QMessageBox::warning(this, tr("order"), tr("please select one goods"));
+        return;
+    }
+    QString invoiceid = m_curGoods[row]->invoiceid;
+    QString date = m_curGoods[row]->date;
 
+    GoodsImportDialog dlg;
+    dlg.setInvoiceID(invoiceid);
+    dlg.setDate(date);
+    dlg.exec();
 }

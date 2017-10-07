@@ -48,7 +48,8 @@ SOURCES += \
     viewgoodsdialog.cpp \
     goodsmanagedialog.cpp \
     goodsimportdialog.cpp \
-    viewgoodsbinddialog.cpp
+    viewgoodsbinddialog.cpp \
+    invoicestore.cpp
 
 HEADERS += \
         dialog.h \
@@ -81,7 +82,8 @@ HEADERS += \
     goodsmanagedialog.h \
     goodsimportdialog.h \
     viewgoodsbinddialog.h \
-    goodssql.h
+    goodssql.h \
+    invoicestore.h
 
 FORMS += \
         dialog.ui \

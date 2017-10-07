@@ -6,6 +6,7 @@
 #include "commonstore.h"
 #include "goodsnamestore.h"
 #include "shopnamestore.h"
+#include "invoicestore.h"
 #include "store.h"
 
 class DBDefer
@@ -55,8 +56,11 @@ int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
 
-    DBDefer dd("/Users/siwen/share/data.db");
-    // DBDefer dd("f:\\data.db");
+    QString curPath = QDir::currentPath();
+    QString dbPath = curPath + "/data.db";
+    qDebug() << dbPath;
+
+    DBDefer dd(dbPath);
     QSqlDatabase& db = dd.db();
     if (false == CommonStore::instance()->init(&db))
     {
@@ -67,6 +71,10 @@ int main(int argc, char* argv[])
         return -1;
     }
     if (false == ShopNameStore::instance()->init(&db))
+    {
+        return -1;
+    }
+    if (false == InvoiceStore::instance()->init())
     {
         return -1;
     }
