@@ -15,8 +15,8 @@ struct InvoiceBase
     QString coupon;
     QString couponDiscount;
     QString couponRate;
-    QString couponChange;
     QString creditCard;
+    QString shopName;
 };
 
 class InvoiceStore : public Singleton<InvoiceStore>
@@ -24,12 +24,16 @@ class InvoiceStore : public Singleton<InvoiceStore>
 public:
     InvoiceStore();
 
+    ~InvoiceStore();
+
 public:
     bool init(void);
 
     bool set(InvoiceBase* ib);
 
     InvoiceBase* get(const QString& id);
+
+    void getByDate(const QString& date, QVector<InvoiceBase*>& ibs);
 
     bool del(const QString& id);
 

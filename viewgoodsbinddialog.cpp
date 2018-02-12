@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 #include "viewgoodsbinddialog.h"
 #include "ui_viewgoodsbinddialog.h"
 #include "store.h"
@@ -59,6 +60,7 @@ void ViewGoodsBindDialog::on_detachButton_clicked()
     int row = ui->goodsView->currentIndex().row();
     if (0 > row || row >= m_goodsID.size())
     {
+        QMessageBox::warning(this, tr("order"), tr("请选择一个订单."));
         return;
     }
 
@@ -85,6 +87,11 @@ void ViewGoodsBindDialog::on_detachButton_clicked()
 
 void ViewGoodsBindDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->goodsView->verticalHeader()->hide();
+    ui->goodsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->goodsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     QStandardItemModel* goodsModel = new QStandardItemModel(0, 4);
     ui->goodsView->setModel(goodsModel);
     int col = 0;

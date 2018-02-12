@@ -33,3 +33,7 @@
 
 # Qt tmp files
 *.user
+*.pro.user.*
+
+# Data file
+*.csv

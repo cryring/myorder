@@ -7,11 +7,26 @@
 #include "goodsdefine.h"
 #include "shopnamestore.h"
 #include "goodsnamestore.h"
+#include "invoicestore.h"
 #include "store.h"
 
 GoodsImportDialog::GoodsImportDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::GoodsImportDialog)
+{
+    ui->setupUi(this);
+
+    setWindowIcon(QIcon(":icon/main.ico"));
+    setWindowFlags(Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
+
+    init();
+}
+
+GoodsImportDialog::GoodsImportDialog(const QString& invoiceid, const QString& date, QWidget* parent) :
+    QDialog(parent),
+    ui(new Ui::GoodsImportDialog),
+    m_date(date),
+    m_invoiceId(invoiceid)
 {
     ui->setupUi(this);
 
@@ -48,35 +63,35 @@ void GoodsImportDialog::on_saveGoodsButton_clicked()
     QString shopName = ui->shopNameBox->currentText();
     if ("" == shopName)
     {
-        QMessageBox::warning(this, tr("order"), tr("please input shopname."));
+        QMessageBox::warning(this, tr("order"), tr("清选择商场名称."));
         return;
     }
 
     QString count = ui->goodsCountEdit->text();
-    if ("" == count)
+    if ("" == count || "0" == count)
     {
-        QMessageBox::warning(this, tr("order"), tr("please input goods count."));
+        QMessageBox::warning(this, tr("order"), tr("请输入正确的商品数量."));
         return;
     }
 
     QString price = ui->goodsPriceEdit->text();
-    if ("" == price)
+    if ("" == price || "0" == price)
     {
-        QMessageBox::warning(this, tr("order"), tr("please input goods price."));
+        QMessageBox::warning(this, tr("order"), tr("请输入正确的商品价格."));
         return;
     }
 
     QString id = ui->goodsIdEdit->text();
-    if ("" == id)
+    if ("" == id || 3 >= id.length())
     {
-        QMessageBox::warning(this, tr("order"), tr("please input goods id."));
+        QMessageBox::warning(this, tr("order"), tr("请输入正确的商品ID."));
         return;
     }
 
     QString name = ui->goodsNameEdit->text();
     if ("" == name)
     {
-        QMessageBox::warning(this, tr("order"), tr("please input goods name."));
+        QMessageBox::warning(this, tr("order"), tr("请输入正确的商品名称."));
         return;
     }
 
@@ -116,6 +131,8 @@ void GoodsImportDialog::on_delGoodsButton_clicked()
     if (0 <= row && m_goods.size() > row)
     {
         m_goods.remove(row);
+        QStandardItemModel* model = (QStandardItemModel*)ui->invoiceView->model();
+        model->removeRow(row);
     }
 }
 
@@ -129,7 +146,7 @@ void GoodsImportDialog::on_saveButton_clicked()
     float totalPrice = calcTotalPrice();
     if (totalPrice <= 0)
     {
-        QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
+        QMessageBox::warning(this, tr("order"), tr("价格计算异常，请检查输入."));
         return;
     }
 
@@ -147,17 +164,44 @@ void GoodsImportDialog::on_saveButton_clicked()
         goods.date = date;
         goods.shopName = shopName;
         goods.name = m_goods[i]->name;
-        goods.price = QString::number(m_goods[i]->price.toFloat() / paperTotalPrice * totalPrice);
+        goods.price = m_goods[i]->price;
+        goods.realPrice = m_goods[i]->realPrice;
+        if (goods.realPrice.isEmpty())
+        {
+            QMessageBox::warning(this, tr("order"), tr("价格计算异常，请检查输入."));
+            return;
+        }
         goods.count = m_goods[i]->count;
         goods.attribute = m_goods[i]->attribute;
         Store::instance()->insertGoods(&goods);
     }
     m_date = date;
     m_invoiceId = invoiceId;
+
+    InvoiceBase ib;
+    ib.id = invoiceId;
+    ib.cash = m_cash;
+    ib.cashRate = m_cashRate;
+    ib.cashChange = m_cashChange;
+    ib.coupon = m_coupon;
+    ib.couponRate = m_couponRate;
+    ib.couponDiscount = m_couponDiscount;
+    ib.creditCard = m_creditCard;
+    ib.shopName = ui->shopNameBox->currentText();
+    ib.date = m_date;
+    qDebug() << ib.shopName;
+    InvoiceStore::instance()->set(&ib);
+
+    accept();
 }
 
 void GoodsImportDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->invoiceView->verticalHeader()->hide();
+    ui->invoiceView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->invoiceView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
     QDoubleValidator* aDoubleValidator = new QDoubleValidator(0.00,10000000.00,2);
     aDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
     ui->couponEdit->setValidator(aDoubleValidator);
@@ -220,7 +264,49 @@ void GoodsImportDialog::init()
     if (false == m_invoiceId.isEmpty() && false == m_date.isEmpty())
     {
         // init invoice base information
+        InvoiceBase* ib = InvoiceStore::instance()->get(m_invoiceId);
+        if (ib == NULL)
+        {
+            QMessageBox::warning(this, tr("order"), tr("获取小票异常."));
+            return;
+        }
 
+        m_cash = ib->cash;
+        ui->payPriceEdit->setText(m_cash);
+
+        m_cashChange = ib->cashChange;
+        ui->changeEdit->setText(m_cashChange);
+
+        m_cashRate = ib->cashRate;
+        ui->exchangeRateEdit->setText(m_cashRate);
+
+        m_coupon = ib->coupon;
+        ui->couponEdit->setText(m_coupon);
+
+        m_couponDiscount = ib->couponDiscount;
+        ui->couponDiscountEdit->setText(m_couponDiscount);
+
+        m_couponRate = ib->couponRate;
+        ui->cExchangeRateEdit->setText(m_couponRate);
+
+        m_creditCard = ib->creditCard;
+        ui->creditCardEdit->setText(m_creditCard);
+
+        ui->shopNameBox->setCurrentText(ib->shopName);
+        ui->dateEdit->setDate(QDate::fromString(ib->date, "yyyyMMdd"));
+
+        Store::instance()->getGoodsByInvoice(m_invoiceId, m_goods);
+        for (int i = 0; i < m_goods.size(); i++)
+        {
+            Goods* g = m_goods[i];
+            int col = 0;
+            int row = model->rowCount();
+            model->setItem(row, col++, new QStandardItem(g->name));
+            model->setItem(row, col++, new QStandardItem(g->price));
+            model->setItem(row, col++, new QStandardItem(g->realPrice));
+            model->setItem(row, col++, new QStandardItem(g->attribute));
+            model->setItem(row, col++, new QStandardItem("1"));
+        }
     }
 }
 
@@ -231,28 +317,28 @@ float GoodsImportDialog::calcTotalPrice()
         return -1;
     }
 
-    float p1 = m_coupon.toFloat() * (m_couponDiscount.toFloat() / 100) / m_cExchangeRate.toFloat();
-    float p2 = (m_payPrice.toFloat() - m_change.toFloat()) / m_exchangeRate.toFloat();
+    float p1 = m_coupon.toFloat() * (m_couponDiscount.toFloat() / 100) / m_couponRate.toFloat();
+    float p2 = (m_cash.toFloat() - m_cashChange.toFloat()) / m_cashRate.toFloat();
     float p3 = m_creditCard.toFloat();
     return p1 + p2 + p3;
 }
 
 bool GoodsImportDialog::checkNeededInput()
 {
-    m_payPrice = ui->payPriceEdit->text();
-    m_exchangeRate = ui->exchangeRateEdit->text();
-    m_change = ui->changeEdit->text();
+    m_cash = ui->payPriceEdit->text();
+    m_cashRate = ui->exchangeRateEdit->text();
+    m_cashChange = ui->changeEdit->text();
     m_coupon = ui->couponEdit->text();
     m_couponDiscount = ui->couponDiscountEdit->text();
-    m_cExchangeRate = ui->cExchangeRateEdit->text();
+    m_couponRate = ui->cExchangeRateEdit->text();
     m_creditCard = ui->creditCardEdit->text();
 
-    if (m_payPrice.isEmpty() ||
-        m_exchangeRate.isEmpty() ||
-        m_change.isEmpty() ||
+    if (m_cash.isEmpty() ||
+        m_cashRate.isEmpty() ||
+        m_cashChange.isEmpty() ||
         m_coupon.isEmpty() ||
         m_couponDiscount.isEmpty() ||
-        m_cExchangeRate.isEmpty() ||
+        m_couponRate.isEmpty() ||
         m_creditCard.isEmpty())
     {
         return false;
@@ -268,10 +354,11 @@ void GoodsImportDialog::on_calcButton_clicked()
     {
         paperTotalPrice += m_goods[i]->price.toFloat();
     }
+
     float totalPrice = calcTotalPrice();
     if (totalPrice <= 0)
     {
-        QMessageBox::warning(this, tr("order"), tr("calc total price failed, please check the input."));
+        QMessageBox::warning(this, tr("order"), tr("价格计算异常，请检查输入."));
         return;
     }
 
@@ -280,11 +367,10 @@ void GoodsImportDialog::on_calcButton_clicked()
     {
         Goods* goods = m_goods[i];
         float price = goods->price.toFloat() / paperTotalPrice * totalPrice;
-        goods->price = QString::number(price);
-
+        goods->realPrice = QString::number(price);
 
         QModelIndex index = model->index(i, 2);
-        model->setData(index, QVariant(goods->price));
+        model->setData(index, QVariant(goods->realPrice));
     }
 }
 
@@ -318,4 +404,9 @@ void GoodsImportDialog::on_goodsIdEdit_textChanged(const QString &id)
             ui->goodsNameEdit->setText("");
         }
     }
+}
+
+void GoodsImportDialog::on_cancelButton_clicked()
+{
+    accept();
 }

@@ -143,6 +143,14 @@ void Store::getGoodsByDate(const QString& date, QVector<Goods*>& goodss)
     }
 }
 
+void Store::getGoodsByInvoice(const QString& invoicdid, QVector<Goods*>& goodss)
+{
+    if (NULL != m_goodsStore)
+    {
+        m_goodsStore->selectGoodsByInvoice(invoicdid, goodss);
+    }
+}
+
 Goods* Store::getGoodsByID(const QString& id)
 {
     if (NULL != m_goodsStore)

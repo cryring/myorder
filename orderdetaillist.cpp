@@ -20,6 +20,7 @@ bool OrderDetailList::merge(TaobaoExportOrderList* orderList, TaobaoExportOrderD
     QVector<QString> ids;
     orderList->getIds(ids);
     int size = ids.size();
+    qDebug() << size;
     for (int i = 0; i < size; ++i)
     {
         const QString& id = ids[i];

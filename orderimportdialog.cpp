@@ -56,7 +56,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     QString date;
     if (false == verifyOrderFile(orderFile, orderDetailFile, date))
     {
-        QMessageBox::warning(this, tr("order"), tr("please check your input file, they must has the same date."));
+        QMessageBox::warning(this, tr("order"), tr("请检查你的输入文件，必须为同一日期."));
         return;
     }
     m_orderList.setDate(date);
@@ -65,7 +65,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     CsvLoader orderLoader(&tbOrderList);
     if (false == orderLoader.Load(orderFile))
     {
-        QMessageBox::warning(this, tr("order"), tr("load order file failed."));
+        QMessageBox::warning(this, tr("order"), tr("加载订单失败."));
         return;
     }
 
@@ -73,13 +73,13 @@ void OrderImportDialog::on_createOrderButton_clicked()
     CsvLoader orderDetailLoader(&tbOrderDetailList);
     if (false == orderDetailLoader.Load(orderDetailFile))
     {
-        QMessageBox::warning(this, tr("order"), tr("load order detail file failed."));
+        QMessageBox::warning(this, tr("order"), tr("加载订单详情失败."));
         return;
     }
 
     if (false == m_orderList.merge(&tbOrderList, &tbOrderDetailList))
     {
-        QMessageBox::warning(this, tr("order"), tr("merge two order file failed."));
+        QMessageBox::warning(this, tr("order"), tr("合并订单异常."));
         return;
     }
 
@@ -87,7 +87,7 @@ void OrderImportDialog::on_createOrderButton_clicked()
     m_orderList.getIds(ids);
     if (ids.empty())
     {
-        QMessageBox::warning(this, tr("order"), tr("get id from order list failed."));
+        QMessageBox::warning(this, tr("order"), tr("获取订单ID失败."));
         return;
     }
 
@@ -129,7 +129,7 @@ void OrderImportDialog::on_saveButton_clicked()
     m_orderList.getIds(ids);
     if (ids.empty())
     {
-        QMessageBox::warning(this, tr("order"), tr("order list is empty"));
+        QMessageBox::warning(this, tr("order"), tr("订单列表为空"));
         return;
     }
 
@@ -152,6 +152,11 @@ void OrderImportDialog::on_saveButton_clicked()
 
 void OrderImportDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->orderView->verticalHeader()->hide();
+    // ui->orderView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->orderView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
     QStandardItemModel* model = new QStandardItemModel(0, 6);
     ui->orderView->setModel(model);
     int col = 0;
@@ -163,8 +168,8 @@ void OrderImportDialog::init()
     model->setHeaderData(col++, Qt::Horizontal, tr("用户名"));
 
     // for test
-    ui->orderFileEdit->setText("/Users/siwen/Downloads/ExportOrderList201706012311.csv");
-    ui->orderDetailFileEdit->setText("/Users/siwen/Downloads/ExportOrderDetailList201706012311.csv");
+    ui->orderFileEdit->setText("/Users/siwen/Downloads/ExportOrderList201802121455.csv");
+    ui->orderDetailFileEdit->setText("/Users/siwen/Downloads/ExportOrderDetailList201802121455.csv");
 }
 
 bool OrderImportDialog::verifyOrderFile(QString orderFile, QString orderDetailFile, QString& date)

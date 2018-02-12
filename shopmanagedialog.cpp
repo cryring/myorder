@@ -29,13 +29,6 @@ void ShopManageDialog::on_saveButton_clicked()
         ShopNameStore::instance()->insert(name);
 
         QStandardItemModel* model = (QStandardItemModel*)ui->shopView->model();
-        if (NULL == model)
-        {
-            // TODO: Message Box
-            QMessageBox::warning(this, tr("order"), tr("wtf, the view model is null."));
-            return;
-        }
-
         int col = 0;
         int row = model->rowCount();
         model->setItem(row, col++, new QStandardItem(name));
@@ -44,6 +37,11 @@ void ShopManageDialog::on_saveButton_clicked()
 
 void ShopManageDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->shopView->verticalHeader()->hide();
+    ui->shopView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->shopView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     QStandardItemModel* model = new QStandardItemModel(0,1);
     ui->shopView->setModel(model);
     int col = 0;

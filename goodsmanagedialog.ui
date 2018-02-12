@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>118</width>
+    <width>145</width>
     <height>105</height>
    </rect>
   </property>
@@ -18,15 +18,15 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>82</width>
-     <height>62</height>
+     <width>111</width>
+     <height>66</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPushButton" name="newInvoiceButton">
       <property name="text">
-       <string>导入商品</string>
+       <string>输入小票</string>
       </property>
      </widget>
     </item>

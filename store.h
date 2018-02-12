@@ -39,6 +39,8 @@ public:
 
     void getGoodsByDate(const QString& date, QVector<Goods*>& goodss);
 
+    void getGoodsByInvoice(const QString& invoicdid, QVector<Goods*>& goodss);
+
     Goods* getGoodsByID(const QString& id);
 
 private:

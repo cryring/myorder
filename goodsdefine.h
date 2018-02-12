@@ -7,6 +7,7 @@ struct GoodsAttribute
 {
     QString name;
     QString price;
+    QString realPrice;
     QString attribute;
     QString count;
 };
@@ -24,6 +25,7 @@ struct Goods : public GoodsAttribute
         Goods* g = new Goods();
         g->name = name;
         g->price = price;
+        g->realPrice = realPrice;
         g->attribute = attribute;
         g->count = count;
         g->id = id;

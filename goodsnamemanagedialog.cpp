@@ -27,13 +27,13 @@ void GoodsNameManageDialog::on_saveButton_clicked()
     const QString& brand = ui->brandEdit->text();
     if (brand.isEmpty())
     {
-        QMessageBox::warning(this, tr("order"), tr("please input brand."));
+        QMessageBox::warning(this, tr("order"), tr("请输入品牌名."));
         return;
     }
     const QString& name = ui->nameEdit->text();
     if (name.isEmpty())
     {
-        QMessageBox::warning(this, tr("order"), tr("please input name."));
+        QMessageBox::warning(this, tr("order"), tr("请输入商品名."));
         return;
     }
     const QString& id = ui->idEdit->text();
@@ -46,12 +46,6 @@ void GoodsNameManageDialog::on_saveButton_clicked()
     GoodsNameStore::instance()->insert(id, brand, name);
 
     QStandardItemModel* model = (QStandardItemModel*)ui->goodsView->model();
-    if (NULL == model)
-    {
-        QMessageBox::warning(this, tr("order"), tr("wtf, the view model is null."));
-        return;
-    }
-
     int col = 0;
     int row = model->rowCount();
     model->setItem(row, col++, new QStandardItem(brand));
@@ -65,8 +59,7 @@ void GoodsNameManageDialog::on_delButton_clicked()
     int row = ui->goodsView->currentIndex().row();
     if (0 > row || row >= model->rowCount())
     {
-        qDebug() << "error order row";
-        QMessageBox::warning(this, tr("order"), tr("please select one goods."));
+        QMessageBox::warning(this, tr("order"), tr("请选择一件商品."));
         return;
     }
 
@@ -82,6 +75,12 @@ void GoodsNameManageDialog::on_delButton_clicked()
 
 void GoodsNameManageDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->goodsView->verticalHeader()->hide();
+    ui->goodsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->goodsView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->goodsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     QStandardItemModel* model = new QStandardItemModel(0, 3);
     ui->goodsView->setModel(model);
     int col = 0;

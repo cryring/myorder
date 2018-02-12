@@ -44,6 +44,7 @@ struct Order
 
     // goods
     QString goods_id;
+    Goods* goods;
 
     // status
     bool ignore;

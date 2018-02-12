@@ -35,6 +35,10 @@ private slots:
 
     void on_openInvoiceButton_clicked();
 
+    void on_yearBox_currentIndexChanged(const QString &year);
+
+    void on_monthBox_currentIndexChanged(const QString &month);
+
 private:
     void init(void);
 

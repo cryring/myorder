@@ -20,6 +20,8 @@ public:
 
     void select(const QString& date, QVector<Goods*>& goodss);
 
+    void selectGoodsByInvoice(const QString& invoiceid, QVector<Goods*>& goodss);
+
     bool update(Goods* goods);
 
     bool remove(Goods* goods);

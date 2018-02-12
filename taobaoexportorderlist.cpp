@@ -1,4 +1,5 @@
 #include <QObject>
+#include <QDebug>
 #include "taobaoexportorderlist.h"
 
 TaobaoExportOrderList::TaobaoExportOrderList()
@@ -13,7 +14,7 @@ TaobaoExportOrderList::~TaobaoExportOrderList()
 
 bool TaobaoExportOrderList::process(const QStringList& fields)
 {
-    if (45 != fields.size())
+    if (45 > fields.size())
     {
         return false;
     }
@@ -21,7 +22,7 @@ bool TaobaoExportOrderList::process(const QStringList& fields)
     QString id = fields[0];
     id.replace("=", "");
     id.replace("\"", "");
-    if (17 != id.length())
+    if (18 != id.length())
     {
         return false;
     }

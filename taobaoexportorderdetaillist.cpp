@@ -14,7 +14,7 @@ TaobaoExportOrderDetailList::~TaobaoExportOrderDetailList()
 
 bool TaobaoExportOrderDetailList::process(const QStringList& fields)
 {
-    if (11 != fields.size())
+    if (10 > fields.size())
     {
         return false;
     }
@@ -22,7 +22,7 @@ bool TaobaoExportOrderDetailList::process(const QStringList& fields)
     QString id = fields[0];
     id.replace("=", "");
     id.replace("\"", "");
-    if (17 != id.length())
+    if (18 != id.length())
     {
         return false;
     }

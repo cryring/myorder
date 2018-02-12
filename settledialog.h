@@ -40,6 +40,10 @@ private slots:
 
     void on_orderView_clicked(const QModelIndex &index);
 
+    void on_orderYearBox_currentIndexChanged(const QString &year);
+
+    void on_orderMonthBox_currentIndexChanged(const QString &month);
+
 private:
     void init();
 

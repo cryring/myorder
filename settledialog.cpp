@@ -29,16 +29,22 @@ void SettleDialog::on_settleButton_clicked()
 {
     int money = 0;
     int size = m_curOrder.size();
+    if (size == 0)
+    {
+        QMessageBox::warning(this, tr("order"), tr("请先选择一个订单."));
+        return;
+    }
     for (int i = 0; i < size; ++i)
     {
         if (m_curOrder[i]->goods_id.isEmpty() && !m_curOrder[i]->ignore)
         {
-            QMessageBox::warning(this, tr("order"), tr("not all the order has been settled."));
+            QMessageBox::warning(this, tr("order"), tr("尚有商品未被结算."));
             return;
         }
 
-        // float order_price = m_curOrder[i]->price.toFloat();
-        // TODO:
+        float order_price = m_curOrder[i]->price.toFloat();
+        float goods_price = m_curOrder[i]->goods->realPrice.toFloat();
+        money += order_price - goods_price;
     }
     ui->profitEdit->setText(QString::number(money));
 }
@@ -87,14 +93,16 @@ void SettleDialog::on_attachButton_clicked()
     QModelIndex orderIndex = orderModel->index(row,0);
     orderModel->setData(orderIndex, QVariant(goods->id));
     order->goods_id = goods->id;
+    order->goods = goods;
 }
 
 void SettleDialog::on_detachButton_clicked()
 {
     int row = ui->orderView->currentIndex().row();
-    if (row >= m_curOrder.size())
+    if (0 > row || row >= m_curOrder.size())
     {
-        QMessageBox::warning(this, tr("order"), tr("WTF? the order row is error."));
+        QMessageBox::warning(this, tr("order"), tr("请选择一个订单."));
+        return;
     }
 
     Order* order = m_curOrder[row];
@@ -120,10 +128,16 @@ void SettleDialog::on_detachButton_clicked()
     QModelIndex orderIndex = orderModel->index(row,7);
     orderModel->setData(orderIndex, QVariant(""));
     order->goods_id = "";
+    delete order->goods;
+    order->goods = NULL;
 }
 
 void SettleDialog::init()
 {
+    setFixedSize(this->width(), this->height());
+    ui->orderView->verticalHeader()->hide();
+    // ui->orderView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
     QStandardItemModel* orderModel = new QStandardItemModel(0, 8);
     ui->orderView->setModel(orderModel);
     int col = 0;
@@ -195,6 +209,7 @@ void SettleDialog::fillOrderMonthBox(const QString& year)
         return;
     }
 
+    ui->orderMonthBox->clear();
     auto months = m_orderDate[year];
     auto it = months.begin();
     for (; it != months.end(); it++)
@@ -217,6 +232,7 @@ void SettleDialog::fillOrderDayBox(const QString& month)
         return;
     }
 
+    ui->orderDayBox->clear();
     auto days = months[month];
     for (int i = 0; i < days.size(); i++)
     {
@@ -311,14 +327,15 @@ void SettleDialog::on_orderView_doubleClicked(const QModelIndex &index)
     QModelIndex orderIndex = orderModel->index(row,0);
     orderModel->setData(orderIndex, QVariant(goods->id));
     order->goods_id = goods->id;
+    order->goods = goods;
 }
 
 void SettleDialog::on_viewBindButton_clicked()
 {
     int orderRow = ui->orderView->currentIndex().row();
-    if (orderRow >= m_curOrder.size())
+    if (0 > orderRow || orderRow >= m_curOrder.size())
     {
-        qDebug() << "error order row";
+        QMessageBox::warning(this, tr("order"), tr("请选择一个订单."));
         return;
     }
 
@@ -344,9 +361,9 @@ void SettleDialog::on_viewBindButton_clicked()
 void SettleDialog::on_ignoreButton_clicked()
 {
     int orderRow = ui->orderView->currentIndex().row();
-    if (orderRow >= m_curOrder.size())
+    if (0 > orderRow || orderRow >= m_curOrder.size())
     {
-        qDebug() << "error order row";
+        QMessageBox::warning(this, tr("order"), tr("请选择一个订单."));
         return;
     }
 
@@ -359,13 +376,18 @@ void SettleDialog::on_ignoreButton_clicked()
 
     order->ignore = !order->ignore;
 
+    QAbstractItemModel* orderModel = ui->orderView->model();
+    QModelIndex orderIndex = orderModel->index(orderRow,7);
+
     if (order->ignore)
     {
         ui->ignoreButton->setText("取消忽略");
+        orderModel->setData(orderIndex, QVariant("忽略"));
     }
     else
     {
         ui->ignoreButton->setText("忽略");
+        orderModel->setData(orderIndex, QVariant(""));
     }
 }
 
@@ -393,4 +415,14 @@ void SettleDialog::on_orderView_clicked(const QModelIndex &index)
     {
         ui->ignoreButton->setText("忽略");
     }
+}
+
+void SettleDialog::on_orderYearBox_currentIndexChanged(const QString &year)
+{
+    fillOrderMonthBox(year);
+}
+
+void SettleDialog::on_orderMonthBox_currentIndexChanged(const QString &month)
+{
+    fillOrderDayBox(month);
 }

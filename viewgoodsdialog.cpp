@@ -67,6 +67,7 @@ void ViewGoodsDialog::on_queryGoodsButton_clicked()
         model->setItem(i, col++, new QStandardItem(goods->settled ? "是" : "否"));
         model->setItem(i, col++, new QStandardItem(goods->name));
         model->setItem(i, col++, new QStandardItem(goods->price));
+        model->setItem(i, col++, new QStandardItem(goods->realPrice));
         model->setItem(i, col++, new QStandardItem(goods->attribute));
         model->setItem(i, col++, new QStandardItem(goods->count));
     }
@@ -74,12 +75,17 @@ void ViewGoodsDialog::on_queryGoodsButton_clicked()
 
 void ViewGoodsDialog::init()
 {
-    QStandardItemModel* goodsModel = new QStandardItemModel(0, 5);
+    setFixedSize(this->width(), this->height());
+    ui->goodsView->verticalHeader()->hide();
+    ui->goodsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QStandardItemModel* goodsModel = new QStandardItemModel(0, 6);
     ui->goodsView->setModel(goodsModel);
     int col = 0;
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("已结算"));
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("商品名"));
-    goodsModel->setHeaderData(col++, Qt::Horizontal, tr("价格"));
+    goodsModel->setHeaderData(col++, Qt::Horizontal, tr("票面价格"));
+    goodsModel->setHeaderData(col++, Qt::Horizontal, tr("真实价格"));
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("属性"));
     goodsModel->setHeaderData(col++, Qt::Horizontal, tr("数量"));
 
@@ -142,6 +148,7 @@ void ViewGoodsDialog::fillGoodsMonthBox(const QString& year)
         return;
     }
 
+    ui->monthBox->clear();
     auto months = m_goodsDate[year];
     auto it = months.begin();
     for (; it != months.end(); it++)
@@ -164,6 +171,7 @@ void ViewGoodsDialog::fillGoodsDayBox(const QString& month)
         return;
     }
 
+    ui->dayBox->clear();
     auto days = months[month];
     for (int i = 0; i < days.size(); i++)
     {
@@ -185,7 +193,7 @@ void ViewGoodsDialog::on_goodsView_doubleClicked(const QModelIndex &index)
         {
             if (m_curGoods[m_selectRow]->settled)
             {
-                QMessageBox::warning(this, tr("order"), tr("the goods has been settled."));
+                QMessageBox::warning(this, tr("order"), tr("该商品已被结算."));
                 m_selectRow = -1;
             }
             else
@@ -201,14 +209,22 @@ void ViewGoodsDialog::on_openInvoiceButton_clicked()
     int row = ui->goodsView->currentIndex().row();
     if (row < 0 || row >= m_curGoods.size())
     {
-        QMessageBox::warning(this, tr("order"), tr("please select one goods"));
+        QMessageBox::warning(this, tr("order"), tr("请选择一个商品"));
         return;
     }
     QString invoiceid = m_curGoods[row]->invoiceid;
     QString date = m_curGoods[row]->date;
 
-    GoodsImportDialog dlg;
-    dlg.setInvoiceID(invoiceid);
-    dlg.setDate(date);
+    GoodsImportDialog dlg(invoiceid, date);
     dlg.exec();
+}
+
+void ViewGoodsDialog::on_yearBox_currentIndexChanged(const QString &year)
+{
+    fillGoodsMonthBox(year);
+}
+
+void ViewGoodsDialog::on_monthBox_currentIndexChanged(const QString &month)
+{
+    fillGoodsDayBox(month);
 }
