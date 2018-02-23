@@ -81,7 +81,7 @@ void SettleDialog::on_attachButton_clicked()
     {
         return;
     }
-        
+
 
     if (false == Store::instance()->orderAttachGoods(order, goods))
     {
