@@ -45,6 +45,14 @@ bool ShopNameStore::init(QSqlDatabase* db)
 
 bool ShopNameStore::insert(const QString& name)
 {
+    for (int i = 0; i < m_names.size(); i++)
+    {
+        if (m_names[i] == name)
+        {
+            return false;
+        }
+    }
+
     QSqlQuery query;
     query.prepare(kInsertSQL);
     query.addBindValue(name);
@@ -55,7 +63,6 @@ bool ShopNameStore::insert(const QString& name)
     }
 
     m_names.append(name);
-
     return true;
 }
 

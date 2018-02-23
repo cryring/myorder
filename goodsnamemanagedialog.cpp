@@ -39,18 +39,19 @@ void GoodsNameManageDialog::on_saveButton_clicked()
     const QString& id = ui->idEdit->text();
     if (id.isEmpty())
     {
-        QMessageBox::warning(this, tr("order"), tr("wtf, the view model is null."));
+        QMessageBox::warning(this, tr("order"), tr("请输入商品编码."));
         return;
     }
 
-    GoodsNameStore::instance()->insert(id, brand, name);
-
-    QStandardItemModel* model = (QStandardItemModel*)ui->goodsView->model();
-    int col = 0;
-    int row = model->rowCount();
-    model->setItem(row, col++, new QStandardItem(brand));
-    model->setItem(row, col++, new QStandardItem(name));
-    model->setItem(row, col++, new QStandardItem(id));
+    if (GoodsNameStore::instance()->insert(id, brand, name))
+    {
+        QStandardItemModel* model = (QStandardItemModel*)ui->goodsView->model();
+        int col = 0;
+        int row = model->rowCount();
+        model->setItem(row, col++, new QStandardItem(brand));
+        model->setItem(row, col++, new QStandardItem(name));
+        model->setItem(row, col++, new QStandardItem(id));
+    }
 }
 
 void GoodsNameManageDialog::on_delButton_clicked()
