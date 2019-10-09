@@ -99,3 +99,5 @@ FORMS += \
 
 RESOURCES += \
     res/rc.qrc
+
+RC_FILE += appico.rc
